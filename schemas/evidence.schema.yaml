@@ -1,0 +1,147 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: Evidence Map
+description: Mapping of candidate evidence to job requirements
+type: object
+required:
+  - version
+  - jobId
+  - jobSource
+  - requirements
+  - matches
+properties:
+  version:
+    type: string
+    description: Schema version
+    example: "1.0.0"
+  
+  jobId:
+    type: string
+    description: Unique identifier for the job
+  
+  jobSource:
+    type: object
+    required: [type, url, retrievedAt]
+    properties:
+      type:
+        type: string
+        enum: [official_api, official_company_page, user_url, web_retrieval, user_input, online_search]
+        description: Source type
+      url:
+        type: string
+        format: uri
+        description: Source URL
+      retrievedAt:
+        type: string
+        format: date-time
+        description: When the job description was retrieved
+      verified:
+ type: boolean
+        description: Whether the source was verified
+  
+  requirements:
+    type: array
+    items:
+      $ref: '#/definitions/JobRequirement'
+  
+  matches:
+    type: array
+    items:
+      $ref: '#/definitions/EvidenceMatch'
+  
+  fitAnalysis:
+    $ref: '#/definitions/FitAnalysis'
+
+definitions:
+  JobRequirement:
+    type: object
+    required: [id, text, category, priority]
+    properties:
+      id:
+        type: string
+        description: Unique requirement identifier
+      text:
+        type: string
+        description: Requirement text
+      category:
+        type: string
+        enum: [skill, experience, education, responsibility, tool]
+        description: Requirement category
+      priority:
+        type: string
+        enum: [required, preferred, nice_to_have]
+        description: Requirement priority
+  
+  EvidenceMatch:
+    type: object
+    required: [requirementId, requirementText, evidence, matchLevel, confidence]
+    properties:
+      requirementId:
+        type: string
+        description: ID of the matched requirement
+      requirementText:
+        type: string
+        description: Text of the matched requirement
+      evidence:
+        type: array
+        items:
+          $ref: '#/definitions/EvidenceSource'
+      matchLevel:
+        type: string
+        enum: [strong, partial, transferable, weak, none]
+        description: How well the evidence matches
+      confidence:
+        type: string
+        enum: [high, medium, low]
+        description: Confidence in the match
+      notes:
+        type: string
+        description: Additional notes about the match
+  
+  EvidenceSource:
+    type: object
+    required: [type, source, description]
+    properties:
+      type:
+        type: string
+        enum: [project, experience, education, skill]
+        description: Type of evidence source
+      source:
+        type: string
+        description: Path or identifier of the evidence source
+      description:
+        type: string
+        description: Description of the evidence
+  
+  FitAnalysis:
+    type: object
+    required: [strongMatches, partialMatches, transferableSkills, missingRequirements, overallFit, fitScore]
+    properties:
+      strongMatches:
+        type: array
+        items:
+          $ref: '#/definitions/EvidenceMatch'
+      partialMatches:
+        type: array
+        items:
+          $ref: '#/definitions/EvidenceMatch'
+      transferableSkills:
+        type: array
+        items:
+          $ref: '#/definitions/EvidenceMatch'
+      missingRequirements:
+        type: array
+        items:
+          $ref: '#/definitions/JobRequirement'
+      unverifiableRequirements:
+        type: array
+        items:
+          $ref: '#/definitions/JobRequirement'
+      overallFit:
+        type: string
+        enum: [excellent, good, moderate, limited]
+        description: Overall fit assessment
+      fitScore:
+        type: number
+        minimum: 0
+        maximum: 100
+        description: Fit score (0-100)

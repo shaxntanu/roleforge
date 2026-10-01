@@ -1,0 +1,170 @@
+version: "1.0.0"
+
+identity:
+  name: "Alex Developer"
+  email: "alex@example.com"
+  location: "San Francisco, CA"
+  links:
+    - type: github
+      url: https://github.com/alexdeveloper
+    - type: portfolio
+      url: https://alex.dev
+
+education:
+  - institution: "University of Technology"
+    degree: "Bachelor of Science"
+    field: "Computer Science"
+    startYear: 2018
+    endYear: 2022
+    gpa: "3.8"
+    evidence:
+      - "README.md"
+      - "about.md"
+
+experience:
+  - company: "Tech Startup Inc"
+    role: "Software Engineer Intern"
+    startYear: 2021
+    endYear: 2022
+    description:
+      - "Developed web applications using React and Node.js"
+      - "Implemented RESTful APIs for data management"
+      - "Collaborated with cross-functional teams"
+    technologies:
+      - "React"
+      - "Node.js"
+      - "TypeScript"
+      - "PostgreSQL"
+    evidence:
+      - "projects/web-app/README.md"
+      - "portfolio/experience.md"
+
+skills:
+  languages:
+    - name: "TypeScript"
+      category: "Programming Languages"
+      confidence: "DIRECT"
+      sources:
+        - "package.json"
+        - "src/**/*.ts"
+    - name: "Python"
+      category: "Programming Languages"
+      confidence: "DIRECT"
+      sources:
+        - "scripts/*.py"
+        - "requirements.txt"
+    - name: "C++"
+      category: "Programming Languages"
+      confidence: "SUPPORTED"
+      sources:
+        - "embedded/README.md"
+        - "firmware/src/main.cpp"
+
+  frameworks:
+    - name: "React"
+      category: "Frontend Frameworks"
+      confidence: "DIRECT"
+      sources:
+        - "package.json"
+        - "web-app/package.json"
+    - name: "Next.js"
+      category: "Frontend Frameworks"
+      confidence: "DIRECT"
+      sources:
+        - "web-app/package.json"
+        - "web-app/next.config.js"
+
+  tools:
+    - name: "Git"
+      category: "Version Control"
+      confidence: "DIRECT"
+      sources:
+        - ".git/"
+        - "commit history"
+    - name: "Docker"
+      category: "Containerization"
+      confidence: "SUPPORTED"
+      sources:
+        - "Dockerfile"
+        - "docker-compose.yml"
+
+  domains:
+    - name: "Web Development"
+      category: "Software Engineering"
+      confidence: "DIRECT"
+      sources:
+        - "projects/web-app/"
+        - "portfolio/projects.md"
+    - name: "Embedded Systems"
+      category: "Hardware"
+      confidence: "INFERRED"
+      sources:
+        - "embedded/README.md"
+        - "firmware/"
+
+achievements:
+  - title: "Hackathon Winner"
+    description: "First place in university hackathon for IoT project"
+    date: "2021-11-15"
+    evidence:
+      - "README.md"
+      - "awards.md"
+
+projects:
+  - name: "IoT Weather Station"
+    description: "ESP32-based weather station with web dashboard"
+    technologies:
+      - "ESP32"
+      - "C++"
+      - "React"
+      - "MQTT"
+    responsibilities:
+      - "Designed hardware circuitry"
+      - "Implemented firmware in C++"
+      - "Built React dashboard for data visualization"
+    outcomes:
+      - "Successfully deployed 5 stations"
+      - "Achieved 99% uptime over 6 months"
+    evidence:
+      - "projects/weather-station/README.md"
+      - "firmware/src/main.cpp"
+      - "dashboard/src/"
+    confidence: "DIRECT"
+
+  - name: "Task Management App"
+    description: "Full-stack task management application"
+    technologies:
+      - "Next.js"
+      - "TypeScript"
+      - "PostgreSQL"
+      - "Prisma"
+    responsibilities:
+      - "Developed frontend with Next.js"
+      - "Designed database schema"
+      - "Implemented authentication"
+    outcomes:
+      - "Launched with 100+ beta users"
+      - "Received positive feedback on UX"
+    evidence:
+      - "projects/task-app/README.md"
+      - "task-app/src/"
+      - "task-app/prisma/schema.prisma"
+    confidence: "DIRECT"
+
+  - name: "Algorithm Visualizer"
+    description: "Interactive visualization of sorting algorithms"
+    technologies:
+      - "React"
+      - "TypeScript"
+      - "D3.js"
+    responsibilities:
+      - "Implemented sorting algorithms"
+      - "Created interactive animations"
+      - "Built responsive UI"
+    outcomes:
+      - "Featured on React library showcase"
+      - "500+ GitHub stars"
+    evidence:
+      - "projects/algo-viz/README.md"
+      - "algo-viz/src/"
+    confidence: "DIRECT"

@@ -1,0 +1,235 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: Candidate Profile
+description: Normalized candidate representation extracted from portfolio evidence
+type: object
+required:
+  - version
+  - identity
+  - skills
+  - projects
+properties:
+  version:
+    type: string
+    description: Schema version
+    example: "1.0.0"
+  
+  identity:
+    type: object
+    description: Candidate identity information
+    properties:
+      name:
+        type: string
+        description: Full name (if present in portfolio)
+      email:
+        type: string
+        format: email
+        description: Email address (if present in portfolio)
+      location:
+        type: string
+        description: Geographic location
+      links:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [github, linkedin, portfolio, other]
+            url:
+              type: string
+              format: uri
+          required: [type, url]
+  
+  education:
+    type: array
+    description: Educational background
+    items:
+      type: object
+      required: [institution, degree, field, startYear]
+      properties:
+        institution:
+          type: string
+          description: Name of educational institution
+        degree:
+          type: string
+          description: Degree obtained (e.g., "Bachelor of Science")
+        field:
+          type: string
+          description: Field of study
+        startYear:
+          type: integer
+          description: Start year
+        endYear:
+          type: integer
+          description: End year (null if in progress)
+        gpa:
+          type: string
+          description: GPA if available
+        evidence:
+          type: array
+          items:
+            type: string
+          description: Source files providing evidence for this education
+  
+  experience:
+    type: array
+    description: Work experience
+    items:
+      type: object
+      required: [startYear, description, evidence]
+      properties:
+        company:
+          type: string
+          description: Company name (if verifiable)
+        role:
+          type: string
+          description: Job title (if verifiable)
+        startYear:
+          type: integer
+          description: Start year
+        endYear:
+          type: integer
+          description: End year (null if current)
+        description:
+          type: array
+          items:
+            type: string
+          description: Responsibilities and achievements
+        technologies:
+          type: array
+          items:
+            type: string
+          description: Technologies used
+        evidence:
+          type: array
+          items:
+            type: string
+          description: Source files providing evidence for this experience
+  
+  skills:
+    type: object
+    required: [languages, frameworks, tools, domains]
+    properties:
+      languages:
+        type: array
+        items:
+          $ref: '#/definitions/SkillEvidence'
+      frameworks:
+        type: array
+        items:
+          $ref: '#/definitions/SkillEvidence'
+      tools:
+        type: array
+        items:
+          $ref: '#/definitions/SkillEvidence'
+      domains:
+        type: array
+        items:
+          $ref: '#/definitions/SkillEvidence'
+  
+  achievements:
+    type: array
+    description: Notable achievements
+    items:
+      type: object
+      required: [title, description, evidence]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          description: Date of achievement (ISO 8601 format)
+        evidence:
+          type: array
+          items:
+            type: string
+  
+  projects:
+    type: array
+    description: Portfolio projects
+    items:
+      $ref: '#/definitions/ProjectEvidence'
+  
+  research:
+    type: array
+    description: Research publications and work
+    items:
+      type: object
+      required: [title, authors, venue, year, evidence]
+      properties:
+        title:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        venue:
+          type: string
+          description: Conference, journal, or institution
+        year:
+          type: integer
+        doi:
+          type: string
+          description: Digital Object Identifier
+        evidence:
+          type: array
+          items:
+            type: string
+
+definitions:
+  SkillEvidence:
+    type: object
+    required: [name, category, confidence, sources]
+    properties:
+      name:
+        type: string
+        description: Name of the skill
+      category:
+        type: string
+        description: Broader technical category
+      confidence:
+        type: string
+        enum: [DIRECT, SUPPORTED, INFERRED, WEAKLY_INFERRED, UNSUPPORTED]
+        description: Confidence level in this skill
+      sources:
+        type: array
+        items:
+          type: string
+        description: Source files providing evidence
+  
+  ProjectEvidence:
+    type: object
+    required: [name, description, technologies, responsibilities, outcomes, evidence, confidence]
+    properties:
+      name:
+        type: string
+        description: Project name
+      description:
+        type: string
+        description: Project description
+      technologies:
+        type: array
+        items:
+          type: string
+        description: Technologies used
+      responsibilities:
+        type: array
+        items:
+          type: string
+        description: Responsibilities undertaken
+      outcomes:
+        type: array
+        items:
+          type: string
+        description: Outcomes and results
+      evidence:
+        type: array
+        items:
+          type: string
+        description: Source files providing evidence
+      confidence:
+        type: string
+        enum: [DIRECT, SUPPORTED, INFERRED, WEAKLY_INFERRED, UNSUPPORTED]
+        description: Overall confidence in project claims

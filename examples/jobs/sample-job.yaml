@@ -1,0 +1,71 @@
+version: "1.0.0"
+
+title: "Software Engineer - Embedded Systems"
+company:
+  name: "TechCorp"
+  location: "San Jose, CA"
+  industry: "Technology"
+  size: "1000-5000"
+
+source:
+  type: official_company_page
+  url: https://techcorp.com/careers/embedded-engineer-123
+  retrievedAt: "2024-01-15T10:00:00Z"
+  verified: true
+
+description: |
+  We are looking for a Software Engineer to join our Embedded Systems team. 
+  You will work on developing firmware for IoT devices and embedded systems.
+
+requirements:
+  skills:
+    - name: "C++"
+      category: "Programming Languages"
+      priority: "required"
+    - name: "Embedded Systems"
+      category: "Domain"
+      priority: "required"
+    - name: "Python"
+      category: "Programming Languages"
+      priority: "preferred"
+    - name: "Git"
+      category: "Tools"
+      priority: "required"
+    - name: "React"
+      category: "Frontend"
+      priority: "nice_to_have"
+
+  experience:
+    - years: 1
+      domain: "Embedded Systems"
+      priority: "required"
+    - years: 2
+      domain: "Software Development"
+      priority: "preferred"
+
+  education:
+    - level: bachelor
+      field: "Computer Engineering"
+      priority: "preferred"
+    - level: bachelor
+      field: "Computer Science"
+      priority: "preferred"
+
+  responsibilities:
+    - "Develop firmware for embedded systems"
+    - "Write and test C/C++ code"
+    - "Collaborate with hardware engineers"
+    - "Debug and optimize embedded software"
+    - "Document technical specifications"
+
+roleFamily: "Embedded Systems"
+
+metadata:
+  postedDate: "2024-01-10T00:00:00Z"
+  employmentType: full_time
+  remote: false
+  salaryRange:
+    min: 120000
+    max: 160000
+    currency: USD
+    period: yearly

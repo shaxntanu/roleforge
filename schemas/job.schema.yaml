@@ -1,0 +1,135 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: Job Description
+description: Normalized job description
+type: object
+required:
+  - version
+  - title
+  - company
+  - source
+  - requirements
+properties:
+  version:
+    type: string
+    description: Schema version
+    example: "1.0.0"
+  
+  title:
+    type: string
+    description: Job title
+  
+  company:
+    type: object
+    required: [name]
+    properties:
+      name:
+        type: string
+        description: Company name
+      location:
+        type: string
+        description: Company location
+      industry:
+        type: string
+        description: Industry
+      size:
+        type: string
+        description: Company size
+  
+  source:
+    type: object
+    required: [type, url, retrievedAt]
+    properties:
+      type:
+        type: string
+        enum: [official_api, official_company_page, user_url, web_retrieval, user_input, online_search]
+      url:
+        type: string
+        format: uri
+      retrievedAt:
+        type: string
+        format: date-time
+      verified:
+        type: boolean
+  
+  description:
+    type: string
+    description: Full job description text
+  
+  requirements:
+    type: object
+    required: [skills, experience, education, responsibilities]
+    properties:
+      skills:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            category:
+              type: string
+            priority:
+              type: string
+              enum: [required, preferred, nice_to_have]
+      
+      experience:
+        type: array
+        items:
+          type: object
+          properties:
+            years:
+              type: number
+              description: Years of experience required
+            domain:
+              type: string
+              description: Domain or area
+            priority:
+              type: string
+              enum: [required, preferred, nice_to_have]
+      
+      education:
+        type: array
+        items:
+          type: object
+          properties:
+            level:
+              type: string
+              enum: [high_school, bachelor, master, phd, other]
+            field:
+              type: string
+            priority:
+              type: string
+              enum: [required, preferred, nice_to_have]
+      
+      responsibilities:
+        type: array
+        items:
+          type: string
+  
+  roleFamily:
+    type: string
+    description: Role family (e.g., Embedded Systems, Frontend, Research)
+  
+  metadata:
+    type: object
+    properties:
+      postedDate:
+        type: string
+        format: date-time
+      employmentType:
+        type: string
+        enum: [full_time, part_time, contract, internship, co_op]
+      remote:
+        type: boolean
+      salaryRange:
+        type: object
+        properties:
+          min:
+            type: number
+          max:
+            type: number
+          currency:
+            type: string
+          period:
+            type: string
+            enum: [hourly, monthly, yearly]

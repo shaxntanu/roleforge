@@ -1,0 +1,1666 @@
+# RoleForge — Complete Build Prompt
+
+You are an expert software architect, agent-skill developer, and frontend engineer.
+
+Build **RoleForge**, an open-source agent skill designed for coding/agentic AI environments.
+
+Repository name:
+
+`RoleForge`
+
+License:
+
+`MIT`
+
+---
+
+# 1. What RoleForge Is
+
+RoleForge is an **agentic career compiler**.
+
+It takes a candidate's existing **portfolio codebase / developer portfolio repository** as the primary source of truth, acquires and verifies a target job description, maps job requirements against verifiable candidate evidence, and produces tailored:
+
+- Resume
+- CV, when enough information exists
+- LaTeX source
+- PDF output
+- Job-specific application variants
+- Evidence / truth audit
+- Job fit and gap analysis
+- Related job and role recommendations
+
+The central principle is:
+
+> **The candidate's portfolio/codebase is the source of truth for candidate claims.**
+
+> **The job description is the source of truth for job requirements.**
+
+> **Never invent candidate experience, employment, education, achievements, technologies, metrics, responsibilities, or qualifications.**
+
+RoleForge is NOT a generic AI resume writer.
+
+It should behave like a compiler:
+
+```text
+Portfolio / Codebase
+        ↓
+Repository Analysis
+        ↓
+Candidate Evidence
+        ↓
+Career Knowledge Base
+        ↓
+Job Description
+        ↓
+Requirement Extraction
+        ↓
+Evidence ↔ Requirement Matching
+        ↓
+Application Strategy
+        ↓
+LaTeX Generation
+        ↓
+Resume / CV
+        ↓
+Truth + Quality Validation
+        ↓
+PDF
+```
+
+---
+
+# 2. Architectural Reference: Archify
+
+Use Archify as the architectural inspiration and reference for documenting and presenting the system.
+
+Read and study both:
+
+Website:
+
+https://tt-a1i.github.io/archify/
+
+GitHub repository:
+
+https://github.com/tt-a1i/archify
+
+Understand how Archify explains a software system through architecture, workflows, diagrams, components, and visual storytelling.
+
+Do NOT clone Archify's branding, source code, wording, assets, or exact visual identity.
+
+Instead:
+
+- learn from its information architecture
+- learn from its architectural visualization
+- learn from its diagram presentation
+- learn from how it explains system behavior
+- create an original visual language for RoleForge
+
+RoleForge's documentation website should feel like a **technical product architecture page**, not a generic marketing landing page.
+
+---
+
+# 3. FIRST: Inspect the Archify Repository
+
+Before implementing the website:
+
+1. Inspect the Archify GitHub repository.
+2. Understand its file structure.
+3. Understand how its diagrams and architecture sections are implemented.
+4. Understand how its webpage communicates the architecture.
+5. Identify reusable conceptual patterns.
+6. Do NOT directly copy implementation or assets.
+7. Produce an original RoleForge architecture presentation based on those principles.
+
+Do not blindly begin coding.
+
+First establish the information architecture and system model.
+
+---
+
+# 4. Core RoleForge Architecture
+
+Design RoleForge around these major components:
+
+```text
+                    ┌───────────────────────┐
+                    │   CANDIDATE REPO      │
+                    │   SOURCE OF TRUTH     │
+                    └───────────┬───────────┘
+                                ↓
+                    ┌───────────────────────┐
+                    │ Repository Analyzer    │
+                    └───────────┬───────────┘
+                                ↓
+                    ┌───────────────────────┐
+                    │ Evidence Extraction    │
+                    └───────────┬───────────┘
+                                ↓
+                    ┌───────────────────────┐
+                    │ Career Knowledge Base │
+                    └───────────┬───────────┘
+                                ↑
+                    ┌───────────┴───────────┐
+                    │ Optional User Facts   │
+                    │ Existing CV / Resume  │
+                    └───────────────────────┘
+
+
+JOB DESCRIPTION SOURCES
+
+Official API
+     ↓
+Official Company Job Page
+     ↓
+User-Provided Job URL
+     ↓
+Permitted Web Retrieval
+     ↓
+User-Pasted Job Description
+     ↓
+Online Verification
+     ↓
+Normalized Job Description
+```
+
+Then:
+
+```text
+Candidate Evidence
+        +
+Normalized Job Requirements
+        ↓
+Requirement Matcher
+        ↓
+Evidence Map
+        ↓
+Fit / Gap Analysis
+        ↓
+Role & Resume Strategy
+        ↓
+Content Selection
+        ↓
+LaTeX Composer
+        ↓
+Resume / CV
+        ↓
+Validation
+```
+
+And:
+
+```text
+Candidate Knowledge Base
+        ↓
+Related Role Discovery
+        ↓
+Job Search
+        ↓
+Role Clustering
+        ↓
+Resume Family Matching
+        ↓
+Related Opportunities
+```
+
+---
+
+# 5. Job Description Acquisition Priority
+
+Implement the following priority order.
+
+## Primary priority
+
+```text
+1. Official job API, if available
+2. Official company careers page
+3. Job URL provided by the user
+4. Permitted/legal web retrieval
+5. User-provided job description
+6. Online search for verification
+```
+
+The source must be recorded.
+
+Example metadata:
+
+```yaml
+source:
+  type: official_company_page
+  url: https://example.com/jobs/123
+  retrieved_at: ...
+  verified: true
+```
+
+When the user provides a job description:
+
+DO NOT silently replace it with a different version found online.
+
+Instead:
+
+```text
+User JD
+   ↓
+Verification
+   ├── Match → trusted
+   ├── Partial match → discrepancy report
+   └── Conflict → flag for user review
+```
+
+Example:
+
+```text
+⚠ Job description verification
+
+User supplied version:
+"Embedded Systems Intern"
+
+Official source:
+"Firmware Engineering Intern"
+
+3 requirement differences detected.
+
+The user's supplied JD will remain available as the original source.
+```
+
+---
+
+# 6. Portfolio Is Always the Candidate Source of Truth
+
+RoleForge must extract candidate evidence from:
+
+- source code
+- repository structure
+- README files
+- project descriptions
+- package manifests
+- configuration
+- documentation
+- project pages
+- GitHub metadata
+- releases
+- issues
+- pull requests
+- commit history, when useful
+
+Optionally accept:
+
+- existing resume
+- CV
+- LinkedIn export
+- certifications
+- user-provided factual information
+
+But these do NOT override repository evidence automatically.
+
+Every candidate claim should have provenance.
+
+Example:
+
+```yaml
+claim:
+  text: "Built an ESP32-based IoT weather station"
+  evidence:
+    - source: projects/zephyr-station/README.md
+    - source: src/esp32/
+    - source: portfolio/projects.ts
+  confidence: direct
+```
+
+---
+
+# 7. Evidence Confidence
+
+Use explicit confidence states.
+
+At minimum:
+
+```text
+DIRECT
+SUPPORTED
+INFERRED
+WEAKLY_INFERRED
+UNSUPPORTED
+```
+
+Rules:
+
+```text
+DIRECT
+→ Explicitly present in source material.
+
+SUPPORTED
+→ Supported by multiple pieces of evidence.
+
+INFERRED
+→ Reasonable technical inference from evidence.
+
+WEAKLY_INFERRED
+→ Possible but insufficiently established.
+
+UNSUPPORTED
+→ No evidence.
+```
+
+Only sufficiently supported claims may appear in generated application documents.
+
+Never convert:
+
+```text
+React → Angular experience
+```
+
+or:
+
+```text
+ESP32 → FreeRTOS experience
+```
+
+or:
+
+```text
+Git commits → leadership
+```
+
+without actual evidence.
+
+Related skills may be labeled as transferable or adjacent, but must never be represented as direct experience.
+
+---
+
+# 8. Candidate Knowledge Base
+
+Do NOT implement:
+
+```text
+portfolio → resume
+```
+
+Implement:
+
+```text
+portfolio
+    ↓
+candidate knowledge base
+    ↓
+resume / CV / jobs / applications
+```
+
+Create a normalized candidate representation.
+
+Example:
+
+```text
+candidate/
+├── identity.yaml
+├── education.yaml
+├── experience.yaml
+├── skills.yaml
+├── achievements.yaml
+├── research.yaml
+├── projects/
+│   ├── project-a.yaml
+│   ├── project-b.yaml
+│   └── project-c.yaml
+└── evidence/
+```
+
+Every structured item should retain provenance.
+
+---
+
+# 9. Skill Ontology
+
+Create a mechanism for mapping explicit skills to broader technical categories.
+
+Example:
+
+```text
+React
+ └── Frontend Development
+
+Next.js
+ └── React Ecosystem
+      └── Full-stack Web Development
+
+ESP32
+ └── Embedded Systems
+      └── Microcontrollers
+
+Arduino
+ └── Embedded Systems
+      └── Prototyping
+```
+
+The ontology is for matching and discovery.
+
+It must NOT fabricate experience in related technologies.
+
+Example:
+
+```yaml
+angular:
+  direct_evidence: false
+  related_evidence:
+    - React
+  transferable: true
+```
+
+---
+
+# 10. Requirement Matching
+
+Build an explicit evidence-to-requirement mapping.
+
+Example:
+
+```text
+JOB REQUIREMENT
+"C/C++ firmware development"
+
+        ↓
+
+C++ evidence
+✓ Arc-4
+
+Firmware evidence
+✓ Embedded repositories
+△ No explicit production firmware wording
+
+Overall:
+PARTIAL / STRONG
+```
+
+Produce a machine-readable mapping such as:
+
+```yaml
+requirement:
+  text: "C++ firmware development"
+
+evidence:
+  - source: projects/arc4
+  - source: embedded/
+
+match:
+  level: strong
+  confidence: high
+```
+
+---
+
+# 11. Fit and Gap Analysis
+
+Generate:
+
+```text
+Strong matches
+Partial matches
+Transferable skills
+Missing requirements
+Unverifiable requirements
+```
+
+Example:
+
+```text
+Strong:
+✓ C++
+✓ Embedded systems
+✓ ESP32
+✓ IoT
+
+Partial:
+△ RTOS
+
+Missing:
+✗ ARM Cortex-M professional experience
+✗ FreeRTOS
+```
+
+Do NOT imply that missing requirements are satisfied.
+
+---
+
+# 12. Resume Strategy Engine
+
+The generated document should depend on the job.
+
+Example role families:
+
+```text
+Embedded Systems
+Firmware
+IoT
+Frontend
+Full Stack
+Research
+Computational Science
+Electronics
+Robotics
+Data / ML
+```
+
+The system should select the most relevant projects and skills for the role.
+
+Example:
+
+```text
+Embedded Systems Job
+
+Prioritize:
+- ESP32
+- C/C++
+- Arduino
+- electronics
+- sensors
+- embedded projects
+
+Deprioritize:
+- unrelated frontend projects
+- unrelated creative projects
+```
+
+Same candidate.
+
+Different compiled artifact.
+
+---
+
+# 13. Resume vs CV
+
+Resume and CV should be treated as different document types.
+
+## Resume
+
+Typically:
+
+- concise
+- job-specific
+- optimized around relevant experience
+- generally one page for early-career candidates unless context requires otherwise
+
+## CV
+
+Broader:
+
+- research
+- publications
+- academic work
+- projects
+- education
+- certifications
+- presentations
+- broader record
+
+Do NOT automatically generate a CV if the candidate's source material does not justify one.
+
+Return:
+
+```text
+CV status:
+INSUFFICIENT_INFORMATION
+
+Missing:
+- research details
+- publications
+- academic history
+```
+
+when appropriate.
+
+---
+
+# 14. Project Ranking
+
+Build a relevance-ranking system for portfolio projects.
+
+Conceptually:
+
+```text
+Project relevance =
+    Requirement overlap
+  + Responsibility overlap
+  + Skill overlap
+  + Evidence strength
+  + Recency
+  + Role relevance
+```
+
+Select the most relevant projects for the specific application.
+
+Do not simply choose projects based on popularity or repository star count.
+
+---
+
+# 15. Quantification Rules
+
+Metrics must be evidence-backed.
+
+Never invent:
+
+```text
++40% performance
++30% efficiency
+10x improvement
+```
+
+unless the evidence exists.
+
+When a metric is absent:
+
+Prefer truthful qualitative language.
+
+Example:
+
+Bad:
+
+```text
+Improved latency by 35%.
+```
+
+when no benchmark exists.
+
+Good:
+
+```text
+Optimized rendering and state management for a responsive web interface.
+```
+
+Every quantified claim must have traceable evidence.
+
+---
+
+# 16. Git History as Evidence
+
+Optionally analyze:
+
+- commit history
+- pull requests
+- issues
+- releases
+- contributions
+
+Git history may establish:
+
+- implementation activity
+- project evolution
+- maintenance
+- technical changes
+
+However:
+
+```text
+commit count ≠ leadership
+```
+
+and:
+
+```text
+repository ownership ≠ company employment
+```
+
+Do not infer seniority or leadership without evidence.
+
+---
+
+# 17. LaTeX Generation
+
+Use LaTeX as a first-class output.
+
+Organize templates:
+
+```text
+templates/
+├── ats-resume/
+├── engineering-resume/
+├── academic-cv/
+├── research-cv/
+└── modern-resume/
+```
+
+The system should select an appropriate template based on context.
+
+Generate:
+
+```text
+resume.tex
+resume.pdf
+cv.tex
+cv.pdf
+```
+
+when applicable.
+
+---
+
+# 18. PDF Validation
+
+The output must be compiled and checked.
+
+Pipeline:
+
+```text
+LaTeX
+ ↓
+Compiler
+ ↓
+PDF
+ ↓
+Validation
+```
+
+Check:
+
+- compilation failures
+- page count
+- overflow
+- broken links
+- missing glyphs
+- awkward spacing
+- empty sections
+- duplicated content
+- malformed dates
+- visual consistency
+
+Do not consider successful LaTeX compilation sufficient.
+
+---
+
+# 19. Truth Audit
+
+Create a final audit stage.
+
+Every generated bullet should map back to evidence.
+
+Example:
+
+```yaml
+bullet:
+  text: "Built an ESP32-based IoT weather station..."
+
+  evidence:
+    - projects/zephyr-station
+
+  confidence: direct
+
+  status: approved
+```
+
+Unsupported claims must be removed or surfaced.
+
+---
+
+# 20. Related Job Discovery
+
+This is a core feature.
+
+After generating a document for one role, discover **related jobs that can use the same evidence and resume family**.
+
+Example:
+
+```text
+Original:
+Embedded Systems Intern
+
+Related:
+- Firmware Intern
+- Embedded Software Intern
+- IoT Intern
+- Embedded Engineer Intern
+- Microcontroller Intern
+- Robotics Software Intern
+- Electronics Engineering Intern
+- Edge Computing Intern
+```
+
+Do not merely search for identical titles.
+
+Use:
+
+- skills
+- responsibilities
+- technical domain
+- role family
+- transferable skills
+- evidence overlap
+
+to discover adjacent roles.
+
+---
+
+# 21. Resume Family Concept
+
+Do not create a completely new resume for every single job.
+
+Create reusable resume families:
+
+```text
+resume-families/
+├── embedded/
+├── firmware/
+├── frontend/
+├── research/
+├── iot/
+└── ...
+```
+
+A job can then use an existing family with minimal tailoring.
+
+Example:
+
+```text
+Embedded Resume Family
+
+Company A
+→ 95% same
+
+Company B
+→ 90% same
+
+Company C
+→ 88% same
+```
+
+This reduces unnecessary generation while preserving job-specific relevance.
+
+---
+
+# 22. Related Opportunity Analysis
+
+For every discovered job, provide:
+
+```text
+Role
+Company
+Source
+Evidence overlap
+Resume family
+Missing requirements
+Required tailoring
+Application effort
+```
+
+Example:
+
+```text
+Firmware Intern
+
+Evidence overlap: High
+Resume reuse: High
+Missing: FreeRTOS
+Tailoring effort: Low
+```
+
+Do not turn this into an opaque recommendation score with no explanation.
+
+Show WHY the role was discovered.
+
+---
+
+# 23. Job Clustering
+
+Group related jobs.
+
+Example:
+
+```text
+Embedded / Firmware
+├── Embedded Systems Intern
+├── Firmware Intern
+├── Embedded Software Intern
+└── IoT Intern
+
+Web
+├── Frontend Intern
+├── React Intern
+└── Full Stack Intern
+
+Research
+├── Research Intern
+├── Research Assistant
+└── Computational Science Intern
+```
+
+This gives the user a map of the career directions supported by their existing evidence.
+
+---
+
+# 24. Company-Level Discovery
+
+When a job is found:
+
+Search for other compatible roles at the same company.
+
+Example:
+
+```text
+Company X
+
+✓ Embedded Systems Intern
+✓ Firmware Intern
+✓ IoT Intern
+
+△ Electronics Intern
+
+✗ Frontend Intern
+```
+
+Only surface roles supported by evidence.
+
+---
+
+# 25. Job Search Sources
+
+Design the job-discovery layer so sources are pluggable.
+
+Potential sources include:
+
+- company career pages
+- LinkedIn
+- Indeed
+- Wellfound
+- Greenhouse
+- Lever
+- Ashby
+- Workday
+- Naukri
+- YC Jobs
+- university job boards
+- research laboratories
+- government job boards
+- relevant niche boards
+
+Do not hard-code one provider.
+
+Use a source adapter architecture:
+
+```text
+JobSource
+├── OfficialCompanySource
+├── GreenhouseSource
+├── LeverSource
+├── AshbySource
+├── SearchSource
+└── UserInputSource
+```
+
+Respect website terms, robots policies, rate limits, authentication requirements, and applicable laws.
+
+---
+
+# 26. Application Effort
+
+For discovered jobs, estimate document/application reuse.
+
+Example:
+
+```text
+High fit
+High reuse
+Low tailoring effort
+```
+
+versus:
+
+```text
+Moderate fit
+Low reuse
+High tailoring effort
+```
+
+Explain the underlying reasons.
+
+Do not optimize solely for application volume.
+
+---
+
+# 27. Human Approval
+
+RoleForge should prepare applications, not blindly submit them.
+
+Preferred lifecycle:
+
+```text
+DISCOVER
+   ↓
+ANALYZE
+   ↓
+MATCH
+   ↓
+TAILOR
+   ↓
+GENERATE
+   ↓
+VALIDATE
+   ↓
+HUMAN REVIEW
+   ↓
+APPLY
+```
+
+Human review is the default before submission.
+
+---
+
+# 28. Application Workspace
+
+Use a predictable directory structure:
+
+```text
+applications/
+└── company/
+    └── role/
+        ├── job-description.md
+        ├── job-analysis.yaml
+        ├── evidence-map.yaml
+        ├── resume.tex
+        ├── resume.pdf
+        ├── cv.tex
+        ├── cv.pdf
+        └── generation-report.md
+```
+
+This allows applications to remain reproducible and auditable.
+
+---
+
+# 29. Immutable Application Snapshots
+
+When a portfolio changes later, previous applications should not silently change.
+
+Maintain:
+
+```text
+candidate/current/
+```
+
+for the current candidate profile.
+
+And:
+
+```text
+applications/company-role/
+```
+
+as frozen application snapshots.
+
+This lets the user know exactly what they submitted for each opportunity.
+
+---
+
+# 30. Career Map
+
+Generate an optional:
+
+```text
+career-map.md
+```
+
+that summarizes evidence-supported career directions.
+
+Example:
+
+```text
+Strong evidence domains
+────────────────────────
+Embedded Systems
+IoT / Edge Computing
+Electronics
+Software Engineering
+Research
+
+Adjacent domains
+─────────────────
+Firmware
+Robotics
+Edge AI
+Computational Research
+```
+
+Do NOT present this as a prediction of career success.
+
+It is a map of **evidence-supported role neighborhoods**.
+
+---
+
+# 31. Architecture Documentation Website
+
+Create a dedicated webpage that explains RoleForge visually.
+
+Suggested sections:
+
+## Hero
+
+```text
+RoleForge
+
+Compile your portfolio into job-specific applications.
+
+Your code is the source of truth.
+The job description is the target.
+RoleForge builds the bridge.
+```
+
+Include a primary visual showing:
+
+```text
+Portfolio → Evidence → Job → Match → LaTeX → Application
+```
+
+---
+
+## Section: Why
+
+Explain the problem:
+
+- portfolios contain more technical evidence than resumes
+- resumes become outdated
+- manually tailoring applications is repetitive
+- generic AI resume generators can hallucinate
+- job descriptions are messy and inconsistent
+
+---
+
+## Section: The Core Idea
+
+Show:
+
+```text
+SOURCE
+Portfolio / Codebase
+
+TARGET
+Job Description
+
+COMPILER
+RoleForge
+
+OUTPUT
+Resume / CV / Opportunities
+```
+
+---
+
+## Section: Architecture
+
+Create a large visual system diagram.
+
+Use clean architecture diagrams, cards, connectors, code-like labels, and interactive explanations.
+
+---
+
+## Section: Data Flow
+
+Show:
+
+```text
+Repository
+    ↓
+Analyzer
+    ↓
+Evidence
+    ↓
+Candidate Knowledge Base
+    ↓
+JD
+    ↓
+Requirement Matcher
+    ↓
+Resume Strategy
+    ↓
+LaTeX
+    ↓
+Truth Audit
+    ↓
+PDF
+```
+
+---
+
+## Section: Truth System
+
+Make this visually prominent.
+
+Show examples:
+
+```text
+✓ Evidence-backed
+△ Inferred
+✗ Unsupported
+```
+
+and explain that unsupported claims are never silently added.
+
+---
+
+## Section: Job Sources
+
+Visualize the acquisition priority:
+
+```text
+Official API
+     ↓
+Official Careers Page
+     ↓
+Job URL
+     ↓
+Permitted Web Retrieval
+     ↓
+User Input
+     ↓
+Verification
+```
+
+---
+
+## Section: Role Discovery
+
+Show:
+
+```text
+One job
+   ↓
+Role family
+   ↓
+Adjacent roles
+   ↓
+Job clusters
+   ↓
+Reusable resume families
+```
+
+---
+
+## Section: Resume Compilation
+
+Show the technical pipeline:
+
+```text
+candidate.yaml
++
+job.yaml
++
+evidence-map.yaml
+       ↓
+resume.tex
+       ↓
+pdflatex
+       ↓
+resume.pdf
+```
+
+---
+
+## Section: Example
+
+Use a realistic example project and job.
+
+Show:
+
+```text
+Candidate evidence
+↓
+Embedded Systems JD
+↓
+Matched skills
+↓
+Selected projects
+↓
+Generated bullets
+↓
+Final resume
+```
+
+Clearly label the example as illustrative if it uses synthetic content.
+
+---
+
+## Section: Repository Structure
+
+Show the actual project structure.
+
+---
+
+## Section: Principles
+
+Include:
+
+```text
+Evidence over inference
+Truth over keyword stuffing
+Source provenance everywhere
+Reusable resume families
+Human approval before submission
+Open architecture
+```
+
+---
+
+# 32. Website Design Direction
+
+Do NOT make the website look like a generic SaaS landing page.
+
+It should feel:
+
+- technical
+- architectural
+- developer-oriented
+- polished
+- experimental
+- open-source
+- visually intelligent
+
+Use visual metaphors from:
+
+- compilers
+- code editors
+- dependency graphs
+- architecture diagrams
+- source maps
+- pipelines
+- knowledge graphs
+
+The visual language may reference coding environments, but should remain original.
+
+Avoid excessive gradients, generic AI imagery, stock photos, and meaningless marketing animations.
+
+Prioritize information density and clear storytelling.
+
+---
+
+# 33. Website Interactions
+
+Where appropriate, implement:
+
+- animated architecture flows
+- hoverable components
+- expandable evidence nodes
+- role-to-project mapping
+- interactive pipeline diagrams
+- source provenance visualization
+- tabs for Resume / CV / Job Discovery
+- code snippets
+- architecture graph interactions
+
+Keep animations purposeful.
+
+Do not sacrifice accessibility or performance for effects.
+
+---
+
+# 34. Tech Stack
+
+Choose an appropriate modern stack.
+
+Prefer:
+
+- TypeScript
+- React / Next.js if useful
+- Tailwind CSS or another clean styling system
+- SVG for architecture diagrams
+- lightweight animation libraries where useful
+
+Keep the actual **agent skill implementation independent from the documentation site's frontend**.
+
+The skill should remain portable.
+
+---
+
+# 35. Skill Interface
+
+Design a clear agent skill entry point.
+
+At minimum create:
+
+```text
+SKILL.md
+```
+
+It should document:
+
+- what RoleForge does
+- when the skill should activate
+- required inputs
+- optional inputs
+- execution workflow
+- evidence rules
+- JD retrieval rules
+- output formats
+- safety/truth constraints
+- job discovery behavior
+- LaTeX generation rules
+- validation
+- example invocations
+
+Example conceptual usage:
+
+```text
+Use RoleForge on this repository with this job:
+https://company.com/jobs/123
+```
+
+or:
+
+```text
+Generate a resume for this JD using the current portfolio as the source of truth.
+```
+
+or:
+
+```text
+Find related embedded systems roles that can reuse my existing resume family.
+```
+
+---
+
+# 36. Suggested Repository Structure
+
+Create a clean structure such as:
+
+```text
+RoleForge/
+│
+├── SKILL.md
+├── README.md
+├── LICENSE
+│
+├── skill/
+│   ├── workflow/
+│   ├── analyzers/
+│   ├── matchers/
+│   ├── generators/
+│   ├── validators/
+│   └── discovery/
+│
+├── schemas/
+│   ├── candidate.schema.yaml
+│   ├── evidence.schema.yaml
+│   ├── job.schema.yaml
+│   ├── application.schema.yaml
+│   └── resume.schema.yaml
+│
+├── templates/
+│   ├── resumes/
+│   └── cvs/
+│
+├── examples/
+│   ├── candidate/
+│   ├── jobs/
+│   └── applications/
+│
+├── docs/
+│   └── ...
+│
+└── web/
+    └── ...
+```
+
+Adapt this structure when implementation requirements make a better architecture appropriate.
+
+---
+
+# 37. Documentation Quality
+
+The README must clearly explain:
+
+1. What RoleForge is
+2. Why it exists
+3. The source-of-truth philosophy
+4. How JD acquisition works
+5. How evidence extraction works
+6. How matching works
+7. How resumes and CVs are generated
+8. How related-job discovery works
+9. How truth validation works
+10. How to install/use the skill
+11. Example workflow
+12. Architecture
+
+Include diagrams.
+
+Link to the architecture website.
+
+Link back to:
+
+- Archify website
+- Archify GitHub repository
+
+as architectural inspiration/reference.
+
+---
+
+# 38. Non-Negotiable Rules
+
+These rules must be enforced throughout the project:
+
+### Rule 1
+
+Never fabricate candidate experience.
+
+### Rule 2
+
+Never fabricate metrics.
+
+### Rule 3
+
+Never transform an adjacent technology into direct experience.
+
+### Rule 4
+
+Never silently modify a user-provided JD after finding another version online.
+
+### Rule 5
+
+Preserve provenance.
+
+### Rule 6
+
+Keep application snapshots reproducible.
+
+### Rule 7
+
+Prefer official job sources.
+
+### Rule 8
+
+Respect applicable website terms, robots policies, rate limits, authentication boundaries, and laws.
+
+### Rule 9
+
+Human approval is required before automatic submission.
+
+### Rule 10
+
+The candidate's portfolio/codebase remains the canonical source of candidate evidence.
+
+---
+
+# 39. Development Process
+
+Work in phases.
+
+## Phase 1 — Architecture
+
+Before implementation:
+
+- inspect Archify
+- design RoleForge architecture
+- define data models
+- define evidence model
+- define workflow
+- define source hierarchy
+- define repository structure
+
+## Phase 2 — Core Skill
+
+Implement:
+
+- repository analysis
+- evidence extraction
+- candidate knowledge base
+- JD normalization
+- requirement matching
+- truth validation
+
+## Phase 3 — Document Generation
+
+Implement:
+
+- resume strategy
+- CV strategy
+- LaTeX templates
+- PDF compilation
+- validation
+
+## Phase 4 — Opportunity Discovery
+
+Implement:
+
+- role expansion
+- job search adapters
+- role clustering
+- resume-family reuse
+- related opportunity discovery
+
+## Phase 5 — Documentation Website
+
+Implement the Archify-inspired RoleForge architecture website.
+
+## Phase 6 — Validation
+
+Test the full pipeline with realistic repositories and job descriptions.
+
+---
+
+# 40. Final Deliverables
+
+The completed repository should contain:
+
+```text
+✓ Working RoleForge agent skill
+✓ SKILL.md
+✓ Candidate evidence model
+✓ Job description model
+✓ Provenance system
+✓ Requirement matcher
+✓ Truth validator
+✓ Resume generator
+✓ CV generator
+✓ LaTeX templates
+✓ PDF generation pipeline
+✓ Related-role discovery architecture
+✓ Job-source abstraction
+✓ Resume-family concept
+✓ Application snapshot model
+✓ Complete README
+✓ Architecture documentation
+✓ Archify-inspired RoleForge webpage
+✓ Interactive system diagrams
+✓ Example workflows
+✓ MIT LICENSE
+```
+
+Do not stop at a visual mockup.
+
+Build the actual skill architecture and a functional foundation that can be extended into a production-quality agent skill.
+
+At the end, ensure that the documentation website accurately reflects the actual implementation rather than describing imaginary capabilities.

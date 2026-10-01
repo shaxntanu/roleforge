@@ -1,0 +1,174 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: Application
+description: Complete application package for a job
+type: object
+required:
+  - version
+  - jobId
+  - candidateSnapshot
+  - jobSnapshot
+  - generatedDocuments
+  - auditReport
+properties:
+  version:
+    type: string
+    description: Schema version
+    example: "1.0.0"
+  
+  jobId:
+    type: string
+    description: Unique job identifier
+  
+  generatedAt:
+    type: string
+    format: date-time
+    description: When the application was generated
+  
+  candidateSnapshot:
+    $ref: '#/definitions/CandidateSnapshot'
+  
+  jobSnapshot:
+    $ref: '#/definitions/JobSnapshot'
+  
+  evidenceMap:
+    type: string
+    description: Path to evidence map file
+  
+  generatedDocuments:
+    type: object
+    required: [resume]
+    properties:
+      resume:
+        $ref: '#/definitions/GeneratedDocument'
+      cv:
+        $ref: '#/definitions/GeneratedDocument'
+      coverLetter:
+        $ref: '#/definitions/GeneratedDocument'
+  
+  auditReport:
+    $ref: '#/definitions/AuditReport'
+  
+  strategy:
+    type: object
+    properties:
+      resumeFamily:
+        type: string
+        description: Resume family used
+      selectedProjects:
+        type: array
+        items:
+          type: string
+        description: Projects selected for this application
+      emphasizedSkills:
+        type: array
+        items:
+          type: string
+        description: Skills emphasized in this application
+      deprioritizedContent:
+        type: array
+        items:
+          type: string
+        description: Content deprioritized for this application
+
+definitions:
+  CandidateSnapshot:
+    type: object
+    required: [profilePath, commitHash, timestamp]
+    properties:
+      profilePath:
+        type: string
+        description: Path to candidate profile snapshot
+      commitHash:
+        type: string
+        description: Git commit hash of portfolio at snapshot time
+      timestamp:
+        type: string
+        format: date-time
+  
+  JobSnapshot:
+    type: object
+    required: [jobPath, timestamp]
+    properties:
+      jobPath:
+        type: string
+        description: Path to job description snapshot
+      timestamp:
+        type: string
+        format: date-time
+  
+  GeneratedDocument:
+    type: object
+    required: [tex, pdf, metadata]
+    properties:
+      tex:
+        type: string
+        description: Path to LaTeX source file
+      pdf:
+        type: string
+        description: Path to generated PDF file
+      metadata:
+        type: object
+        properties:
+          template:
+            type: string
+          pageCount:
+            type: integer
+          wordCount:
+            type: integer
+          generatedAt:
+            type: string
+            format: date-time
+  
+  AuditReport:
+    type: object
+    required: [passed, summary, bullets]
+    properties:
+      passed:
+        type: boolean
+        description: Whether the audit passed
+      summary:
+        type: object
+        properties:
+          totalBullets:
+            type: integer
+          approvedBullets:
+            type: integer
+          flaggedBullets:
+            type: integer
+          removedBullets:
+            type: integer
+          approvalRate:
+            type: number
+            minimum: 0
+            maximum: 1
+      bullets:
+        type: array
+        items:
+          type: object
+          properties:
+            text:
+              type: string
+            evidence:
+              type: array
+              items:
+                type: string
+            confidence:
+              type: string
+              enum: [DIRECT, SUPPORTED, INFERRED, WEAKLY_INFERRED, UNSUPPORTED]
+            status:
+              type: string
+              enum: [approved, flagged, removed]
+            notes:
+              type: string
+      unsupportedClaims:
+        type: array
+        items:
+          type: object
+          properties:
+            text:
+              type: string
+            suggestedAction:
+              type: string
+              enum: [remove, revise, add_evidence]
+            reason:
+              type: string

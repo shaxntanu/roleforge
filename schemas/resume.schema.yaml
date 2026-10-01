@@ -1,0 +1,210 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: Resume Content
+description: Structured resume content for LaTeX generation
+type: object
+required:
+  - version
+  - header
+  - sections
+properties:
+  version:
+    type: string
+    description: Schema version
+    example: "1.0.0"
+  
+  header:
+    type: object
+    required: [name]
+    properties:
+      name:
+        type: string
+        description: Full name
+      title:
+        type: string
+        description: Professional title or target role
+      contact:
+        type: object
+        properties:
+          email:
+            type: string
+            format: email
+          phone:
+            type: string
+          location:
+            type: string
+          links:
+            type: array
+            items:
+              type: object
+              properties:
+                label:
+                  type: string
+                url:
+                  type: string
+                  format: uri
+  
+  sections:
+    type: array
+    items:
+      $ref: '#/definitions/ResumeSection'
+  
+  metadata:
+    type: object
+    properties:
+      template:
+        type: string
+        enum: [ats, engineering, modern, academic]
+      targetRole:
+        type: string
+      targetCompany:
+        type: string
+      maxLength:
+        type: integer
+        description: Maximum page count
+
+definitions:
+  ResumeSection:
+    type: object
+    required: [type, content]
+    properties:
+      type:
+        type: string
+        enum: [summary, experience, projects, education, skills, achievements, research]
+      title:
+        type: string
+        description: Custom section title (overrides default)
+      content:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/definitions/ExperienceItem'
+            - $ref: '#/definitions/ProjectItem'
+            - $ref: '#/definitions/EducationItem'
+            - $ref: '#/definitions/SkillItem'
+            - $ref: '#/definitions/AchievementItem'
+            - $ref: '#/definitions/ResearchItem'
+            - type: string
+      priority:
+        type: integer
+        description: Section priority for ordering
+  
+  ExperienceItem:
+    type: object
+    required: [company, role, startDate, bullets]
+    properties:
+      company:
+        type: string
+      role:
+        type: string
+      location:
+        type: string
+      startDate:
+        type: string
+        description: Start date (e.g., "Jan 2020" or "2020-01")
+      endDate:
+        type: string
+        description: End date or "Present"
+      bullets:
+        type: array
+        items:
+          type: string
+      technologies:
+        type: array
+        items:
+          type: string
+  
+  ProjectItem:
+    type: object
+    required: [name, bullets]
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      date:
+        type: string
+      bullets:
+        type: array
+        items:
+          type: string
+      technologies:
+        type: array
+        items:
+          type: string
+      links:
+        type: array
+        items:
+          type: object
+          properties:
+            label:
+              type: string
+            url:
+              type: string
+              format: uri
+  
+  EducationItem:
+    type: object
+    required: [institution, degree, startDate]
+    properties:
+      institution:
+        type: string
+      degree:
+        type: string
+      field:
+        type: string
+      location:
+        type: string
+      startDate:
+        type: string
+      endDate:
+        type: string
+      gpa:
+        type: string
+      honors:
+        type: array
+        items:
+          type: string
+      coursework:
+        type: array
+        items:
+          type: string
+  
+  SkillItem:
+    type: object
+    required: [category, skills]
+    properties:
+      category:
+        type: string
+        description: Skill category (e.g., "Languages", "Frameworks")
+      skills:
+        type: array
+        items:
+          type: string
+  
+  AchievementItem:
+    type: object
+    required: [title, description]
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      date:
+        type: string
+  
+  ResearchItem:
+    type: object
+    required: [title, venue, year]
+    properties:
+      title:
+        type: string
+      authors:
+        type: array
+        items:
+          type: string
+      venue:
+        type: string
+      year:
+        type: integer
+      doi:
+        type: string

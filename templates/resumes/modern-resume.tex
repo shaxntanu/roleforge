@@ -1,0 +1,40 @@
+% Modern Resume Template
+% Contemporary design with accent colors
+
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\setlist[itemize]{nosep, leftmargin=1em}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% Modern color scheme
+\definecolor{accent}{RGB}{0, 120, 212}
+\definecolor{dark}{RGB}{33, 33, 33}
+\definecolor{gray}{RGB}{96, 96, 96}
+
+\begin{document}
+
+% HEADER
+\begin{center}
+    {\huge \textbf{\color{dark} <<name>>}} \\
+    \vspace{0.2em}
+    {\large \color{accent} <<title>>} \\
+    \vspace{0.4em}
+    {\small \color{gray} <<contact>>}
+\end{center}
+
+\vspace{0.5em}
+
+% SECTIONS
+<<sections>>
+
+\end{document}
