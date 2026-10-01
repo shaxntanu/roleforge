@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Intro">
-  <div class="min-h-screen">
+  <div class="min-h-screen bg-[var(--bg-primary)]">
     <!-- Navigation -->
     <nav class="border-b border-[var(--border)]">
       <div class="container">
@@ -14,69 +14,121 @@ import Layout from '../layouts/Layout.astro';
           <div class="flex gap-6 text-sm font-mono">
             <a href="/" class="text-[var(--accent)]">Intro</a>
             <a href="/pipeline">Pipeline</a>
+            <a href="https://github.com/shaxntanu/roleforge">GitHub</a>
           </div>
         </div>
       </div>
     </nav>
 
     <!-- Hero -->
-    <section class="py-20">
+    <section class="py-32">
       <div class="container">
-        <div class="max-w-3xl">
-          <div class="font-mono text-xs text-[var(--accent)] mb-4">
+        <div class="max-w-4xl">
+          <div class="font-mono text-xs text-[var(--accent)] mb-6 tracking-wider">
             AGENTIC CAREER COMPILER
           </div>
-          <h1 class="font-display text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 class="font-display text-6xl md:text-7xl font-bold mb-8 leading-tight">
             Compile your portfolio into<br>
             <span class="text-[var(--accent)]">job-specific applications</span>
           </h1>
-          <p class="text-xl text-[var(--text-secondary)] mb-8">
+          <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl leading-relaxed">
             Your code is the source of truth. The job description is the target. 
             RoleForge builds the bridge with evidence-backed resumes, CVs, and opportunity discovery.
           </p>
           <div class="flex gap-4">
-            <a href="https://github.com/shaxntanu/roleforge" class="px-6 py-3 bg-[var(--accent)] text-[var(--bg-primary)] font-semibold rounded-lg hover:opacity-90 transition">
-              View on GitHub
+            <a href="/pipeline" class="px-8 py-4 bg-[var(--accent)] text-[var(--bg-primary)] font-semibold rounded-lg hover:opacity-90 transition-opacity">
+              Explore Pipeline
             </a>
-            <a href="/pipeline" class="px-6 py-3 border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition">
-              View Pipeline
+            <a href="https://github.com/shaxntanu/roleforge" class="px-8 py-4 border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors">
+              View on GitHub
             </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Core Concept -->
-    <section class="py-20 border-t border-[var(--border)]">
+    <!-- Problem Section -->
+    <section class="py-24 border-t border-[var(--border)]">
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">01</div>
-        <h2 class="font-display text-4xl font-bold mb-6">The Core Idea</h2>
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">THE PROBLEM</div>
+        <h2 class="font-display text-4xl font-bold mb-8">Your evidence is scattered</h2>
         <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
-          RoleForge behaves like a compiler: it takes source code (your portfolio), 
-          parses it into evidence, and generates optimized output (applications) for a target (the job).
+          Developers already have career evidence spread across portfolios, GitHub repositories, source code, README files, and technical documentation. But resumes compress all of that into a static document, and every job requires manual tailoring.
         </p>
         
+        <div class="grid md:grid-cols-2 gap-8 mb-16">
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--text-muted)] mb-4">WITHOUT ROLEFORGE</div>
+            <div class="space-y-4 font-mono text-sm">
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-secondary)]">PORTFOLIO</span>
+                <span class="text-[var(--accent)]">↓</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-secondary)]">MANUAL REWRITING</span>
+                <span class="text-[var(--accent)]">↓</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-secondary)]">RESUME</span>
+                <span class="text-[var(--accent)]">↓</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-muted)]">EDIT AGAIN</span>
+                <span class="text-[var(--accent)]">↓</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-muted)]">REPEAT</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--accent)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] mb-4">WITH ROLEFORGE</div>
+            <div class="space-y-4 font-mono text-sm">
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-secondary)]">PORTFOLIO</span>
+                <span class="text-[var(--accent)]">↓</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--text-secondary)]">ROLEFORGE</span>
+                <span class="text-[var(--accent)]">↓</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[var(--accent)] font-semibold">JOB-SPECIFIC APPLICATION</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compiler Model -->
+    <section class="py-24 border-t border-[var(--border)]">
+      <div class="container">
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">THE COMPILER MODEL</div>
+        <h2 class="font-display text-4xl font-bold mb-8">Source → Target → Output</h2>
+        
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] mb-2">SOURCE</div>
-            <h3 class="font-display text-xl font-bold mb-2">Portfolio / Codebase</h3>
-            <p class="text-[var(--text-secondary)] text-sm">
-              Your GitHub repositories, projects, READMEs, and code are the primary source of truth for your capabilities.
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] mb-4">SOURCE</div>
+            <h3 class="font-display text-2xl font-bold mb-4">Portfolio / Codebase</h3>
+            <p class="text-[var(--text-secondary)] text-sm leading-relaxed">
+              Your GitHub repositories, projects, READMEs, and source code are the primary source of truth for your capabilities.
             </p>
           </div>
           
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] mb-2">TARGET</div>
-            <h3 class="font-display text-xl font-bold mb-2">Job Description</h3>
-            <p class="text-[var(--text-secondary)] text-sm">
-              The job posting defines requirements. RoleForge extracts and normalizes them for matching.
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] mb-4">TARGET</div>
+            <h3 class="font-display text-2xl font-bold mb-4">Job Description</h3>
+            <p class="text-[var(--text-secondary)] text-sm leading-relaxed">
+              The job posting defines requirements. RoleForge extracts and normalizes them for evidence matching.
             </p>
           </div>
           
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] mb-2">COMPILER</div>
-            <h3 class="font-display text-xl font-bold mb-2">RoleForge</h3>
-            <p class="text-[var(--text-secondary)] text-sm">
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--accent)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] mb-4">COMPILER</div>
+            <h3 class="font-display text-2xl font-bold mb-4">RoleForge</h3>
+            <p class="text-[var(--text-secondary)] text-sm leading-relaxed">
               Maps evidence to requirements, generates tailored documents, and discovers related opportunities.
             </p>
           </div>
@@ -84,53 +136,121 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <!-- Principles -->
-    <section class="py-20 border-t border-[var(--border)]">
+    <!-- Source of Truth -->
+    <section class="py-24 border-t border-[var(--border)]">
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">02</div>
-        <h2 class="font-display text-4xl font-bold mb-6">Principles</h2>
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">SOURCE OF TRUTH</div>
+        <h2 class="font-display text-4xl font-bold mb-8">Your work is the source of truth</h2>
+        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
+          Candidate claims are derived from actual evidence. RoleForge never invents experience, skills, or achievements.
+        </p>
         
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="grid md:grid-cols-4 gap-6 mb-12">
           <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Evidence Over Inference</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              Every claim must be backed by verifiable evidence from your portfolio.
-            </p>
+            <div class="font-mono text-xs text-green-400 mb-2">DIRECT ✓</div>
+            <p class="text-sm text-[var(--text-secondary)]">Explicitly present in source material</p>
           </div>
           
           <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Truth Over Keyword Stuffing</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              Never fabricate skills or experience to match job keywords.
-            </p>
+            <div class="font-mono text-xs text-blue-400 mb-2">SUPPORTED ✓</div>
+            <p class="text-sm text-[var(--text-secondary)]">Multiple evidence sources</p>
           </div>
           
           <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Source Provenance</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              Every claim includes traceable evidence sources.
-            </p>
+            <div class="font-mono text-xs text-yellow-400 mb-2">INFERRED △</div>
+            <p class="text-sm text-[var(--text-secondary)]">Reasonable technical inference</p>
           </div>
           
           <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Reusable Resume Families</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              Group similar roles to reduce redundant generation while maintaining relevance.
-            </p>
+            <div class="font-mono text-xs text-red-400 mb-2">UNSUPPORTED ×</div>
+            <p class="text-sm text-[var(--text-secondary)]">No evidence — not generated</p>
           </div>
-          
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Human Approval</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              Applications are prepared for review, not blindly submitted.
-            </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- One Candidate, Many Roles -->
+    <section class="py-24 border-t border-[var(--border)]">
+      <div class="container">
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">ONE CANDIDATE, MANY ROLES</div>
+        <h2 class="font-display text-4xl font-bold mb-8">Same evidence, different applications</h2>
+        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
+          The same candidate evidence can produce different application artifacts based on the target role.
+        </p>
+        
+        <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+          <div class="grid md:grid-cols-5 gap-4 font-mono text-sm text-center">
+            <div class="p-4 bg-[var(--bg-tertiary)] rounded">
+              <div class="text-[var(--accent)] mb-2">CANDIDATE</div>
+              <div class="text-[var(--text-secondary)]">Evidence Base</div>
+            </div>
+            <div class="flex items-center justify-center text-[var(--accent)]">→</div>
+            <div class="p-4 bg-[var(--bg-tertiary)] rounded">
+              <div class="text-[var(--accent)] mb-2">EMBEDDED</div>
+              <div class="text-[var(--text-secondary)]">Resume Family</div>
+            </div>
+            <div class="flex items-center justify-center text-[var(--accent)]">→</div>
+            <div class="p-4 bg-[var(--bg-tertiary)] rounded">
+              <div class="text-[var(--accent)] mb-2">FRONTEND</div>
+              <div class="text-[var(--text-secondary)]">Resume Family</div>
+            </div>
           </div>
-          
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Open Architecture</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              Pluggable job sources, extensible templates, and transparent pipeline.
-            </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Opportunity Discovery -->
+    <section class="py-24 border-t border-[var(--border)]">
+      <div class="container">
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">OPPORTUNITY DISCOVERY</div>
+        <h2 class="font-display text-4xl font-bold mb-8">Find related roles</h2>
+        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
+          RoleForge doesn't stop at one document. It discovers adjacent roles supported by your evidence.
+        </p>
+        
+        <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg mb-8">
+          <div class="grid md:grid-cols-5 gap-4 font-mono text-sm">
+            <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
+              <div class="text-[var(--accent)] mb-2">ONE JOB</div>
+            </div>
+            <div class="flex items-center justify-center text-[var(--accent)]">→</div>
+            <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
+              <div class="text-[var(--accent)] mb-2">ROLE FAMILY</div>
+            </div>
+            <div class="flex items-center justify-center text-[var(--accent)]">→</div>
+            <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
+              <div class="text-[var(--accent)] mb-2">RELATED</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 font-mono text-xs">
+          <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center text-[var(--text-secondary)]">Embedded Systems</div>
+          <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center text-[var(--text-secondary)]">Firmware</div>
+          <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center text-[var(--text-secondary)]">IoT</div>
+          <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center text-[var(--text-secondary)]">Electronics</div>
+          <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center text-[var(--text-secondary)]">Robotics</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 border-t border-[var(--border)]">
+      <div class="container">
+        <div class="max-w-3xl text-center">
+          <h2 class="font-display text-5xl font-bold mb-6">
+            Your portfolio already contains the evidence.
+          </h2>
+          <h2 class="font-display text-5xl font-bold mb-12 text-[var(--accent)]">
+            RoleForge compiles it.
+          </h2>
+          <div class="flex gap-4 justify-center">
+            <a href="/pipeline" class="px-8 py-4 bg-[var(--accent)] text-[var(--bg-primary)] font-semibold rounded-lg hover:opacity-90 transition-opacity">
+              Explore Pipeline
+            </a>
+            <a href="https://github.com/shaxntanu/roleforge" class="px-8 py-4 border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors">
+              View on GitHub
+            </a>
           </div>
         </div>
       </div>
@@ -143,7 +263,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="font-display text-xl font-bold">
             <span class="text-[var(--accent)]">Role</span>Forge
           </div>
-          <div class="flex gap-6 text-sm text-[var(--text-secondary)]">
+          <div class="flex gap-6 text-sm font-mono text-[var(--text-secondary)]">
             <a href="https://github.com/shaxntanu/roleforge">GitHub</a>
             <a href="https://github.com/shaxntanu/roleforge/blob/main/LICENSE">MIT License</a>
           </div>
