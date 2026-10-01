@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Architecture">
+<Layout title="Intro">
   <div class="min-h-screen">
     <!-- Navigation -->
     <nav class="border-b border-[var(--border)]">
@@ -12,10 +12,8 @@ import Layout from '../layouts/Layout.astro';
             <span class="text-[var(--accent)]">Role</span>Forge
           </div>
           <div class="flex gap-6 text-sm font-mono">
-            <a href="#architecture">Architecture</a>
-            <a href="#pipeline">Pipeline</a>
-            <a href="#truth">Truth System</a>
-            <a href="#discovery">Discovery</a>
+            <a href="/" class="text-[var(--accent)]">Intro</a>
+            <a href="/pipeline">Pipeline</a>
           </div>
         </div>
       </div>
@@ -40,8 +38,8 @@ import Layout from '../layouts/Layout.astro';
             <a href="https://github.com/shaxntanu/roleforge" class="px-6 py-3 bg-[var(--accent)] text-[var(--bg-primary)] font-semibold rounded-lg hover:opacity-90 transition">
               View on GitHub
             </a>
-            <a href="#architecture" class="px-6 py-3 border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition">
-              Explore Architecture
+            <a href="/pipeline" class="px-6 py-3 border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition">
+              View Pipeline
             </a>
           </div>
         </div>
@@ -49,7 +47,7 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <!-- Core Concept -->
-    <section id="architecture" class="py-20 border-t border-[var(--border)]">
+    <section class="py-20 border-t border-[var(--border)]">
       <div class="container">
         <div class="font-mono text-xs text-[var(--text-muted)] mb-4">01</div>
         <h2 class="font-display text-4xl font-bold mb-6">The Core Idea</h2>
@@ -86,220 +84,17 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <!-- Pipeline -->
-    <section id="pipeline" class="py-20 border-t border-[var(--border)]">
-      <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">02</div>
-        <h2 class="font-display text-4xl font-bold mb-6">Compilation Pipeline</h2>
-        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
-          A multi-stage pipeline transforms raw portfolio data into validated application documents.
-        </p>
-        
-        <div class="space-y-4">
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">01</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Repository Analysis</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Parse code structure, languages, frameworks, and project metadata</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">02</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Evidence Extraction</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Extract skills, experience, projects, and achievements with provenance</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">03</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Candidate Knowledge Base</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Build normalized candidate representation from extracted evidence</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">04</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Job Description Acquisition</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Retrieve and verify job description from official sources</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">05</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Requirement Matching</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Map candidate evidence to job requirements with confidence levels</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">06</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Resume Strategy</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Determine optimal content selection and emphasis for the role</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">07</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">LaTeX Generation</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Generate LaTeX source from structured content</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">08</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">Truth Audit</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Validate all claims against evidence sources</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="font-mono text-xs text-[var(--accent)] w-20">09</div>
-            <div class="flex-1">
-              <h3 class="font-semibold mb-1">PDF Validation</h3>
-              <p class="text-sm text-[var(--text-secondary)]">Compile LaTeX and validate output quality</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Truth System -->
-    <section id="truth" class="py-20 border-t border-[var(--border)]">
-      <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">03</div>
-        <h2 class="font-display text-4xl font-bold mb-6">Truth System</h2>
-        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
-          Every claim must be backed by evidence. RoleForge never invents experience, skills, or achievements.
-        </p>
-        
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-3 h-3 rounded-full bg-green-500"></div>
-              <span class="font-mono text-sm font-semibold">DIRECT</span>
-            </div>
-            <h3 class="font-display text-lg font-bold mb-2">Explicitly Present</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              The claim is explicitly stated in source material (README, code comments, project descriptions).
-            </p>
-          </div>
-          
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span class="font-mono text-sm font-semibold">SUPPORTED</span>
-            </div>
-            <h3 class="font-display text-lg font-bold mb-2">Multiple Evidence Sources</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              The claim is supported by multiple pieces of evidence from different sources.
-            </p>
-          </div>
-          
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <span class="font-mono text-sm font-semibold">INFERRED</span>
-            </div>
-            <h3 class="font-display text-lg font-bold mb-2">Reasonable Inference</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              The claim is a reasonable technical inference from available evidence.
-            </p>
-          </div>
-          
-          <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-3 h-3 rounded-full bg-red-500"></div>
-              <span class="font-mono text-sm font-semibold">UNSUPPORTED</span>
-            </div>
-            <h3 class="font-display text-lg font-bold mb-2">No Evidence</h3>
-            <p class="text-sm text-[var(--text-secondary)]">
-              No evidence exists for the claim. It will not appear in generated documents.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Job Discovery -->
-    <section id="discovery" class="py-20 border-t border-[var(--border)]">
-      <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">04</div>
-        <h2 class="font-display text-4xl font-bold mb-6">Related Job Discovery</h2>
-        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
-          After generating an application for one role, RoleForge discovers related opportunities that can reuse the same evidence and resume family.
-        </p>
-        
-        <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg mb-6">
-          <h3 class="font-display text-xl font-bold mb-4">Resume Families</h3>
-          <p class="text-[var(--text-secondary)] mb-4">
-            RoleForge groups roles into reusable resume families, reducing redundant generation while maintaining job-specific relevance.
-          </p>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center font-mono text-sm">
-              Embedded Systems
-            </div>
-            <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center font-mono text-sm">
-              Firmware
-            </div>
-            <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center font-mono text-sm">
-              Frontend
-            </div>
-            <div class="p-3 bg-[var(--bg-tertiary)] rounded text-center font-mono text-sm">
-              Research
-            </div>
-          </div>
-        </div>
-        
-        <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-          <h3 class="font-display text-xl font-bold mb-4">Discovery Analysis</h3>
-          <p class="text-[var(--text-secondary)] mb-4">
-            For each discovered job, RoleForge provides:
-          </p>
-          <ul class="space-y-2 text-sm text-[var(--text-secondary)]">
-            <li class="flex items-center gap-2">
-              <span class="text-[var(--accent)]">→</span>
-              Evidence overlap score
-            </li>
-            <li class="flex items-center gap-2">
-              <span class="text-[var(--accent)]">→</span>
-              Resume family assignment
-            </li>
-            <li class="flex items-center gap-2">
-              <span class="text-[var(--accent)]">→</span>
-              Missing requirements
-            </li>
-            <li class="flex items-center gap-2">
-              <span class="text-[var(--accent)]">→</span>
-              Required tailoring effort
-            </li>
-            <li class="flex items-center gap-2">
-              <span class="text-[var(--accent)]">→</span>
-              Application effort estimate
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- Principles -->
     <section class="py-20 border-t border-[var(--border)]">
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">05</div>
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">02</div>
         <h2 class="font-display text-4xl font-bold mb-6">Principles</h2>
         
         <div class="grid md:grid-cols-2 gap-6">
           <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
             <h3 class="font-display text-lg font-bold mb-2 text-[var(--accent)]">Evidence Over Inference</h3>
             <p class="text-sm text-[var(--text-secondary)]">
-              Every claim must be backed by verifiable evidence from the portfolio.
+              Every claim must be backed by verifiable evidence from your portfolio.
             </p>
           </div>
           
@@ -341,59 +136,6 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <!-- Repository Structure -->
-    <section class="py-20 border-t border-[var(--border)]">
-      <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">06</div>
-        <h2 class="font-display text-4xl font-bold mb-6">Repository Structure</h2>
-        
-        <pre class="text-sm"><code>RoleForge/
-├── SKILL.md
-├── README.md
-├── LICENSE
-│
-├── skill/
-│   ├── workflow/
-│   │   └── pipeline.ts
-│   ├── analyzers/
-│   │   ├── repository-analyzer.ts
-│   │   └── evidence-extractor.ts
-│   ├── matchers/
-│   │   └── requirement-matcher.ts
-│   ├── generators/
-│   │   └── latex-generator.ts
-│   ├── validators/
-│   │   ├── pdf-validator.ts
-│   │   └── truth-auditor.ts
-│   └── discovery/
-│       └── job-discovery.ts
-│
-├── schemas/
-│   ├── candidate.schema.yaml
-│   ├── evidence.schema.yaml
-│   ├── job.schema.yaml
-│   ├── application.schema.yaml
-│   └── resume.schema.yaml
-│
-├── templates/
-│   ├── resumes/
-│   │   ├── ats-resume.tex
-│   │   ├── engineering-resume.tex
-│   │   └── modern-resume.tex
-│   └── cvs/
-│       ├── academic-cv.tex
-│       └── research-cv.tex
-│
-├── examples/
-│   ├── candidate/
-│   ├── jobs/
-│   └── applications/
-│
-└── web/
-    └── ...</code></pre>
-      </div>
-    </section>
-
     <!-- Footer -->
     <footer class="py-12 border-t border-[var(--border)]">
       <div class="container">
@@ -403,7 +145,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <div class="flex gap-6 text-sm text-[var(--text-secondary)]">
             <a href="https://github.com/shaxntanu/roleforge">GitHub</a>
-            <a href="https://github.com/shaxntану/roleforge/blob/main/LICENSE">MIT License</a>
+            <a href="https://github.com/shaxntanu/roleforge/blob/main/LICENSE">MIT License</a>
           </div>
         </div>
       </div>

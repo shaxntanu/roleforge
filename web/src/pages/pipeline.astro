@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Pipeline">
+  <div class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="border-b border-[var(--border)]">
+      <div class="container">
+        <div class="flex items-center justify-between py-4">
+          <div class="font-display text-2xl font-bold">
+            <span class="text-[var(--accent)]">Role</span>Forge
+          </div>
+          <div class="flex gap-6 text-sm font-mono">
+            <a href="/">Intro</a>
+            <a href="/pipeline" class="text-[var(--accent)]">Pipeline</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Pipeline Section -->
+    <section class="py-20">
+      <div class="container">
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">COMPILATION PIPELINE</div>
+        <h2 class="font-display text-4xl font-bold mb-6">The RoleForge Pipeline</h2>
+        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
+          A multi-stage pipeline transforms raw portfolio data into validated application documents.
+        </p>
+        
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">01</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Repository Analysis</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Parse code structure, languages, frameworks, and project metadata</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">02</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Evidence Extraction</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Extract skills, experience, projects, and achievements with provenance</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">03</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Candidate Knowledge Base</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Build normalized candidate representation from extracted evidence</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">04</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Job Description Acquisition</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Retrieve and verify job description from official sources</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">05</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Requirement Extraction</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Parse job description into structured requirements</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">06</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Requirement Matching</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Map candidate evidence to job requirements with confidence levels</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">07</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Fit and Gap Analysis</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Generate analysis of strong matches, partial matches, and missing requirements</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">08</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Resume Strategy</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Determine optimal content selection and emphasis for the role</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">09</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Content Selection</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Select projects and skills based on relevance and evidence strength</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">10</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">LaTeX Generation</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Generate LaTeX source from structured content</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">11</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">PDF Compilation</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Compile LaTeX using pdflatex to generate PDF</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">12</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">PDF Validation</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Validate output quality (compilation, overflow, links, glyphs)</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">13</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Truth Audit</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Validate all claims against evidence sources</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">14</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Related Job Discovery</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Discover related opportunities based on skills and domain</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">15</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Career Map Generation</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Generate career direction analysis</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div class="font-mono text-xs text-[var(--accent)] w-20">16</div>
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">Application Packaging</h3>
+              <p class="text-sm text-[var(--text-secondary)]">Package application with snapshots for reproducibility</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-[var(--border)]">
+      <div class="container">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="font-display text-xl font-bold">
+            <span class="text-[var(--accent)]">Role</span>Forge
+          </div>
+          <div class="flex gap-6 text-sm text-[var(--text-secondary)]">
+            <a href="https://github.com/shaxntanu/roleforge">GitHub</a>
+            <a href="https://github.com/shaxntanu/roleforge/blob/main/LICENSE">MIT License</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Layout>
