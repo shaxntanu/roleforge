@@ -1,5 +1,7 @@
 # RoleForge
 
+![RoleForge](RoleForge.png)
+
 **RoleForge** is an agentic career compiler that transforms your portfolio codebase into job-specific applications. It treats your code as the source of truth, extracts verifiable evidence, matches it to job requirements, and generates tailored resumes, CVs, and opportunity discoveries.
 
 ## What RoleForge Is
