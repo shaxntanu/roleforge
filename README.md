@@ -4,10 +4,6 @@
 
 **RoleForge** is an agentic career compiler that transforms your portfolio codebase into job-specific applications. It treats your code as the source of truth, extracts verifiable evidence, matches it to job requirements, and generates tailored resumes, CVs, and opportunity discoveries.
 
-**Documentation:**
-- [Landing Page](https://shaxntanu.github.io/roleforge/)
-- [Pipeline Documentation](https://shaxntanu.github.io/roleforge/pipeline)
-
 ## What RoleForge Is
 
 RoleForge is NOT a generic AI resume writer. It behaves like a compiler:
@@ -275,7 +271,6 @@ RoleForge/
 ## Documentation
 
 View the complete architecture documentation:
-- **Website**: [https://shaxntanu.github.io/roleforge/](https://shaxntanu.github.io/roleforge/)
 - **GitHub**: [https://github.com/shaxntanu/roleforge](https://github.com/shaxntanu/roleforge)
 
 ## License
