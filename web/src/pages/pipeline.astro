@@ -3,18 +3,20 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Pipeline">
-  <div class="min-h-screen bg-[var(--bg-primary)]">
+  <div class="min-h-screen">
+    <div class="grid-bg" aria-hidden="true"></div>
+
     <!-- Navigation -->
-    <nav class="border-b border-[var(--border)]">
+    <nav class="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-primary)]/80 backdrop-blur-sm">
       <div class="container">
         <div class="flex items-center justify-between py-4">
           <div class="font-display text-2xl font-bold">
             <span class="text-[var(--accent)]">Role</span>Forge
           </div>
           <div class="flex gap-6 text-sm font-mono">
-            <a href="/">Intro</a>
+            <a href="/" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Intro</a>
             <a href="/pipeline" class="text-[var(--accent)]">Pipeline</a>
-            <a href="https://github.com/shaxntanu/roleforge">GitHub</a>
+            <a href="https://github.com/shaxntanu/roleforge" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">GitHub</a>
           </div>
         </div>
       </div>
@@ -23,246 +25,45 @@ import Layout from '../layouts/Layout.astro';
     <!-- Pipeline Hero -->
     <section class="py-20">
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">ARCHITECTURE</div>
-        <h1 class="font-display text-5xl md:text-6xl font-bold mb-6">The RoleForge Pipeline</h1>
-        <p class="text-xl text-[var(--text-secondary)] max-w-2xl">
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4 fade-up">ARCHITECTURE</div>
+        <h1 class="font-display text-5xl md:text-6xl font-bold mb-6 fade-up d1">The RoleForge Pipeline</h1>
+        <p class="text-xl text-[var(--text-secondary)] max-w-2xl fade-up d2">
           From portfolio evidence to validated, job-specific applications.
         </p>
       </div>
     </section>
 
+    <div class="border-t border-[var(--border)]"></div>
+
     <!-- Main Pipeline Visualization -->
-    <section class="py-16 border-t border-[var(--border)]">
+    <section>
       <div class="container">
-        <div class="max-w-4xl mx-auto">
-          <!-- Stage 01-03 -->
-          <div class="space-y-4 mb-8">
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">01</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Repository Analysis</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Parse repository structure, languages, frameworks, documentation, metadata and project structure.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Portfolio repository → OUTPUT: Repository model</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">02</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Evidence Extraction</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Extract projects, skills, experience, achievements and technical evidence with provenance.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Repository model → OUTPUT: Evidence graph</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--accent)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">03</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Candidate Knowledge Base</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Build a normalized representation of the candidate with confidence levels.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Evidence graph → OUTPUT: Candidate profile</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job Acquisition Branch -->
-          <div class="flex justify-center my-8">
-            <div class="p-4 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-center">
-              <div class="font-mono text-xs text-[var(--text-muted)] mb-2">JOB DESCRIPTION</div>
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-          </div>
-
-          <!-- Stage 04-06 -->
-          <div class="space-y-4 mb-8">
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">04</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Job Description Acquisition</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Retrieve the JD using the source hierarchy (API → company page → URL → web retrieval → user input).</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Job URL/ID → OUTPUT: Verified job description</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">05</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Requirement Extraction</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Normalize requirements, responsibilities, technologies and keywords.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Job description → OUTPUT: Structured requirements</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--accent)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">06</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Evidence Matching</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Map requirements to actual candidate evidence with confidence levels.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Candidate + Requirements → OUTPUT: Evidence map</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stage 07-09 -->
-          <div class="space-y-4 mb-8">
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">07</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Fit / Gap Analysis</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Identify supported, partial, transferable and missing requirements.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Evidence map → OUTPUT: Fit analysis</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">08</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Application Strategy</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Determine the appropriate resume/CV structure and relevant evidence.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Fit analysis → OUTPUT: Strategy configuration</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">09</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">LaTeX Generation</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Compose the selected evidence into a structured LaTeX document.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Strategy + Evidence → OUTPUT: LaTeX source</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stage 10-13 -->
-          <div class="space-y-4 mb-8">
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">10</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">PDF Validation</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Compile and validate the resulting document (compilation, overflow, links, glyphs).</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: LaTeX source → OUTPUT: Validated PDF</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--accent)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">11</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Truth Audit</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Verify generated claims against evidence sources. Remove unsupported claims.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Generated document → OUTPUT: Audit report</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Discovery Branch -->
-          <div class="flex justify-center my-8">
-            <div class="p-4 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-center">
-              <div class="font-mono text-xs text-[var(--text-muted)] mb-2">OPPORTUNITY DISCOVERY</div>
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-          </div>
-
-          <!-- Stage 12-13 -->
-          <div class="space-y-4 mb-8">
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">12</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Related Job Discovery</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Find adjacent roles supported by the candidate's evidence. Identify resume families.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: Candidate evidence → OUTPUT: Related opportunities</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex justify-center">
-              <div class="text-[var(--accent)] text-2xl">↓</div>
-            </div>
-            
-            <div class="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <div class="flex items-start gap-4">
-                <div class="font-mono text-xs text-[var(--accent)] w-16 pt-1">13</div>
-                <div class="flex-1">
-                  <h3 class="font-display text-xl font-bold mb-2">Application Snapshot</h3>
-                  <p class="text-sm text-[var(--text-secondary)] mb-3">Store the exact job, evidence map and generated documents for reproducibility.</p>
-                  <div class="font-mono text-xs text-[var(--text-muted)]">INPUT: All artifacts → OUTPUT: Application package</div>
-                </div>
-              </div>
-            </div>
+        <div class="max-w-6xl mx-auto">
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg fade-up">
+            <iframe 
+              src="/pipeline-diagram.html" 
+              class="w-full h-[800px] border-0 rounded-lg"
+              title="RoleForge Pipeline Architecture"
+              loading="eager"
+            ></iframe>
           </div>
         </div>
       </div>
     </section>
 
+    <div class="border-t border-[var(--border)]"></div>
+
     <!-- Evidence Provenance Section -->
-    <section class="py-24 border-t border-[var(--border)]">
+    <section>
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">EVIDENCE PROVENANCE</div>
-        <h2 class="font-display text-4xl font-bold mb-8">Every claim is traceable</h2>
-        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl">
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4 fade-up">EVIDENCE PROVENANCE</div>
+        <h2 class="font-display text-4xl font-bold mb-8 fade-up d1">Every claim is traceable</h2>
+        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl fade-up d2">
           Generated resume bullets can be traced back to actual source files in the portfolio.
         </p>
         
         <div class="max-w-3xl mx-auto">
-          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg fade-up d3">
             <div class="space-y-4 font-mono text-sm">
               <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
                 <div class="text-[var(--text-secondary)]">"Built an ESP32-based IoT weather station"</div>
@@ -283,14 +84,16 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
+    <div class="border-t border-[var(--border)]"></div>
+
     <!-- Job Matching Visualization -->
-    <section class="py-24 border-t border-[var(--border)]">
+    <section>
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4">REQUIREMENT MATCHING</div>
-        <h2 class="font-display text-4xl font-bold mb-8">Evidence to requirement mapping</h2>
+        <div class="font-mono text-xs text-[var(--text-muted)] mb-4 fade-up">REQUIREMENT MATCHING</div>
+        <h2 class="font-display text-4xl font-bold mb-8 fade-up d1">Evidence to requirement mapping</h2>
         
         <div class="max-w-3xl mx-auto">
-          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg fade-up d2">
             <div class="space-y-6">
               <div class="p-4 bg-[var(--bg-tertiary)] rounded">
                 <div class="font-mono text-xs text-[var(--text-muted)] mb-2">JOB REQUIREMENT</div>
@@ -301,15 +104,15 @@ import Layout from '../layouts/Layout.astro';
               
               <div class="grid grid-cols-3 gap-4">
                 <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                  <div class="font-mono text-xs text-green-400 mb-1">✓</div>
+                  <div class="font-mono text-xs text-[var(--emerald)] mb-1">✓</div>
                   <div class="text-sm text-[var(--text-secondary)]">C++ evidence</div>
                 </div>
                 <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                  <div class="font-mono text-xs text-green-400 mb-1">✓</div>
+                  <div class="font-mono text-xs text-[var(--emerald)] mb-1">✓</div>
                   <div class="text-sm text-[var(--text-secondary)]">Embedded evidence</div>
                 </div>
                 <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                  <div class="font-mono text-xs text-yellow-400 mb-1">△</div>
+                  <div class="font-mono text-xs text-[var(--amber)] mb-1">△</div>
                   <div class="text-sm text-[var(--text-secondary)]">Firmware evidence</div>
                 </div>
               </div>
@@ -327,9 +130,9 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-[var(--border)]">
+    <footer class="border-t border-[var(--border)]">
       <div class="container">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 py-12">
           <div class="font-display text-xl font-bold">
             <span class="text-[var(--accent)]">Role</span>Forge
           </div>

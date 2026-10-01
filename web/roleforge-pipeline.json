@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "RoleForge Pipeline",
+    "quality_profile": "showcase",
+    "visual_preset": "signal-flow"
+  },
+  "lanes": [
+    { "id": "portfolio", "label": "Portfolio Analysis" },
+    { "id": "job", "label": "Job Processing" },
+    { "id": "generation", "label": "Document Generation" },
+    { "id": "discovery", "label": "Opportunity Discovery" }
+  ],
+  "phases": [
+    { "id": "analysis", "label": "Analysis", "fromCol": 0, "toCol": 2 },
+    { "id": "matching", "label": "Matching", "fromCol": 3, "toCol": 4, "variant": "emphasis" },
+    { "id": "output", "label": "Output", "fromCol": 5, "toCol": 5, "variant": "dashed" }
+  ],
+  "mainPath": [
+    "repo",
+    "evidence",
+    "candidate",
+    "matching",
+    "fit",
+    "strategy",
+    "latex",
+    "pdf",
+    "audit",
+    "snapshot"
+  ],
+  "nodes": [
+    { "id": "repo", "lane": "portfolio", "col": 0, "type": "external", "label": "Repository", "sublabel": "source code", "width": 120 },
+    { "id": "evidence", "lane": "portfolio", "col": 1, "type": "database", "label": "Evidence", "sublabel": "extraction", "width": 120 },
+    { "id": "candidate", "lane": "portfolio", "col": 2, "type": "backend", "label": "Candidate KB", "sublabel": "profile", "width": 120 },
+    { "id": "jd", "lane": "job", "col": 3, "type": "external", "label": "Job Description", "sublabel": "verified", "width": 120 },
+    { "id": "requirements", "lane": "job", "col": 4, "type": "backend", "label": "Requirements", "sublabel": "normalized", "width": 120 },
+    { "id": "matching", "lane": "job", "col": 5, "type": "backend", "label": "Evidence Match", "sublabel": "map to reqs", "width": 120 },
+    { "id": "fit", "lane": "generation", "col": 5, "type": "backend", "label": "Fit Analysis", "sublabel": "gaps", "width": 120, "yOffset": 80 },
+    { "id": "strategy", "lane": "generation", "col": 5, "type": "backend", "label": "Strategy", "sublabel": "structure", "width": 120, "yOffset": 160 },
+    { "id": "latex", "lane": "generation", "col": 5, "type": "messagebus", "label": "LaTeX", "sublabel": "compose", "width": 120, "yOffset": 240 },
+    { "id": "pdf", "lane": "generation", "col": 5, "type": "cloud", "label": "PDF", "sublabel": "validated", "width": 120, "yOffset": 320 },
+    { "id": "audit", "lane": "generation", "col": 5, "type": "security", "label": "Truth Audit", "sublabel": "verify claims", "width": 120, "yOffset": 400 },
+    { "id": "snapshot", "lane": "generation", "col": 5, "type": "database", "label": "Snapshot", "sublabel": "package", "width": 120, "yOffset": 480 },
+    { "id": "related", "lane": "discovery", "col": 5, "type": "backend", "label": "Related Jobs", "sublabel": "discover", "width": 120, "yOffset": 560 }
+  ],
+  "edges": [
+    { "id": "repo-evidence", "from": "repo", "to": "evidence", "variant": "default" },
+    { "id": "evidence-candidate", "from": "evidence", "to": "candidate", "variant": "default" },
+    { "id": "candidate-matching", "from": "candidate", "to": "matching", "label": "evidence", "variant": "emphasis", "route": "outside-right" },
+    { "id": "jd-requirements", "from": "jd", "to": "requirements", "variant": "default" },
+    { "id": "requirements-matching", "from": "requirements", "to": "matching", "label": "reqs", "variant": "emphasis" },
+    { "id": "matching-fit", "from": "matching", "to": "fit", "variant": "default" },
+    { "id": "fit-strategy", "from": "fit", "to": "strategy", "variant": "default" },
+    { "id": "strategy-latex", "from": "strategy", "to": "latex", "variant": "default" },
+    { "id": "latex-pdf", "from": "latex", "to": "pdf", "variant": "default" },
+    { "id": "pdf-audit", "from": "pdf", "to": "audit", "variant": "default" },
+    { "id": "audit-snapshot", "from": "audit", "to": "snapshot", "variant": "default" },
+    { "id": "candidate-related", "from": "candidate", "to": "related", "label": "discover", "variant": "dashed", "role": "branch", "route": "bottom-channel" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Evidence Flow",
+      "items": [
+        "Portfolio → Evidence → Candidate KB",
+        "Job → Requirements → Evidence Match"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Truth Guarantee",
+      "items": [
+        "All claims trace to source evidence",
+        "Audit removes unsupported content"
+      ]
+    }
+  ]
+}
