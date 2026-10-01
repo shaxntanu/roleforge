@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/shaxntanu/roleforge/schemas/job.schema.json",
+  "title": "Job",
+  "description": "Normalized job description",
+  "type": "object",
+  "required": ["id", "version", "company", "title", "source"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique job identifier"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version"
+    },
+    "normalized_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when job was normalized"
+    },
+    "company": {
+      "type": "string",
+      "description": "Company name"
+    },
+    "title": {
+      "type": "string",
+      "description": "Job title"
+    },
+    "location": {
+      "type": "string",
+      "description": "Job location"
+    },
+    "employment_type": {
+      "type": "string",
+      "enum": ["full-time", "part-time", "contract", "internship", "co-op"],
+      "description": "Employment type"
+    },
+    "remote": {
+      "type": "boolean",
+      "description": "Whether the job is remote"
+    },
+    "source": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["official_api", "official_company_page", "user_url", "user_provided", "verified_secondary", "unverified"]
+        },
+        "url": {
+          "type": "string"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "priority"],
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": ["skill", "experience", "education", "tool", "platform", "domain"]
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["required", "preferred", "nice_to_have"]
+          }
+        }
+      }
+    },
+    "responsibilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" }
+        }
+      }
+    },
+    "technologies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "level": { "type": "string" },
+          "field": { "type": "string" },
+          "priority": {
+            "type": "string",
+            "enum": ["required", "preferred", "nice_to_have"]
+          }
+        }
+      }
+    },
+    "experience": {
+      "type": "object",
+      "properties": {
+        "years": {
+          "type": "number"
+        },
+        "seniority": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["required", "preferred", "nice_to_have"]
+        }
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "domain": {
+      "type": "string",
+      "description": "Technical domain (e.g., embedded systems, frontend, research)"
+    },
+    "original_description": {
+      "type": "string",
+      "description": "Original job description text for reference"
+    }
+  }
+}

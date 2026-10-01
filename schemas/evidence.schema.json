@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/shaxntanu/roleforge/schemas/evidence.schema.json",
+  "title": "Evidence",
+  "description": "Individual evidence item with provenance",
+  "type": "object",
+  "required": ["id", "claim", "category", "confidence", "source_type"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique evidence identifier"
+    },
+    "claim": {
+      "type": "string",
+      "description": "The factual claim being made"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["project", "skill", "experience", "education", "achievement", "research", "publication", "certification"],
+      "description": "Category of the evidence"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"],
+      "description": "Confidence level based on evidence strength"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["REPOSITORY", "USER_PROVIDED", "VERIFIED_EXTERNAL"],
+      "description": "Type of source for this evidence"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "File paths or URLs where evidence was found"
+    },
+    "repository": {
+      "type": "string",
+      "description": "Repository name if from REPOSITORY source"
+    },
+    "path": {
+      "type": "string",
+      "description": "File path within repository"
+    },
+    "extracted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this evidence was extracted"
+    }
+  }
+}

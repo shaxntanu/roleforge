@@ -1,0 +1,117 @@
+{
+  "id": "candidate-001",
+  "version": "1.0",
+  "generated_at": "2024-01-01T00:00:00Z",
+  "identity": {
+    "name": "Example Candidate",
+    "email": "candidate@example.com",
+    "links": [
+      {
+        "type": "github",
+        "url": "https://github.com/example"
+      }
+    ]
+  },
+  "education": [
+    {
+      "institution": "Example University",
+      "degree": "Bachelor of Science",
+      "field": "Computer Engineering",
+      "start_date": "2018-09",
+      "end_date": "2022-05",
+      "confidence": "DIRECT",
+      "sources": ["README.md"]
+    }
+  ],
+  "experience": [],
+  "skills": [
+    {
+      "name": "Python",
+      "confidence": "DIRECT",
+      "category": "language",
+      "sources": ["src/main.py", "requirements.txt"]
+    },
+    {
+      "name": "C++",
+      "confidence": "DIRECT",
+      "category": "language",
+      "sources": ["embedded/firmware.cpp"]
+    },
+    {
+      "name": "Git",
+      "confidence": "SUPPORTED",
+      "category": "tool",
+      "sources": [".git/"]
+    },
+    {
+      "name": "Linux",
+      "confidence": "SUPPORTED",
+      "category": "platform",
+      "sources": ["Dockerfile", "Makefile"]
+    },
+    {
+      "name": "ESP32",
+      "confidence": "DIRECT",
+      "category": "hardware",
+      "sources": ["hardware/esp32/", "firmware/"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Weather Station",
+      "description": "IoT weather station with ESP32 and sensor integration",
+      "repository": "weather-station",
+      "technologies": ["C++", "ESP32", "FreeRTOS", "Sensors"],
+      "confidence": "DIRECT",
+      "sources": ["weather-station/README.md", "weather-station/src/"]
+    },
+    {
+      "name": "Data Pipeline",
+      "description": "Python-based data processing pipeline",
+      "repository": "data-pipeline",
+      "technologies": ["Python", "Pandas", "Docker"],
+      "confidence": "DIRECT",
+      "sources": ["data-pipeline/README.md", "data-pipeline/pipeline.py"]
+    }
+  ],
+  "research": [],
+  "publications": [],
+  "certifications": [],
+  "evidence": [
+    {
+      "id": "evidence-001",
+      "claim": "Built ESP32-based IoT weather station",
+      "category": "project",
+      "confidence": "DIRECT",
+      "source_type": "REPOSITORY",
+      "sources": ["weather-station/README.md"],
+      "repository": "weather-station",
+      "path": "README.md"
+    },
+    {
+      "id": "evidence-002",
+      "claim": "Developed Python data processing pipeline",
+      "category": "project",
+      "confidence": "DIRECT",
+      "source_type": "REPOSITORY",
+      "sources": ["data-pipeline/pipeline.py"],
+      "repository": "data-pipeline",
+      "path": "pipeline.py"
+    },
+    {
+      "id": "evidence-003",
+      "claim": "Proficient in C++ embedded development",
+      "category": "skill",
+      "confidence": "DIRECT",
+      "source_type": "REPOSITORY",
+      "sources": ["embedded/firmware.cpp"],
+      "repository": "firmware",
+      "path": "embedded/firmware.cpp"
+    }
+  ],
+  "source_provenance": {
+    "repositories": ["weather-station", "data-pipeline", "firmware"],
+    "files_analyzed": ["weather-station/README.md", "data-pipeline/pipeline.py", "embedded/firmware.cpp"],
+    "user_provided_facts": []
+  }
+}

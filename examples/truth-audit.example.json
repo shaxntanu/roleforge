@@ -1,0 +1,75 @@
+{
+  "application_id": "app-001",
+  "audited_at": "2024-01-01T00:00:00Z",
+  "total_claims": 10,
+  "approved_claims": 9,
+  "flagged_claims": 1,
+  "removed_claims": 0,
+  "approval_rate": 90,
+  "passed": true,
+  "claims": [
+    {
+      "claim": "Built ESP32-based IoT weather station",
+      "status": "SUPPORTED",
+      "evidence_ids": ["evidence-001"],
+      "action": "approved"
+    },
+    {
+      "claim": "Developed Python data processing pipeline",
+      "status": "SUPPORTED",
+      "evidence_ids": ["evidence-002"],
+      "action": "approved"
+    },
+    {
+      "claim": "Proficient in C++ embedded development",
+      "status": "SUPPORTED",
+      "evidence_ids": ["evidence-003"],
+      "action": "approved"
+    },
+    {
+      "claim": "Experience with Git version control",
+      "status": "SUPPORTED",
+      "evidence_ids": [],
+      "action": "approved"
+    },
+    {
+      "claim": "Linux development environment",
+      "status": "SUPPORTED",
+      "evidence_ids": [],
+      "action": "approved"
+    },
+    {
+      "claim": "Python scripting",
+      "status": "SUPPORTED",
+      "evidence_ids": ["evidence-002"],
+      "action": "approved"
+    },
+    {
+      "claim": "Bachelor's degree in Computer Engineering",
+      "status": "SUPPORTED",
+      "evidence_ids": [],
+      "action": "approved"
+    },
+    {
+      "claim": "RTOS experience",
+      "status": "UNSUPPORTED",
+      "evidence_ids": [],
+      "action": "flagged",
+      "reason": "No RTOS evidence found in portfolio"
+    },
+    {
+      "claim": "5 years of embedded experience",
+      "status": "UNSUPPORTED",
+      "evidence_ids": [],
+      "action": "removed",
+      "reason": "No evidence for years of experience"
+    },
+    {
+      "claim": "Team leadership experience",
+      "status": "UNSUPPORTED",
+      "evidence_ids": [],
+      "action": "removed",
+      "reason": "No leadership evidence found"
+    }
+  ]
+}

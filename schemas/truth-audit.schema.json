@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/shaxntanu/roleforge/schemas/truth-audit.schema.json",
+  "title": "TruthAudit",
+  "description": "Truth audit of generated application",
+  "type": "object",
+  "required": ["application_id", "total_claims", "approved_claims", "flagged_claims", "removed_claims", "approval_rate"],
+  "properties": {
+    "application_id": {
+      "type": "string"
+    },
+    "audited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "total_claims": {
+      "type": "number"
+    },
+    "approved_claims": {
+      "type": "number"
+    },
+    "flagged_claims": {
+      "type": "number"
+    },
+    "removed_claims": {
+      "type": "number"
+    },
+    "approval_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "status"],
+        "properties": {
+          "claim": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["SUPPORTED", "USER_PROVIDED", "INFERRED", "UNSUPPORTED"]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "action": {
+            "type": "string",
+            "enum": ["approved", "flagged", "removed"]
+          },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  }
+}

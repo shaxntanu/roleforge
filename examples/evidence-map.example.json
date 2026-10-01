@@ -1,0 +1,63 @@
+{
+  "candidate_id": "candidate-001",
+  "job_id": "job-001",
+  "matches": [
+    {
+      "requirement_id": "req-001",
+      "evidence_ids": ["evidence-003"],
+      "match_level": "DIRECT_MATCH",
+      "confidence": "high"
+    },
+    {
+      "requirement_id": "req-002",
+      "evidence_ids": ["evidence-001"],
+      "match_level": "DIRECT_MATCH",
+      "confidence": "high"
+    },
+    {
+      "requirement_id": "req-003",
+      "evidence_ids": ["evidence-001"],
+      "match_level": "DIRECT_MATCH",
+      "confidence": "high"
+    },
+    {
+      "requirement_id": "req-004",
+      "evidence_ids": [],
+      "match_level": "SUPPORTED_MATCH",
+      "confidence": "medium"
+    },
+    {
+      "requirement_id": "req-005",
+      "evidence_ids": [],
+      "match_level": "SUPPORTED_MATCH",
+      "confidence": "medium"
+    },
+    {
+      "requirement_id": "req-006",
+      "evidence_ids": ["evidence-002"],
+      "match_level": "DIRECT_MATCH",
+      "confidence": "high"
+    },
+    {
+      "requirement_id": "req-007",
+      "evidence_ids": [],
+      "match_level": "NO_EVIDENCE",
+      "confidence": "low",
+      "gap_description": "No RTOS experience found in portfolio"
+    },
+    {
+      "requirement_id": "req-008",
+      "evidence_ids": [],
+      "match_level": "DIRECT_MATCH",
+      "confidence": "high"
+    }
+  ],
+  "summary": {
+    "strong_matches": 5,
+    "partial_matches": 2,
+    "transferable_matches": 0,
+    "missing_requirements": 1,
+    "overall_fit_score": 85,
+    "fit_assessment": "good"
+  }
+}

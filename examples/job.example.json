@@ -1,0 +1,96 @@
+{
+  "id": "job-001",
+  "version": "1.0",
+  "normalized_at": "2024-01-01T00:00:00Z",
+  "company": "TechCorp",
+  "title": "Embedded Software Engineer",
+  "location": "San Francisco, CA",
+  "employment_type": "full-time",
+  "remote": true,
+  "source": {
+    "type": "official_company_page",
+    "url": "https://techcorp.com/careers/embedded-software-engineer-123",
+    "retrieved_at": "2024-01-01T00:00:00Z",
+    "verified": true
+  },
+  "requirements": [
+    {
+      "id": "req-001",
+      "text": "Proficiency in C++",
+      "category": "skill",
+      "priority": "required"
+    },
+    {
+      "id": "req-002",
+      "text": "Experience with embedded systems",
+      "category": "experience",
+      "priority": "required"
+    },
+    {
+      "id": "req-003",
+      "text": "Familiarity with microcontrollers (ESP32, ARM Cortex)",
+      "category": "tool",
+      "priority": "required"
+    },
+    {
+      "id": "req-004",
+      "text": "Git version control",
+      "category": "tool",
+      "priority": "required"
+    },
+    {
+      "id": "req-005",
+      "text": "Linux development environment",
+      "category": "platform",
+      "priority": "required"
+    },
+    {
+      "id": "req-006",
+      "text": "Python scripting",
+      "category": "skill",
+      "priority": "preferred"
+    },
+    {
+      "id": "req-007",
+      "text": "RTOS experience (FreeRTOS, Zephyr)",
+      "category": "tool",
+      "priority": "preferred"
+    },
+    {
+      "id": "req-008",
+      "text": "Bachelor's degree in Computer Engineering or related field",
+      "category": "education",
+      "priority": "required"
+    }
+  ],
+  "responsibilities": [
+    {
+      "id": "resp-001",
+      "text": "Develop firmware for embedded systems"
+    },
+    {
+      "id": "resp-002",
+      "text": "Debug and optimize embedded software"
+    },
+    {
+      "id": "resp-003",
+      "text": "Collaborate with hardware team"
+    }
+  ],
+  "technologies": ["C++", "Embedded Systems", "ESP32", "ARM Cortex", "Git", "Linux", "Python", "FreeRTOS"],
+  "education": [
+    {
+      "level": "bachelor",
+      "field": "Computer Engineering",
+      "priority": "required"
+    }
+  ],
+  "experience": {
+    "years": 2,
+    "seniority": "mid",
+    "priority": "preferred"
+  },
+  "keywords": ["embedded", "firmware", "C++", "microcontroller", "IoT"],
+  "domain": "embedded systems",
+  "original_description": "We are looking for an Embedded Software Engineer to join our team..."
+}

@@ -497,7 +497,6 @@ at /path/to/portfolio as the source of truth:
 ## Architecture Documentation
 
 View the complete architecture documentation at:
-- Website: [https://shaxntanu.github.io/roleforge/](https://shaxntanu.github.io/roleforge/)
 - Repository: [https://github.com/shaxntanu/roleforge](https://github.com/shaxntanu/roleforge)
 
 ## Acknowledgments

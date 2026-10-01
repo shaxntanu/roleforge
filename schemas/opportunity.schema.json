@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/shaxntanu/roleforge/schemas/opportunity.schema.json",
+  "title": "Opportunity",
+  "description": "Related job opportunity discovered from candidate evidence",
+  "type": "object",
+  "required": ["id", "title", "company", "source", "evidence_overlap"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["official_company_page", "job_board", "search_result"]
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "evidence_overlap": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "resume_family": {
+      "type": "string",
+      "description": "Resume family that can be reused"
+    },
+    "matching_skills": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "missing_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tailoring_effort": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "application_effort": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    }
+  }
+}

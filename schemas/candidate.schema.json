@@ -1,0 +1,235 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/shaxntanu/roleforge/schemas/candidate.schema.json",
+  "title": "Candidate",
+  "description": "Normalized candidate profile derived from portfolio evidence",
+  "type": "object",
+  "required": ["id", "version", "identity", "skills", "projects", "evidence"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique candidate identifier"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when candidate profile was generated"
+    },
+    "identity": {
+      "type": "object",
+      "description": "Candidate identity information",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Candidate name if available in portfolio"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email if available in portfolio"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "institution": { "type": "string" },
+          "degree": { "type": "string" },
+          "field": { "type": "string" },
+          "start_date": { "type": "string" },
+          "end_date": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "company": { "type": "string" },
+          "role": { "type": "string" },
+          "start_date": { "type": "string" },
+          "end_date": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "confidence", "category"],
+        "properties": {
+          "name": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "category": {
+            "type": "string",
+            "enum": ["language", "framework", "tool", "platform", "database", "cloud", "hardware", "domain"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "confidence"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "repository": { "type": "string" },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "research": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "institution": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "publications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "venue": { "type": "string" },
+          "year": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "issuer": { "type": "string" },
+          "date": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "confidence", "source_type"],
+        "properties": {
+          "id": { "type": "string" },
+          "claim": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": ["project", "skill", "experience", "education", "achievement", "research", "publication"]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["DIRECT", "SUPPORTED", "INFERRED", "WEAKLY_INFERRED", "UNSUPPORTED"]
+          },
+          "source_type": {
+            "type": "string",
+            "enum": ["REPOSITORY", "USER_PROVIDED", "VERIFIED_EXTERNAL"]
+          },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "source_provenance": {
+      "type": "object",
+      "description": "Traceback of all sources used to build candidate profile",
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "files_analyzed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "user_provided_facts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

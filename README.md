@@ -232,7 +232,9 @@ RoleForge/
 │   │   └── pipeline.ts
 │   ├── analyzers/
 │   │   ├── repository-analyzer.ts
-│   │   └── evidence-extractor.ts
+│   │   ├── evidence-extractor.ts
+│   │   ├── candidate-builder.ts
+│   │   └── job-normalizer.ts
 │   ├── matchers/
 │   │   └── requirement-matcher.ts
 │   ├── generators/
@@ -244,11 +246,29 @@ RoleForge/
 │       └── job-discovery.ts
 │
 ├── schemas/
-│   ├── candidate.schema.yaml
-│   ├── evidence.schema.yaml
-│   ├── job.schema.yaml
-│   ├── application.schema.yaml
-│   └── resume.schema.yaml
+│   ├── candidate.schema.json
+│   ├── evidence.schema.json
+│   ├── job.schema.json
+│   ├── match.schema.json
+│   ├── strategy.schema.json
+│   ├── truth-audit.schema.json
+│   └── opportunity.schema.json
+│
+├── examples/
+│   ├── candidate.example.json
+│   ├── job.example.json
+│   ├── evidence-map.example.json
+│   └── truth-audit.example.json
+│
+├── bin/
+│   └── roleforge.mjs
+│
+├── tests/
+│   └── validation.test.mjs
+│
+├── docs/
+│   ├── architecture.md
+│   └── workflow.md
 │
 ├── templates/
 │   ├── resumes/
@@ -259,11 +279,6 @@ RoleForge/
 │       ├── academic-cv.tex
 │       └── research-cv.tex
 │
-├── examples/
-│   ├── candidate/
-│   ├── jobs/
-│   └── applications/
-│
 └── web/
     └── ...
 ```
@@ -272,6 +287,60 @@ RoleForge/
 
 View the complete architecture documentation:
 - **GitHub**: [https://github.com/shaxntanu/roleforge](https://github.com/shaxntanu/roleforge)
+- **Architecture**: See [docs/architecture.md](docs/architecture.md)
+- **Workflow**: See [docs/workflow.md](docs/workflow.md)
+
+## CLI Tooling
+
+RoleForge includes a validation CLI for schema validation:
+
+```bash
+# Validate a candidate profile
+node bin/roleforge.mjs validate candidate candidate.json
+
+# Validate a job description
+node bin/roleforge.mjs validate job job.json
+
+# Validate a truth audit
+node bin/roleforge.mjs validate truth-audit audit.json
+
+# Run all validation tests
+node tests/validation.test.mjs
+```
+
+## Development
+
+### Running Tests
+
+```bash
+node tests/validation.test.mjs
+```
+
+### Schema Validation
+
+All JSON artifacts should validate against their respective schemas before being used in the pipeline.
+
+### Adding New Components
+
+1. Create the TypeScript implementation in the appropriate `skill/` subdirectory
+2. Define the JSON schema in `schemas/`
+3. Create an example in `examples/`
+4. Add validation to the test suite
+
+## Limitations
+
+- **No Hallucination**: RoleForge never invents experience, skills, achievements, or metrics
+- **Evidence-Only**: Claims must have verifiable evidence from the portfolio
+- **Web Retrieval Constraints**: Respects robots.txt, authentication, and access controls
+- **LaTeX Compilation**: Requires pdflatex to be installed for PDF generation
+- **Job Source Priority**: Official sources are preferred; user-provided descriptions may be unverified
+
+## Privacy Model
+
+- No uploads to third-party services without explicit authorization
+- No logging of private source code, secrets, or personal identifiers
+- Candidate repository remains canonical source for claims
+- Web retrieval only for job information and opportunity discovery
 
 ## License
 

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/shaxntanu/roleforge/schemas/strategy.schema.json",
+  "title": "Strategy",
+  "description": "Application generation strategy",
+  "type": "object",
+  "required": ["candidate_id", "job_id", "document_type", "template"],
+  "properties": {
+    "candidate_id": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": ["resume", "cv", "both"]
+    },
+    "template": {
+      "type": "string",
+      "enum": ["ats-resume", "engineering-resume", "modern-resume", "academic-cv", "research-cv"]
+    },
+    "selected_projects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Project IDs to include"
+    },
+    "selected_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Skill IDs to emphasize"
+    },
+    "content_priorities": {
+      "type": "object",
+      "description": "Content section priorities"
+    },
+    "omit_sections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Sections to omit"
+    },
+    "role_family": {
+      "type": "string",
+      "description": "Target role family"
+    }
+  }
+}
