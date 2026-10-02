@@ -1,7 +1,7 @@
 # RoleForge
 
 <p align="center">
-  <img src="RoleForge.png" alt="RoleForge">
+  <img src="https://github.com/shaxntanu/roleforge/raw/main/RoleForge.png" alt="RoleForge">
 </p>
 
 <p align="center">
