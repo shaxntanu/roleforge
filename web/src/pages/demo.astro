@@ -1,0 +1,1160 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Demo - See RoleForge in Action';
+const description = 'Interactive demonstration of RoleForge analyzing one portfolio across three different job roles.';
+---
+
+<Layout title={title} description={description}>
+  <div class="min-h-screen">
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-primary)]/80 backdrop-blur-sm">
+      <div class="container">
+        <div class="flex items-center justify-between py-4">
+          <div class="font-display text-2xl font-bold">
+            <span class="text-[var(--accent)]">Role</span>Forge
+          </div>
+          <div class="flex gap-6 text-sm font-mono">
+            <a href="/" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Intro</a>
+            <a href="/pipeline" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Pipeline</a>
+            <a href="/demo" class="text-[var(--accent)]">Demo</a>
+            <a href="https://github.com/shaxntanu/roleforge" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="demo-page">
+      <div class="demo-hero">
+        <h1>See RoleForge in action</h1>
+        <p class="subtitle">One portfolio. Three roles. Three tailored applications.</p>
+        <p class="supporting">Watch the same candidate evidence compile into different job-specific outputs.</p>
+      </div>
+
+      <div class="demo-container">
+        <div class="demo-controls">
+          <button id="runBtn" class="btn-primary">Run Demo</button>
+          <button id="pauseBtn" class="btn-secondary" disabled>Pause</button>
+          <button id="resetBtn" class="btn-secondary">Reset</button>
+        </div>
+
+        <div id="progressIndicator" class="progress-indicator" style="display: none;">
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div id="progressText" class="progress-text">
+            0 / 11 - Ready
+          </div>
+        </div>
+
+        <div id="stageContent" class="stage-content">
+          <h2>Stage: Ready</h2>
+          <p>Click "Run Demo" to start the interactive demonstration.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script>
+  let stage = 0;
+  let isRunning = false;
+  let isPaused = false;
+  let currentStageName = '';
+
+  const stages = [
+    'Repository Discovery',
+    'Evidence Extraction',
+    'Candidate Knowledge Base',
+    'Load Three Jobs',
+    'Requirement Extraction',
+    'Evidence Matching',
+    'Fit/Gap Analysis',
+    'Application Strategy',
+    'Document Generation',
+    'Truth Audit',
+    'Final Output'
+  ];
+
+  const runBtn = document.getElementById('runBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressIndicator = document.getElementById('progressIndicator');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const stageContent = document.getElementById('stageContent');
+
+  function runDemo() {
+    if (isRunning && !isPaused) return;
+    if (isPaused) {
+      isPaused = false;
+      processStage();
+      return;
+    }
+    isRunning = true;
+    stage = 0;
+    processStage();
+  }
+
+  function pauseDemo() {
+    isPaused = true;
+  }
+
+  function resetDemo() {
+    isRunning = false;
+    isPaused = false;
+    stage = 0;
+    currentStageName = '';
+    updateUI();
+  }
+
+  function processStage() {
+    if (!isRunning || isPaused) return;
+    if (stage >= stages.length) {
+      isRunning = false;
+      return;
+    }
+    currentStageName = stages[stage];
+    stage = stage + 1;
+    updateUI();
+    if (stage < stages.length) {
+      setTimeout(processStage, 2000);
+    } else {
+      isRunning = false;
+      updateUI();
+    }
+  }
+
+  function updateUI() {
+    runBtn.textContent = isRunning ? (isPaused ? 'Resume' : 'Running...') : 'Run Demo';
+    runBtn.disabled = isRunning && !isPaused;
+    pauseBtn.disabled = !isRunning || isPaused;
+    
+    if (isRunning || stage > 0) {
+      progressIndicator.style.display = 'block';
+      const displayStage = Math.min(stage, stages.length);
+      progressFill.style.width = (displayStage / stages.length) * 100 + '%';
+      progressText.textContent = `${displayStage} / ${stages.length} - ${currentStageName}`;
+    } else {
+      progressIndicator.style.display = 'none';
+    }
+
+    if (stage === 0 && !isRunning) {
+      stageContent.innerHTML = `
+        <div class="portfolio-view">
+          <div class="portfolio-header">
+            <h2>developer-portfolio/</h2>
+            <p class="note">Example candidate - synthetic data</p>
+          </div>
+          <div class="file-tree">
+            <div class="file-item">├── projects/</div>
+            <div class="file-item indent-1">├── aerosense/</div>
+            <div class="file-item indent-1">├── forgeboard/</div>
+            <div class="file-item indent-1">├── pulsecloud/</div>
+            <div class="file-item indent-1">├── interfacelab/</div>
+            <div class="file-item indent-1">├── moleculelab/</div>
+            <div class="file-item indent-1">└── portfolioos/</div>
+            <div class="file-item">├── README.md</div>
+            <div class="file-item">├── package.json</div>
+            <div class="file-item">└── docs/</div>
+          </div>
+          <div class="projects-grid">
+            <div class="project-card">
+              <h3>AeroSense</h3>
+              <p>ESP32-based environmental monitoring system with I2C sensor integration</p>
+              <div class="technologies">
+                <span class="tech-tag">C++</span>
+                <span class="tech-tag">ESP32</span>
+                <span class="tech-tag">Git</span>
+                <span class="tech-tag">Linux</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <h3>ForgeBoard</h3>
+              <p>STM32 microcontroller board with UART/SPI/I2C peripheral interfaces</p>
+              <div class="technologies">
+                <span class="tech-tag">C</span>
+                <span class="tech-tag">STM32</span>
+                <span class="tech-tag">UART</span>
+                <span class="tech-tag">SPI</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <h3>PulseCloud</h3>
+              <p>Python FastAPI backend for real-time data processing and PostgreSQL integration</p>
+              <div class="technologies">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">FastAPI</span>
+                <span class="tech-tag">PostgreSQL</span>
+                <span class="tech-tag">Docker</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <h3>InterfaceLab</h3>
+              <p>React TypeScript dashboard with responsive UI components</p>
+              <div class="technologies">
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">Tailwind</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <h3>MoleculeLab</h3>
+              <p>Python scientific computing tool for molecular analysis and research workflows</p>
+              <div class="technologies">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">NumPy</span>
+                <span class="tech-tag">SciPy</span>
+                <span class="tech-tag">Pandas</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <h3>PortfolioOS</h3>
+              <p>Next.js TypeScript portfolio site with modern frontend architecture</p>
+              <div class="technologies">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Tailwind</span>
+                <span class="tech-tag">React</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 2) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Extracting evidence...</h2>
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <div class="evidence-id">EVIDENCE-001</div>
+              <div class="evidence-claim">C++ development</div>
+              <div class="evidence-confidence">DIRECT</div>
+              <div class="evidence-source">firmware/main.cpp</div>
+            </div>
+            <div class="evidence-card">
+              <div class="evidence-id">EVIDENCE-002</div>
+              <div class="evidence-claim">ESP32 microcontroller programming</div>
+              <div class="evidence-confidence">DIRECT</div>
+              <div class="evidence-source">README.md</div>
+            </div>
+            <div class="evidence-card">
+              <div class="evidence-id">EVIDENCE-009</div>
+              <div class="evidence-claim">Python programming</div>
+              <div class="evidence-confidence">DIRECT</div>
+              <div class="evidence-source">app/main.py</div>
+            </div>
+            <div class="evidence-card">
+              <div class="evidence-id">EVIDENCE-013</div>
+              <div class="evidence-claim">React development</div>
+              <div class="evidence-confidence">DIRECT</div>
+              <div class="evidence-source">src/components/Dashboard.tsx</div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 3) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Candidate Knowledge Base</h2>
+          <div class="kb-structure">
+            <div class="kb-section">
+              <h3>Skills</h3>
+              <ul>
+                <li>C++</li>
+                <li>C</li>
+                <li>Python</li>
+                <li>TypeScript</li>
+                <li>JavaScript</li>
+                <li>React</li>
+                <li>Next.js</li>
+                <li>FastAPI</li>
+              </ul>
+            </div>
+            <div class="kb-section">
+              <h3>Domains</h3>
+              <ul>
+                <li>Embedded Systems</li>
+                <li>Web Engineering</li>
+                <li>Computational Research</li>
+              </ul>
+            </div>
+            <div class="kb-section">
+              <h3>Projects</h3>
+              <ul>
+                <li>AeroSense</li>
+                <li>ForgeBoard</li>
+                <li>PulseCloud</li>
+                <li>InterfaceLab</li>
+                <li>MoleculeLab</li>
+                <li>PortfolioOS</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 4) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Loading job descriptions...</h2>
+          <div class="jobs-loading">
+            <div class="job-card-loading">
+              <h3>Embedded Systems Intern</h3>
+              <p>TechCorp</p>
+              <p class="note">Example job description</p>
+            </div>
+            <div class="job-card-loading">
+              <h3>Frontend Engineering Intern</h3>
+              <p>WebScale</p>
+              <p class="note">Example job description</p>
+            </div>
+            <div class="job-card-loading">
+              <h3>Computational Research Intern</h3>
+              <p>ScienceLab</p>
+              <p class="note">Example job description</p>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 6) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Matching evidence to requirements...</h2>
+          <div class="matching-grid">
+            <div class="job-matching">
+              <h3>Embedded Systems Intern</h3>
+              <div class="match-item">
+                <div class="match-req">C/C++ development</div>
+                <div class="match-arrow">→</div>
+                <div class="match-evidence">C++ development</div>
+                <div class="match-status DIRECT">DIRECT</div>
+              </div>
+              <div class="match-item">
+                <div class="match-req">Embedded systems experience</div>
+                <div class="match-arrow">→</div>
+                <div class="match-evidence">ESP32 microcontroller programming</div>
+                <div class="match-status DIRECT">DIRECT</div>
+              </div>
+            </div>
+            <div class="job-matching">
+              <h3>Frontend Engineering Intern</h3>
+              <div class="match-item">
+                <div class="match-req">React development</div>
+                <div class="match-arrow">→</div>
+                <div class="match-evidence">React development</div>
+                <div class="match-status DIRECT">DIRECT</div>
+              </div>
+              <div class="match-item">
+                <div class="match-req">TypeScript programming</div>
+                <div class="match-arrow">→</div>
+                <div class="match-evidence">TypeScript programming</div>
+                <div class="match-status DIRECT">DIRECT</div>
+              </div>
+            </div>
+            <div class="job-matching">
+              <h3>Computational Research Intern</h3>
+              <div class="match-item">
+                <div class="match-req">Python programming</div>
+                <div class="match-arrow">→</div>
+                <div class="match-evidence">Python programming</div>
+                <div class="match-status DIRECT">DIRECT</div>
+              </div>
+              <div class="match-item">
+                <div class="match-req">Scientific computing</div>
+                <div class="match-arrow">→</div>
+                <div class="match-evidence">Scientific computing</div>
+                <div class="match-status DIRECT">DIRECT</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 7) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Fit and gap analysis...</h2>
+          <div class="fit-grid">
+            <div class="fit-card">
+              <h3>Embedded Systems Intern</h3>
+              <div class="fit-section">
+                <h4>Strong matches</h4>
+                <ul>
+                  <li>C/C++ development</li>
+                  <li>Embedded systems experience</li>
+                  <li>Microcontroller programming</li>
+                </ul>
+              </div>
+              <div class="fit-section">
+                <h4>Selected projects</h4>
+                <ul>
+                  <li>AeroSense</li>
+                  <li>ForgeBoard</li>
+                </ul>
+              </div>
+            </div>
+            <div class="fit-card">
+              <h3>Frontend Engineering Intern</h3>
+              <div class="fit-section">
+                <h4>Strong matches</h4>
+                <ul>
+                  <li>React development</li>
+                  <li>TypeScript programming</li>
+                  <li>JavaScript proficiency</li>
+                </ul>
+              </div>
+              <div class="fit-section">
+                <h4>Selected projects</h4>
+                <ul>
+                  <li>InterfaceLab</li>
+                  <li>PortfolioOS</li>
+                </ul>
+              </div>
+            </div>
+            <div class="fit-card">
+              <h3>Computational Research Intern</h3>
+              <div class="fit-section">
+                <h4>Strong matches</h4>
+                <ul>
+                  <li>Python programming</li>
+                  <li>Scientific computing</li>
+                  <li>Data analysis</li>
+                </ul>
+              </div>
+              <div class="fit-section">
+                <h4>Selected projects</h4>
+                <ul>
+                  <li>MoleculeLab</li>
+                  <li>PulseCloud</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 8) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Application strategy...</h2>
+          <div class="strategy-grid">
+            <div class="strategy-card">
+              <h3>Embedded Systems Intern</h3>
+              <div class="strategy-section">
+                <h4>Document Type</h4>
+                <p>RESUME</p>
+              </div>
+              <div class="strategy-section">
+                <h4>Template</h4>
+                <p>engineering</p>
+              </div>
+              <div class="strategy-section">
+                <h4>Selected</h4>
+                <ul>
+                  <li>AeroSense</li>
+                  <li>ForgeBoard</li>
+                </ul>
+              </div>
+            </div>
+            <div class="strategy-card">
+              <h3>Frontend Engineering Intern</h3>
+              <div class="strategy-section">
+                <h4>Document Type</h4>
+                <p>RESUME</p>
+              </div>
+              <div class="strategy-section">
+                <h4>Template</h4>
+                <p>modern</p>
+              </div>
+              <div class="strategy-section">
+                <h4>Selected</h4>
+                <ul>
+                  <li>InterfaceLab</li>
+                  <li>PortfolioOS</li>
+                </ul>
+              </div>
+            </div>
+            <div class="strategy-card">
+              <h3>Computational Research Intern</h3>
+              <div class="strategy-section">
+                <h4>Document Type</h4>
+                <p>CV</p>
+              </div>
+              <div class="strategy-section">
+                <h4>Template</h4>
+                <p>research</p>
+              </div>
+              <div class="strategy-section">
+                <h4>Selected</h4>
+                <ul>
+                  <li>MoleculeLab</li>
+                  <li>PulseCloud</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 9) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Generating documents...</h2>
+          <div class="documents-grid">
+            <div class="document-card">
+              <h3>Embedded Systems Intern</h3>
+              <p>RESUME</p>
+              <div class="document-files">
+                <div class="file-item">resume.tex</div>
+                <div class="file-item">resume.pdf</div>
+              </div>
+            </div>
+            <div class="document-card">
+              <h3>Frontend Engineering Intern</h3>
+              <p>RESUME</p>
+              <div class="document-files">
+                <div class="file-item">resume.tex</div>
+                <div class="file-item">resume.pdf</div>
+              </div>
+            </div>
+            <div class="document-card">
+              <h3>Computational Research Intern</h3>
+              <p>CV</p>
+              <div class="document-files">
+                <div class="file-item">cv.tex</div>
+                <div class="file-item">cv.pdf</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 10) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Running truth audit...</h2>
+          <div class="audit-results">
+            <div class="audit-summary">
+              <div class="audit-stat">24 claims verified</div>
+              <div class="audit-stat">0 unsupported candidate claims</div>
+              <div class="audit-stat">0 fabricated metrics</div>
+              <div class="audit-stat">0 fabricated technologies</div>
+            </div>
+            <div class="audit-example">
+              <h4>Example claim verification</h4>
+              <div class="audit-claim">"Built an ESP32-based environmental monitoring system..."</div>
+              <div class="audit-evidence">
+                <strong>Evidence:</strong> AeroSense → README.md → firmware/ → ESP32 dependency
+              </div>
+              <div class="audit-status">SUPPORTED</div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (stage === 11) {
+      stageContent.innerHTML = `
+        <div class="stage-content">
+          <h2>Final output</h2>
+          <div class="final-output">
+            <div class="output-summary">
+              <h3>3 tailored applications generated</h3>
+              <p>All claims verified against source code evidence</p>
+            </div>
+            <div class="output-files">
+              <div class="output-job">
+                <h4>Embedded Systems Intern</h4>
+                <div class="output-item">resume.tex</div>
+                <div class="output-item">resume.pdf</div>
+                <div class="output-item">audit.json</div>
+              </div>
+              <div class="output-job">
+                <h4>Frontend Engineering Intern</h4>
+                <div class="output-item">resume.tex</div>
+                <div class="output-item">resume.pdf</div>
+                <div class="output-item">audit.json</div>
+              </div>
+              <div class="output-job">
+                <h4>Computational Research Intern</h4>
+                <div class="output-item">cv.tex</div>
+                <div class="output-item">cv.pdf</div>
+                <div class="output-item">audit.json</div>
+              </div>
+            </div>
+            <div class="completion-message">
+              <p>Demo complete. All documents are truth-audited and ready for submission.</p>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      stageContent.innerHTML = `
+        <h2>Stage: ${currentStageName || 'Ready'}</h2>
+        <p>Current stage: ${stage}</p>
+      `;
+    }
+  }
+
+  runBtn.addEventListener('click', runDemo);
+  pauseBtn.addEventListener('click', pauseDemo);
+  resetBtn.addEventListener('click', resetDemo);
+</script>
+
+<style>
+  .demo-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .demo-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #333;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #22d3ee;
+    color: #000;
+    border-color: #22d3ee;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: #333;
+  }
+
+  .btn-primary:disabled, .btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .progress-indicator {
+    margin-bottom: 2rem;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: #222;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22d3ee, #818cf8);
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.875rem;
+    color: #888;
+  }
+
+  .stage-content {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .stage-content h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+
+  .stage-content p {
+    font-size: 0.875rem;
+    color: #888;
+  }
+
+  .portfolio-view {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 2rem;
+  }
+
+  .portfolio-header h2 {
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .note {
+    font-size: 0.75rem;
+    color: #666;
+    font-style: italic;
+  }
+
+  .file-tree {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: #888;
+    margin: 1.5rem 0;
+  }
+
+  .file-item {
+    padding: 0.25rem 0;
+  }
+
+  .indent-1 {
+    padding-left: 2rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .project-card {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .project-card h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-card p {
+    font-size: 0.875rem;
+    color: #888;
+    margin-bottom: 0.75rem;
+  }
+
+  .technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tech-tag {
+    font-size: 0.75rem;
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .evidence-card {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .evidence-id {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+  }
+
+  .evidence-claim {
+    color: #fff;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .evidence-confidence {
+    font-size: 0.75rem;
+    color: #22d3ee;
+    margin-bottom: 0.25rem;
+  }
+
+  .evidence-source {
+    font-size: 0.75rem;
+    color: #888;
+  }
+
+  .kb-structure {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .kb-section h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+
+  .kb-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .kb-section li {
+    color: #888;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+  }
+
+  .jobs-loading {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .job-card-loading {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .job-card-loading h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.25rem;
+  }
+
+  .job-card-loading p {
+    font-size: 0.875rem;
+    color: #888;
+  }
+
+  .matching-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .job-matching {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .job-matching h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .match-item {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #222;
+  }
+
+  .match-req {
+    font-size: 0.875rem;
+    color: #fff;
+  }
+
+  .match-arrow {
+    color: #666;
+  }
+
+  .match-evidence {
+    font-size: 0.75rem;
+    color: #888;
+  }
+
+  .match-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .match-status.DIRECT {
+    background: rgba(34, 211, 238, 0.2);
+    color: #22d3ee;
+  }
+
+  .fit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .fit-card {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .fit-card h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .fit-section h4 {
+    font-size: 0.875rem;
+    color: #888;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .fit-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .fit-section li {
+    color: #888;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .strategy-card {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .strategy-card h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .strategy-section h4 {
+    font-size: 0.875rem;
+    color: #888;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .strategy-section p {
+    color: #fff;
+    font-size: 0.875rem;
+  }
+
+  .strategy-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .strategy-section li {
+    color: #888;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+  }
+
+  .documents-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .document-card {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .document-card h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .document-card p {
+    font-size: 0.875rem;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+
+  .document-files {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .audit-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .audit-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .audit-stat {
+    color: #22d3ee;
+    font-size: 1rem;
+  }
+
+  .audit-example {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .audit-example h4 {
+    font-size: 0.875rem;
+    color: #888;
+    margin-bottom: 0.75rem;
+  }
+
+  .audit-claim {
+    color: #fff;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .audit-evidence {
+    color: #888;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .audit-status {
+    color: #22d3ee;
+    font-size: 0.875rem;
+  }
+
+  .final-output {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .output-summary {
+    text-align: center;
+  }
+
+  .output-summary h3 {
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .output-summary p {
+    color: #888;
+    font-size: 0.875rem;
+  }
+
+  .output-files {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .output-job {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .output-job h4 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+
+  .output-item {
+    color: #888;
+    font-size: 0.875rem;
+    padding: 0.25rem 0;
+  }
+
+  .completion-message {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid #22d3ee;
+    border-radius: 4px;
+  }
+
+  .completion-message p {
+    color: #22d3ee;
+    font-size: 0.875rem;
+  }
+</style>
+
+
+<style>
+  .demo-page {
+    min-height: 100vh;
+    padding: 4rem 2rem;
+    background: #000;
+  }
+
+  .demo-hero {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    text-align: center;
+  }
+
+  .demo-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+
+  .supporting {
+    font-size: 1rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .demo-hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+    }
+
+    .demo-page {
+      padding: 2rem 1rem;
+    }
+  }
+</style>
