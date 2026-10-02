@@ -1,12 +1,20 @@
 # RoleForge
 
-![RoleForge](RoleForge.png)
+<p align="center">
+  <img src="RoleForge.png" alt="RoleForge">
+</p>
 
-**RoleForge** is an agentic career compiler that transforms your portfolio codebase into job-specific applications. It treats your code as the source of truth, extracts verifiable evidence, matches it to job requirements, and generates tailored resumes, CVs, and opportunity discoveries.
+<p align="center">
+  <strong>RoleForge</strong> is an agentic career compiler that transforms your portfolio codebase into job-specific applications. It treats your code as the source of truth, extracts verifiable evidence, matches it to job requirements, and generates tailored resumes, CVs, and opportunity discoveries.
+</p>
 
 ## What RoleForge Is
 
+<p align="center">
 RoleForge is NOT a generic AI resume writer. It behaves like a compiler:
+</p>
+
+<p align="center">
 
 ```
 Portfolio / Codebase
@@ -33,6 +41,8 @@ Truth + Quality Validation
         ↓
 PDF
 ```
+
+</p>
 
 ## Core Principles
 
@@ -169,7 +179,11 @@ based on my portfolio at /path/to/portfolio
 
 ## Architecture
 
+<p align="center">
 RoleForge is built around these major components:
+</p>
+
+<p align="center">
 
 ```
                     ┌───────────────────────┐
@@ -195,7 +209,13 @@ RoleForge is built around these major components:
                     └───────────────────────┘
 ```
 
+</p>
+
+<p align="center">
 Then:
+</p>
+
+<p align="center">
 
 ```
 Candidate Evidence
@@ -219,7 +239,11 @@ Resume / CV
 Validation
 ```
 
+</p>
+
 ## Repository Structure
+
+<p align="center">
 
 ```
 RoleForge/
@@ -283,12 +307,15 @@ RoleForge/
     └── ...
 ```
 
+</p>
+
 ## Documentation
 
 View the complete architecture documentation:
 - **GitHub**: [https://github.com/shaxntanu/roleforge](https://github.com/shaxntanu/roleforge)
 - **Architecture**: See [docs/architecture.md](docs/architecture.md)
 - **Workflow**: See [docs/workflow.md](docs/workflow.md)
+- **Interactive Demo**: Visit the live demo at [/demo](https://shaxntanu.github.io/roleforge/demo) to see RoleForge in action
 
 ## CLI Tooling
 
