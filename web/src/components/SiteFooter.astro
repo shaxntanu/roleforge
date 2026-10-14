@@ -1,0 +1,91 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="brand-name" href="/"><span>Role</span>Forge</a>
+      <p>Portfolio evidence, shaped into applications you can stand behind.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/pipeline">Pipeline</a>
+      <a href="/demo">Demo</a>
+      <a href="https://github.com/shaxntanu/roleforge" target="_blank" rel="noreferrer">GitHub ↗</a>
+      <a href="https://github.com/shaxntanu/roleforge/blob/main/LICENSE" target="_blank" rel="noreferrer">MIT license</a>
+    </div>
+    <div class="footer-note">Open source <span>·</span> Human reviewed</div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding-block: 2.4rem;
+  }
+
+  .footer-brand .brand-name {
+    display: inline-block;
+    font: 600 1.05rem/1 var(--font-display);
+    letter-spacing: -0.05em;
+  }
+
+  .footer-brand .brand-name span {
+    color: var(--accent);
+  }
+
+  .footer-brand p {
+    max-width: 28rem;
+    margin: 0.65rem 0 0;
+    color: var(--muted);
+    font-size: 0.74rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem 1.25rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+
+  .footer-note {
+    color: var(--dim);
+    font: 500 0.61rem/1.5 var(--font-mono);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .footer-note span {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-note {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .footer-links {
+      justify-content: flex-start;
+    }
+  }
+</style>
