@@ -1,0 +1,236 @@
+---
+interface Props {
+  active?: 'home' | 'pipeline' | 'demo';
+}
+
+const { active = 'home' } = Astro.props;
+---
+
+<header class="site-nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/" aria-label="RoleForge home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M7 23V9h9.1c3 0 4.9 1.7 4.9 4.2 0 2.2-1.3 3.5-3.3 4l5.2 5.8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M12 14h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="24.5" cy="8" r="2.5" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="brand-name"><span>Role</span>Forge</span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Open navigation"
+      aria-expanded="false"
+      aria-controls="site-links"
+      data-nav-toggle
+    >
+      <span></span><span></span>
+    </button>
+
+    <nav class="nav-links" id="site-links" aria-label="Main navigation" data-nav-links>
+      <a href="/" aria-current={active === 'home' ? 'page' : undefined}>Overview</a>
+      <a href="/pipeline" aria-current={active === 'pipeline' ? 'page' : undefined}>Pipeline</a>
+      <a href="/demo" aria-current={active === 'demo' ? 'page' : undefined}>Demo</a>
+      <a href="https://github.com/shaxntanu/roleforge" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      <a class="nav-install" href="/#quickstart">Install <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--line);
+    background: rgba(243, 244, 239, 0.88);
+    backdrop-filter: blur(16px);
+  }
+
+  .nav-inner {
+    display: flex;
+    min-height: 76px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    display: grid;
+    width: 35px;
+    height: 35px;
+    place-items: center;
+    border: 1px solid rgba(217, 78, 27, 0.3);
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .brand-mark svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .brand-name {
+    font: 600 1.16rem/1 var(--font-display);
+    letter-spacing: -0.055em;
+  }
+
+  .brand-name span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.1rem);
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 500;
+  }
+
+  .nav-links a {
+    transition: color 0.18s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a[aria-current='page'] {
+    color: var(--ink);
+  }
+
+  .nav-links a[aria-current='page']::after {
+    display: block;
+    width: 4px;
+    height: 4px;
+    margin: 3px auto 0;
+    border-radius: 50%;
+    background: var(--accent);
+    content: '';
+  }
+
+  .nav-links .nav-install {
+    padding: 0.62rem 0.9rem;
+    border: 1px solid var(--line-hi);
+    border-radius: 6px;
+    color: var(--ink);
+  }
+
+  .nav-links .nav-install:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .nav-links .nav-install::after {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .nav-inner {
+      min-height: 68px;
+    }
+
+    .nav-toggle {
+      display: flex;
+      width: 42px;
+      height: 42px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid var(--line-hi);
+      border-radius: 8px;
+      background: var(--paper-raised);
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      width: 16px;
+      height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-toggle[aria-expanded='true'] span:first-child {
+      transform: translateY(3.25px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded='true'] span:last-child {
+      transform: translateY(-3.25px) rotate(-45deg);
+    }
+
+    .nav-links {
+      position: absolute;
+      top: calc(100% + 1px);
+      right: 0;
+      left: 0;
+      display: none;
+      align-items: stretch;
+      gap: 0;
+      padding: 0.5rem 1rem 1rem;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: 0 18px 26px rgba(24, 27, 31, 0.08);
+    }
+
+    .nav-links.is-open {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-links a {
+      padding: 0.8rem 0.25rem;
+    }
+
+    .nav-links a[aria-current='page']::after {
+      display: inline-block;
+      margin: 0 0 2px 0.5rem;
+    }
+
+    .nav-links .nav-install {
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const links = document.querySelector('[data-nav-links]');
+
+  if (toggle instanceof HTMLButtonElement && links instanceof HTMLElement) {
+    const closeMenu = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+      links.classList.remove('is-open');
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
+      links.classList.toggle('is-open', !isOpen);
+    });
+
+    links.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLAnchorElement) closeMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.matchMedia('(min-width: 761px)').matches) closeMenu();
+    });
+  }
+</script>
