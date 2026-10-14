@@ -1,0 +1,205 @@
+{
+  "jobs": [
+    {
+      "id": "job-embedded",
+      "title": "Embedded Systems Intern",
+      "company": "TechCorp",
+      "location": "Remote",
+      "type": "Full-time",
+      "requirements": {
+        "required": [
+          {
+            "id": "REQ-001",
+            "text": "C/C++ development",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-002",
+            "text": "Embedded systems experience",
+            "category": "domain"
+          },
+          {
+            "id": "REQ-003",
+            "text": "Microcontroller programming",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-004",
+            "text": "Sensor integration",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-005",
+            "text": "Git version control",
+            "category": "tool"
+          },
+          {
+            "id": "REQ-006",
+            "text": "Debugging embedded systems",
+            "category": "skill"
+          }
+        ],
+        "preferred": [
+          {
+            "id": "REQ-007",
+            "text": "ESP32 experience",
+            "category": "tool"
+          },
+          {
+            "id": "REQ-008",
+            "text": "STM32 experience",
+            "category": "tool"
+          },
+          {
+            "id": "REQ-009",
+            "text": "IoT development",
+            "category": "domain"
+          },
+          {
+            "id": "REQ-010",
+            "text": "I2C/UART/SPI protocols",
+            "category": "skill"
+          }
+        ]
+      },
+      "responsibilities": [
+        "Firmware development for embedded systems",
+        "Hardware-software integration",
+        "Debugging and testing embedded applications",
+        "Collaborate with hardware engineering team"
+      ],
+      "targetProjects": ["aerosense", "forgeboard"],
+      "documentType": "resume",
+      "template": "engineering"
+    },
+    {
+      "id": "job-frontend",
+      "title": "Frontend Engineering Intern",
+      "company": "WebScale",
+      "location": "Remote",
+      "type": "Full-time",
+      "requirements": {
+        "required": [
+          {
+            "id": "REQ-011",
+            "text": "React development",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-012",
+            "text": "TypeScript programming",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-013",
+            "text": "JavaScript proficiency",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-014",
+            "text": "Modern web applications",
+            "category": "domain"
+          },
+          {
+            "id": "REQ-015",
+            "text": "Git version control",
+            "category": "tool"
+          }
+        ],
+        "preferred": [
+          {
+            "id": "REQ-016",
+            "text": "Next.js framework",
+            "category": "framework"
+          },
+          {
+            "id": "REQ-017",
+            "text": "Responsive design",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-018",
+            "text": "UI component architecture",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-019",
+            "text": "State management",
+            "category": "skill"
+          }
+        ]
+      },
+      "responsibilities": [
+        "Build reusable UI components",
+        "Develop responsive web interfaces",
+        "Collaborate with design and backend teams",
+        "Implement modern frontend best practices"
+      ],
+      "targetProjects": ["interfacelab", "portfolioos"],
+      "documentType": "resume",
+      "template": "modern"
+    },
+    {
+      "id": "job-research",
+      "title": "Computational Research Intern",
+      "company": "ScienceLab",
+      "location": "Hybrid",
+      "type": "Full-time",
+      "requirements": {
+        "required": [
+          {
+            "id": "REQ-021",
+            "text": "Python programming",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-022",
+            "text": "Scientific computing",
+            "category": "domain"
+          },
+          {
+            "id": "REQ-023",
+            "text": "Data analysis",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-024",
+            "text": "Research experience",
+            "category": "domain"
+          }
+        ],
+        "preferred": [
+          {
+            "id": "REQ-025",
+            "text": "Molecular modeling",
+            "category": "domain"
+          },
+          {
+            "id": "REQ-026",
+            "text": "Computational chemistry",
+            "category": "domain"
+          },
+          {
+            "id": "REQ-027",
+            "text": "Numerical analysis",
+            "category": "skill"
+          },
+          {
+            "id": "REQ-028",
+            "text": "Scientific documentation",
+            "category": "skill"
+          }
+        ]
+      },
+      "responsibilities": [
+        "Analyze scientific data",
+        "Implement computational workflows",
+        "Document research results",
+        "Collaborate with research scientists"
+      ],
+      "targetProjects": ["moleculelab", "pulsecloud"],
+      "documentType": "cv",
+      "template": "research"
+    }
+  ]
+}
