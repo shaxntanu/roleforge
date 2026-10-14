@@ -20,7 +20,7 @@ export interface CandidateProfile {
     institution: string;
     degree: string;
     field: string;
-    start_date: string;
+    start_date?: string;
     end_date?: string;
     confidence: string;
     sources: string[];
@@ -28,7 +28,7 @@ export interface CandidateProfile {
   experience: Array<{
     company?: string;
     role?: string;
-    start_date: string;
+    start_date?: string;
     end_date?: string;
     confidence: string;
     sources: string[];
@@ -136,8 +136,8 @@ export class CandidateBuilder {
       institution: edu.institution,
       degree: edu.degree,
       field: edu.field,
-      start_date: edu.startYear ? `${edu.startYear}-09` : '',
-      end_date: edu.endYear ? `${edu.endYear}-05` : undefined,
+      start_date: edu.startYear ? String(edu.startYear) : undefined,
+      end_date: edu.endYear ? String(edu.endYear) : undefined,
       confidence: 'DIRECT',
       sources: edu.evidence || [],
     }));
@@ -147,8 +147,8 @@ export class CandidateBuilder {
     return experience.map(exp => ({
       company: exp.company,
       role: exp.role,
-      start_date: exp.startYear ? `${exp.startYear}-01` : '',
-      end_date: exp.endYear ? `${exp.endYear}-12` : undefined,
+      start_date: exp.startYear ? String(exp.startYear) : undefined,
+      end_date: exp.endYear ? String(exp.endYear) : undefined,
       confidence: 'DIRECT',
       sources: exp.evidence || [],
     }));
@@ -212,7 +212,7 @@ export class CandidateBuilder {
     
     return research.map(r => ({
       title: r.title,
-      institution: r.institution,
+      institution: undefined,
       confidence: 'DIRECT',
       sources: r.evidence || [],
     }));
@@ -222,10 +222,15 @@ export class CandidateBuilder {
     const evidenceList: any[] = [];
     let index = 0;
 
-    for (const skill of evidence.skills.languages || []) {
+    for (const skill of [
+      ...(evidence.skills.languages || []),
+      ...(evidence.skills.frameworks || []),
+      ...(evidence.skills.tools || []),
+      ...(evidence.skills.domains || []),
+    ]) {
       evidenceList.push({
         id: `evidence-${index++}`,
-        claim: `Proficient in ${skill.name}`,
+        claim: `Portfolio evidence includes ${skill.name}`,
         category: 'skill',
         confidence: skill.confidence,
         source_type: 'REPOSITORY',
@@ -236,7 +241,7 @@ export class CandidateBuilder {
     for (const project of evidence.projects || []) {
       evidenceList.push({
         id: `evidence-${index++}`,
-        claim: `Built ${project.name}`,
+        claim: `Project identified: ${project.name}`,
         category: 'project',
         confidence: project.confidence,
         source_type: 'REPOSITORY',
