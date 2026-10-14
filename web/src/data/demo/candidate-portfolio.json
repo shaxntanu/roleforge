@@ -1,0 +1,246 @@
+{
+  "name": "Alex Morgan",
+  "repository": "developer-portfolio",
+  "projects": [
+    {
+      "id": "aerosense",
+      "name": "AeroSense",
+      "description": "ESP32-based environmental monitoring system with I2C sensor integration",
+      "technologies": ["C++", "ESP32", "Git", "Linux", "I2C", "Sensors", "IoT"],
+      "files": [
+        "README.md",
+        "firmware/main.cpp",
+        "firmware/sensors.cpp",
+        "firmware/wifi.cpp",
+        "platformio.ini"
+      ],
+      "evidence": [
+        {
+          "id": "EVIDENCE-001",
+          "claim": "C++ development",
+          "source": "firmware/main.cpp",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-002",
+          "claim": "ESP32 microcontroller programming",
+          "source": "README.md",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-003",
+          "claim": "I2C sensor communication",
+          "source": "firmware/sensors.cpp",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-004",
+          "claim": "IoT device development",
+          "source": "firmware/wifi.cpp",
+          "confidence": "DIRECT"
+        }
+      ]
+    },
+    {
+      "id": "forgeboard",
+      "name": "ForgeBoard",
+      "description": "STM32 microcontroller board with UART/SPI/I2C peripheral interfaces",
+      "technologies": ["C", "STM32", "UART", "SPI", "I2C", "Git", "Debugging"],
+      "files": [
+        "README.md",
+        "src/main.c",
+        "src/uart.c",
+        "src/spi.c",
+        "src/i2c.c"
+      ],
+      "evidence": [
+        {
+          "id": "EVIDENCE-005",
+          "claim": "C programming",
+          "source": "src/main.c",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-006",
+          "claim": "STM32 microcontroller experience",
+          "source": "README.md",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-007",
+          "claim": "UART/SPI/I2C protocols",
+          "source": "src/uart.c",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-008",
+          "claim": "Embedded debugging",
+          "source": "src/i2c.c",
+          "confidence": "SUPPORTED"
+        }
+      ]
+    },
+    {
+      "id": "pulsecloud",
+      "name": "PulseCloud",
+      "description": "Python FastAPI backend for real-time data processing and PostgreSQL integration",
+      "technologies": ["Python", "FastAPI", "PostgreSQL", "REST APIs", "Docker", "Git"],
+      "files": [
+        "README.md",
+        "app/main.py",
+        "app/database.py",
+        "app/api/routes.py",
+        "docker-compose.yml"
+      ],
+      "evidence": [
+        {
+          "id": "EVIDENCE-009",
+          "claim": "Python programming",
+          "source": "app/main.py",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-010",
+          "claim": "REST API development",
+          "source": "app/api/routes.py",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-011",
+          "claim": "PostgreSQL database",
+          "source": "app/database.py",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-012",
+          "claim": "Docker containerization",
+          "source": "docker-compose.yml",
+          "confidence": "DIRECT"
+        }
+      ]
+    },
+    {
+      "id": "interfacelab",
+      "name": "InterfaceLab",
+      "description": "React TypeScript dashboard with responsive UI components",
+      "technologies": ["React", "TypeScript", "JavaScript", "Next.js", "Tailwind", "Git"],
+      "files": [
+        "README.md",
+        "package.json",
+        "src/components/Dashboard.tsx",
+        "src/components/Chart.tsx",
+        "src/app/page.tsx"
+      ],
+      "evidence": [
+        {
+          "id": "EVIDENCE-013",
+          "claim": "React development",
+          "source": "src/components/Dashboard.tsx",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-014",
+          "claim": "TypeScript programming",
+          "source": "src/components/Chart.tsx",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-015",
+          "claim": "Next.js framework",
+          "source": "src/app/page.tsx",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-016",
+          "claim": "Responsive UI design",
+          "source": "README.md",
+          "confidence": "SUPPORTED"
+        }
+      ]
+    },
+    {
+      "id": "moleculelab",
+      "name": "MoleculeLab",
+      "description": "Python scientific computing tool for molecular analysis and research workflows",
+      "technologies": ["Python", "NumPy", "SciPy", "Pandas", "Scientific Computing", "Research"],
+      "files": [
+        "README.md",
+        "src/analysis.py",
+        "src/molecular.py",
+        "src/workflow.py",
+        "notebooks/experiments.ipynb"
+      ],
+      "evidence": [
+        {
+          "id": "EVIDENCE-017",
+          "claim": "Scientific computing",
+          "source": "src/analysis.py",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-018",
+          "claim": "Molecular modeling",
+          "source": "src/molecular.py",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-019",
+          "claim": "Research workflow implementation",
+          "source": "src/workflow.py",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-020",
+          "claim": "Data analysis with Python",
+          "source": "notebooks/experiments.ipynb",
+          "confidence": "DIRECT"
+        }
+      ]
+    },
+    {
+      "id": "portfolioos",
+      "name": "PortfolioOS",
+      "description": "Next.js TypeScript portfolio site with modern frontend architecture",
+      "technologies": ["Next.js", "TypeScript", "Tailwind", "React", "Git", "Frontend Architecture"],
+      "files": [
+        "README.md",
+        "package.json",
+        "src/app/layout.tsx",
+        "src/app/page.tsx",
+        "src/components/ProjectCard.tsx"
+      ],
+      "evidence": [
+        {
+          "id": "EVIDENCE-021",
+          "claim": "Next.js development",
+          "source": "src/app/layout.tsx",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-022",
+          "claim": "TypeScript programming",
+          "source": "src/components/ProjectCard.tsx",
+          "confidence": "DIRECT"
+        },
+        {
+          "id": "EVIDENCE-023",
+          "claim": "Frontend architecture",
+          "source": "README.md",
+          "confidence": "SUPPORTED"
+        },
+        {
+          "id": "EVIDENCE-024",
+          "claim": "React component design",
+          "source": "src/app/page.tsx",
+          "confidence": "DIRECT"
+        }
+      ]
+    }
+  ],
+  "skills": {
+    "languages": ["C++", "C", "Python", "TypeScript", "JavaScript"],
+    "frameworks": ["React", "Next.js", "FastAPI"],
+    "tools": ["Git", "Docker", "Linux", "ESP32", "STM32", "NumPy", "SciPy", "Pandas"],
+    "domains": ["Embedded Systems", "Web Engineering", "Computational Research"]
+  }
+}
