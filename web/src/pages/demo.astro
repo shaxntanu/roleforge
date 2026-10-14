@@ -1,1160 +1,977 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import candidate from '../data/demo/candidate-portfolio.json';
+import jobData from '../data/demo/jobs.json';
+import outputData from '../data/demo/outputs.json';
 
-const title = 'Demo - See RoleForge in Action';
-const description = 'Interactive demonstration of RoleForge analyzing one portfolio across three different job roles.';
+const firstJob = jobData.jobs[0];
+const firstOutput = outputData.outputs.find((output) => output.jobId === firstJob.id) ?? outputData.outputs[0];
+const stages = [
+  'Repository discovery',
+  'Evidence extraction',
+  'Candidate knowledge base',
+  'Load job description',
+  'Extract requirements',
+  'Match portfolio evidence',
+  'Analyze fit and gaps',
+  'Choose an application strategy',
+  'Generate the document',
+  'Audit claims against evidence',
+  'Package a reviewable snapshot',
+];
 ---
 
-<Layout title={title} description={description}>
-  <div class="min-h-screen">
-    <div class="grid-bg" aria-hidden="true"></div>
+<Layout title="Interactive RoleForge demo" description="Explore one sample portfolio across three target roles and see how RoleForge selects evidence for each application.">
+  <SiteNav active="demo" />
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-primary)]/80 backdrop-blur-sm">
-      <div class="container">
-        <div class="flex items-center justify-between py-4">
-          <div class="font-display text-2xl font-bold">
-            <span class="text-[var(--accent)]">Role</span>Forge
-          </div>
-          <div class="flex gap-6 text-sm font-mono">
-            <a href="/" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Intro</a>
-            <a href="/pipeline" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Pipeline</a>
-            <a href="/demo" class="text-[var(--accent)]">Demo</a>
-            <a href="https://github.com/shaxntanu/roleforge" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <main class="site-main demo-page">
+    <section class="demo-heading container">
+      <p class="eyebrow"><span class="pulse-dot"></span> INTERACTIVE WALKTHROUGH</p>
+      <h1>One portfolio.<br /><em>Three ways to tell the story.</em></h1>
+      <p>Switch the target role, inspect the evidence selected for it, or play the pipeline from repository scan to application snapshot.</p>
+    </section>
 
-    <main class="demo-page">
-      <div class="demo-hero">
-        <h1>See RoleForge in action</h1>
-        <p class="subtitle">One portfolio. Three roles. Three tailored applications.</p>
-        <p class="supporting">Watch the same candidate evidence compile into different job-specific outputs.</p>
+    <section class="container demo-workspace" aria-label="RoleForge sample application">
+      <div class="workspace-bar">
+        <div class="workspace-path"><span class="status-light"></span><span>developer-portfolio / roleforge preview</span></div>
+        <span class="synthetic-label">SYNTHETIC SAMPLE DATA</span>
       </div>
 
-      <div class="demo-container">
-        <div class="demo-controls">
-          <button id="runBtn" class="btn-primary">Run Demo</button>
-          <button id="pauseBtn" class="btn-secondary" disabled>Pause</button>
-          <button id="resetBtn" class="btn-secondary">Reset</button>
-        </div>
-
-        <div id="progressIndicator" class="progress-indicator" style="display: none;">
-          <div class="progress-bar">
-            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+      <div class="workspace-grid">
+        <aside class="portfolio-panel">
+          <div class="panel-label"><span>01</span> CANDIDATE SOURCE</div>
+          <div class="candidate-card">
+            <span class="avatar-mark" aria-hidden="true">{candidate.name.split(' ').map((part) => part[0]).join('')}</span>
+            <div><h2>{candidate.name}</h2><p>{candidate.repository}/</p></div>
           </div>
-          <div id="progressText" class="progress-text">
-            0 / 11 - Ready
+          <div class="portfolio-tree" aria-label="Sample portfolio structure">
+            <div><span>▾</span> projects/</div>
+            {candidate.projects.slice(0, 4).map((project, index) => (
+              <div class="tree-child"><span>{index === 3 ? '└' : '├'}</span> {project.id}/</div>
+            ))}
+            <div><span>├</span> README.md</div>
+            <div><span>└</span> package.json</div>
           </div>
-        </div>
+          <div class="portfolio-projects">
+            <p class="micro-label">PROJECTS FOUND</p>
+            {candidate.projects.slice(0, 3).map((project, index) => (
+              <article class="portfolio-project">
+                <span class={`project-dot dot-${index + 1}`}></span>
+                <div><strong>{project.name}</strong><small>{project.description}</small></div>
+              </article>
+            ))}
+            <p class="more-projects">+ {candidate.projects.length - 3} more projects in sample</p>
+          </div>
+        </aside>
 
-        <div id="stageContent" class="stage-content">
-          <h2>Stage: Ready</h2>
-          <p>Click "Run Demo" to start the interactive demonstration.</p>
-        </div>
+        <section class="application-panel" data-demo-data={JSON.stringify({ jobs: jobData.jobs, outputs: outputData.outputs })}>
+          <div class="panel-label"><span>02</span> JOB-SPECIFIC APPLICATION</div>
+          <div class="job-tabs" role="tablist" aria-label="Choose a sample job">
+            {jobData.jobs.map((job, index) => (
+              <button
+                type="button"
+                role="tab"
+                id={`job-tab-${job.id}`}
+                aria-controls="job-detail"
+                aria-selected={index === 0 ? 'true' : 'false'}
+                tabindex={index === 0 ? '0' : '-1'}
+                data-job-tab={job.id}
+              >
+                <span class="tab-index">0{index + 1}</span>{job.title.replace(' Intern', '')}
+              </button>
+            ))}
+          </div>
+
+          <div class="job-detail" id="job-detail" role="tabpanel" aria-labelledby={`job-tab-${firstJob.id}`}>
+            <div class="job-overview">
+              <div><p class="micro-label">TARGET POSITION</p><h2 data-job-title>{firstJob.title}</h2><p class="job-company" data-job-company>{firstJob.company} <span>·</span> {firstJob.location}</p></div>
+              <span class="job-type" data-job-type>{firstJob.type}</span>
+            </div>
+
+            <div class="requirement-heading"><span>REQUIREMENTS FROM THE POSTING</span><span data-requirement-count>{firstJob.requirements.required.length} required</span></div>
+            <div class="requirement-list" data-requirement-list>
+              {firstJob.requirements.required.slice(0, 4).map((requirement, index) => (
+                <div class="requirement-row"><span class="req-index">0{index + 1}</span><span>{requirement.text}</span><i class={index < 2 ? 'req-match' : 'req-review'}>{index < 2 ? 'EVIDENCE' : 'REVIEW'}</i></div>
+              ))}
+            </div>
+
+            <div class="application-output">
+              <div class="output-topline"><span>COMPILED FOR THIS ROLE</span><span class="output-doc-type" data-output-type>{firstOutput.documentType.toUpperCase()} / {firstOutput.template.toUpperCase()}</span></div>
+              <div class="output-columns">
+                <div><p class="micro-label">SELECTED PROJECTS</p><div class="output-chips" data-selected-projects>{firstOutput.selectedProjects.map((project) => <span>{project}</span>)}</div></div>
+                <div><p class="micro-label">EMPHASIZED SKILLS</p><div class="output-chips" data-selected-skills>{firstOutput.selectedSkills.slice(0, 5).map((skill) => <span>{skill}</span>)}</div></div>
+              </div>
+              <div class="audit-summary"><span class="audit-check">✓</span><strong>Sample audit</strong><span data-audit-copy>{firstOutput.audit.approvedClaims} of {firstOutput.audit.totalClaims} claims supported</span><span class="audit-rate" data-audit-rate>{Math.round(firstOutput.audit.approvalRate * 100)}%</span></div>
+              <details class="latex-details"><summary>Peek at the LaTeX output <span aria-hidden="true">＋</span></summary><pre><code data-latex-preview>{firstOutput.latex}</code></pre></details>
+            </div>
+          </div>
+        </section>
       </div>
-    </main>
-  </div>
-</template>
 
-<script>
-  let stage = 0;
-  let isRunning = false;
-  let isPaused = false;
-  let currentStageName = '';
-
-  const stages = [
-    'Repository Discovery',
-    'Evidence Extraction',
-    'Candidate Knowledge Base',
-    'Load Three Jobs',
-    'Requirement Extraction',
-    'Evidence Matching',
-    'Fit/Gap Analysis',
-    'Application Strategy',
-    'Document Generation',
-    'Truth Audit',
-    'Final Output'
-  ];
-
-  const runBtn = document.getElementById('runBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const progressIndicator = document.getElementById('progressIndicator');
-  const progressFill = document.getElementById('progressFill');
-  const progressText = document.getElementById('progressText');
-  const stageContent = document.getElementById('stageContent');
-
-  function runDemo() {
-    if (isRunning && !isPaused) return;
-    if (isPaused) {
-      isPaused = false;
-      processStage();
-      return;
-    }
-    isRunning = true;
-    stage = 0;
-    processStage();
-  }
-
-  function pauseDemo() {
-    isPaused = true;
-  }
-
-  function resetDemo() {
-    isRunning = false;
-    isPaused = false;
-    stage = 0;
-    currentStageName = '';
-    updateUI();
-  }
-
-  function processStage() {
-    if (!isRunning || isPaused) return;
-    if (stage >= stages.length) {
-      isRunning = false;
-      return;
-    }
-    currentStageName = stages[stage];
-    stage = stage + 1;
-    updateUI();
-    if (stage < stages.length) {
-      setTimeout(processStage, 2000);
-    } else {
-      isRunning = false;
-      updateUI();
-    }
-  }
-
-  function updateUI() {
-    runBtn.textContent = isRunning ? (isPaused ? 'Resume' : 'Running...') : 'Run Demo';
-    runBtn.disabled = isRunning && !isPaused;
-    pauseBtn.disabled = !isRunning || isPaused;
-    
-    if (isRunning || stage > 0) {
-      progressIndicator.style.display = 'block';
-      const displayStage = Math.min(stage, stages.length);
-      progressFill.style.width = (displayStage / stages.length) * 100 + '%';
-      progressText.textContent = `${displayStage} / ${stages.length} - ${currentStageName}`;
-    } else {
-      progressIndicator.style.display = 'none';
-    }
-
-    if (stage === 0 && !isRunning) {
-      stageContent.innerHTML = `
-        <div class="portfolio-view">
-          <div class="portfolio-header">
-            <h2>developer-portfolio/</h2>
-            <p class="note">Example candidate - synthetic data</p>
-          </div>
-          <div class="file-tree">
-            <div class="file-item">├── projects/</div>
-            <div class="file-item indent-1">├── aerosense/</div>
-            <div class="file-item indent-1">├── forgeboard/</div>
-            <div class="file-item indent-1">├── pulsecloud/</div>
-            <div class="file-item indent-1">├── interfacelab/</div>
-            <div class="file-item indent-1">├── moleculelab/</div>
-            <div class="file-item indent-1">└── portfolioos/</div>
-            <div class="file-item">├── README.md</div>
-            <div class="file-item">├── package.json</div>
-            <div class="file-item">└── docs/</div>
-          </div>
-          <div class="projects-grid">
-            <div class="project-card">
-              <h3>AeroSense</h3>
-              <p>ESP32-based environmental monitoring system with I2C sensor integration</p>
-              <div class="technologies">
-                <span class="tech-tag">C++</span>
-                <span class="tech-tag">ESP32</span>
-                <span class="tech-tag">Git</span>
-                <span class="tech-tag">Linux</span>
-              </div>
-            </div>
-            <div class="project-card">
-              <h3>ForgeBoard</h3>
-              <p>STM32 microcontroller board with UART/SPI/I2C peripheral interfaces</p>
-              <div class="technologies">
-                <span class="tech-tag">C</span>
-                <span class="tech-tag">STM32</span>
-                <span class="tech-tag">UART</span>
-                <span class="tech-tag">SPI</span>
-              </div>
-            </div>
-            <div class="project-card">
-              <h3>PulseCloud</h3>
-              <p>Python FastAPI backend for real-time data processing and PostgreSQL integration</p>
-              <div class="technologies">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">FastAPI</span>
-                <span class="tech-tag">PostgreSQL</span>
-                <span class="tech-tag">Docker</span>
-              </div>
-            </div>
-            <div class="project-card">
-              <h3>InterfaceLab</h3>
-              <p>React TypeScript dashboard with responsive UI components</p>
-              <div class="technologies">
-                <span class="tech-tag">React</span>
-                <span class="tech-tag">TypeScript</span>
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">Tailwind</span>
-              </div>
-            </div>
-            <div class="project-card">
-              <h3>MoleculeLab</h3>
-              <p>Python scientific computing tool for molecular analysis and research workflows</p>
-              <div class="technologies">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">NumPy</span>
-                <span class="tech-tag">SciPy</span>
-                <span class="tech-tag">Pandas</span>
-              </div>
-            </div>
-            <div class="project-card">
-              <h3>PortfolioOS</h3>
-              <p>Next.js TypeScript portfolio site with modern frontend architecture</p>
-              <div class="technologies">
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">TypeScript</span>
-                <span class="tech-tag">Tailwind</span>
-                <span class="tech-tag">React</span>
-              </div>
-            </div>
+      <section class="pipeline-player" aria-label="Pipeline playback">
+        <div class="player-header">
+          <div><p class="micro-label">03 / THE PIPELINE</p><h2 data-stage-title aria-live="polite">Ready when you are.</h2><p data-stage-description>Play the walkthrough to follow this sample application through each stage.</p></div>
+          <div class="player-controls">
+            <button class="btn btn-primary" type="button" data-run>Run demo <span aria-hidden="true">▶</span></button>
+            <button class="btn btn-ghost" type="button" data-pause disabled>Pause</button>
+            <button class="reset-button" type="button" data-reset>Reset</button>
           </div>
         </div>
-      `;
-    } else if (stage === 2) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Extracting evidence...</h2>
-          <div class="evidence-grid">
-            <div class="evidence-card">
-              <div class="evidence-id">EVIDENCE-001</div>
-              <div class="evidence-claim">C++ development</div>
-              <div class="evidence-confidence">DIRECT</div>
-              <div class="evidence-source">firmware/main.cpp</div>
-            </div>
-            <div class="evidence-card">
-              <div class="evidence-id">EVIDENCE-002</div>
-              <div class="evidence-claim">ESP32 microcontroller programming</div>
-              <div class="evidence-confidence">DIRECT</div>
-              <div class="evidence-source">README.md</div>
-            </div>
-            <div class="evidence-card">
-              <div class="evidence-id">EVIDENCE-009</div>
-              <div class="evidence-claim">Python programming</div>
-              <div class="evidence-confidence">DIRECT</div>
-              <div class="evidence-source">app/main.py</div>
-            </div>
-            <div class="evidence-card">
-              <div class="evidence-id">EVIDENCE-013</div>
-              <div class="evidence-claim">React development</div>
-              <div class="evidence-confidence">DIRECT</div>
-              <div class="evidence-source">src/components/Dashboard.tsx</div>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 3) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Candidate Knowledge Base</h2>
-          <div class="kb-structure">
-            <div class="kb-section">
-              <h3>Skills</h3>
-              <ul>
-                <li>C++</li>
-                <li>C</li>
-                <li>Python</li>
-                <li>TypeScript</li>
-                <li>JavaScript</li>
-                <li>React</li>
-                <li>Next.js</li>
-                <li>FastAPI</li>
-              </ul>
-            </div>
-            <div class="kb-section">
-              <h3>Domains</h3>
-              <ul>
-                <li>Embedded Systems</li>
-                <li>Web Engineering</li>
-                <li>Computational Research</li>
-              </ul>
-            </div>
-            <div class="kb-section">
-              <h3>Projects</h3>
-              <ul>
-                <li>AeroSense</li>
-                <li>ForgeBoard</li>
-                <li>PulseCloud</li>
-                <li>InterfaceLab</li>
-                <li>MoleculeLab</li>
-                <li>PortfolioOS</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 4) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Loading job descriptions...</h2>
-          <div class="jobs-loading">
-            <div class="job-card-loading">
-              <h3>Embedded Systems Intern</h3>
-              <p>TechCorp</p>
-              <p class="note">Example job description</p>
-            </div>
-            <div class="job-card-loading">
-              <h3>Frontend Engineering Intern</h3>
-              <p>WebScale</p>
-              <p class="note">Example job description</p>
-            </div>
-            <div class="job-card-loading">
-              <h3>Computational Research Intern</h3>
-              <p>ScienceLab</p>
-              <p class="note">Example job description</p>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 6) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Matching evidence to requirements...</h2>
-          <div class="matching-grid">
-            <div class="job-matching">
-              <h3>Embedded Systems Intern</h3>
-              <div class="match-item">
-                <div class="match-req">C/C++ development</div>
-                <div class="match-arrow">→</div>
-                <div class="match-evidence">C++ development</div>
-                <div class="match-status DIRECT">DIRECT</div>
-              </div>
-              <div class="match-item">
-                <div class="match-req">Embedded systems experience</div>
-                <div class="match-arrow">→</div>
-                <div class="match-evidence">ESP32 microcontroller programming</div>
-                <div class="match-status DIRECT">DIRECT</div>
-              </div>
-            </div>
-            <div class="job-matching">
-              <h3>Frontend Engineering Intern</h3>
-              <div class="match-item">
-                <div class="match-req">React development</div>
-                <div class="match-arrow">→</div>
-                <div class="match-evidence">React development</div>
-                <div class="match-status DIRECT">DIRECT</div>
-              </div>
-              <div class="match-item">
-                <div class="match-req">TypeScript programming</div>
-                <div class="match-arrow">→</div>
-                <div class="match-evidence">TypeScript programming</div>
-                <div class="match-status DIRECT">DIRECT</div>
-              </div>
-            </div>
-            <div class="job-matching">
-              <h3>Computational Research Intern</h3>
-              <div class="match-item">
-                <div class="match-req">Python programming</div>
-                <div class="match-arrow">→</div>
-                <div class="match-evidence">Python programming</div>
-                <div class="match-status DIRECT">DIRECT</div>
-              </div>
-              <div class="match-item">
-                <div class="match-req">Scientific computing</div>
-                <div class="match-arrow">→</div>
-                <div class="match-evidence">Scientific computing</div>
-                <div class="match-status DIRECT">DIRECT</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 7) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Fit and gap analysis...</h2>
-          <div class="fit-grid">
-            <div class="fit-card">
-              <h3>Embedded Systems Intern</h3>
-              <div class="fit-section">
-                <h4>Strong matches</h4>
-                <ul>
-                  <li>C/C++ development</li>
-                  <li>Embedded systems experience</li>
-                  <li>Microcontroller programming</li>
-                </ul>
-              </div>
-              <div class="fit-section">
-                <h4>Selected projects</h4>
-                <ul>
-                  <li>AeroSense</li>
-                  <li>ForgeBoard</li>
-                </ul>
-              </div>
-            </div>
-            <div class="fit-card">
-              <h3>Frontend Engineering Intern</h3>
-              <div class="fit-section">
-                <h4>Strong matches</h4>
-                <ul>
-                  <li>React development</li>
-                  <li>TypeScript programming</li>
-                  <li>JavaScript proficiency</li>
-                </ul>
-              </div>
-              <div class="fit-section">
-                <h4>Selected projects</h4>
-                <ul>
-                  <li>InterfaceLab</li>
-                  <li>PortfolioOS</li>
-                </ul>
-              </div>
-            </div>
-            <div class="fit-card">
-              <h3>Computational Research Intern</h3>
-              <div class="fit-section">
-                <h4>Strong matches</h4>
-                <ul>
-                  <li>Python programming</li>
-                  <li>Scientific computing</li>
-                  <li>Data analysis</li>
-                </ul>
-              </div>
-              <div class="fit-section">
-                <h4>Selected projects</h4>
-                <ul>
-                  <li>MoleculeLab</li>
-                  <li>PulseCloud</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 8) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Application strategy...</h2>
-          <div class="strategy-grid">
-            <div class="strategy-card">
-              <h3>Embedded Systems Intern</h3>
-              <div class="strategy-section">
-                <h4>Document Type</h4>
-                <p>RESUME</p>
-              </div>
-              <div class="strategy-section">
-                <h4>Template</h4>
-                <p>engineering</p>
-              </div>
-              <div class="strategy-section">
-                <h4>Selected</h4>
-                <ul>
-                  <li>AeroSense</li>
-                  <li>ForgeBoard</li>
-                </ul>
-              </div>
-            </div>
-            <div class="strategy-card">
-              <h3>Frontend Engineering Intern</h3>
-              <div class="strategy-section">
-                <h4>Document Type</h4>
-                <p>RESUME</p>
-              </div>
-              <div class="strategy-section">
-                <h4>Template</h4>
-                <p>modern</p>
-              </div>
-              <div class="strategy-section">
-                <h4>Selected</h4>
-                <ul>
-                  <li>InterfaceLab</li>
-                  <li>PortfolioOS</li>
-                </ul>
-              </div>
-            </div>
-            <div class="strategy-card">
-              <h3>Computational Research Intern</h3>
-              <div class="strategy-section">
-                <h4>Document Type</h4>
-                <p>CV</p>
-              </div>
-              <div class="strategy-section">
-                <h4>Template</h4>
-                <p>research</p>
-              </div>
-              <div class="strategy-section">
-                <h4>Selected</h4>
-                <ul>
-                  <li>MoleculeLab</li>
-                  <li>PulseCloud</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 9) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Generating documents...</h2>
-          <div class="documents-grid">
-            <div class="document-card">
-              <h3>Embedded Systems Intern</h3>
-              <p>RESUME</p>
-              <div class="document-files">
-                <div class="file-item">resume.tex</div>
-                <div class="file-item">resume.pdf</div>
-              </div>
-            </div>
-            <div class="document-card">
-              <h3>Frontend Engineering Intern</h3>
-              <p>RESUME</p>
-              <div class="document-files">
-                <div class="file-item">resume.tex</div>
-                <div class="file-item">resume.pdf</div>
-              </div>
-            </div>
-            <div class="document-card">
-              <h3>Computational Research Intern</h3>
-              <p>CV</p>
-              <div class="document-files">
-                <div class="file-item">cv.tex</div>
-                <div class="file-item">cv.pdf</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 10) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Running truth audit...</h2>
-          <div class="audit-results">
-            <div class="audit-summary">
-              <div class="audit-stat">24 claims verified</div>
-              <div class="audit-stat">0 unsupported candidate claims</div>
-              <div class="audit-stat">0 fabricated metrics</div>
-              <div class="audit-stat">0 fabricated technologies</div>
-            </div>
-            <div class="audit-example">
-              <h4>Example claim verification</h4>
-              <div class="audit-claim">"Built an ESP32-based environmental monitoring system..."</div>
-              <div class="audit-evidence">
-                <strong>Evidence:</strong> AeroSense → README.md → firmware/ → ESP32 dependency
-              </div>
-              <div class="audit-status">SUPPORTED</div>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (stage === 11) {
-      stageContent.innerHTML = `
-        <div class="stage-content">
-          <h2>Final output</h2>
-          <div class="final-output">
-            <div class="output-summary">
-              <h3>3 tailored applications generated</h3>
-              <p>All claims verified against source code evidence</p>
-            </div>
-            <div class="output-files">
-              <div class="output-job">
-                <h4>Embedded Systems Intern</h4>
-                <div class="output-item">resume.tex</div>
-                <div class="output-item">resume.pdf</div>
-                <div class="output-item">audit.json</div>
-              </div>
-              <div class="output-job">
-                <h4>Frontend Engineering Intern</h4>
-                <div class="output-item">resume.tex</div>
-                <div class="output-item">resume.pdf</div>
-                <div class="output-item">audit.json</div>
-              </div>
-              <div class="output-job">
-                <h4>Computational Research Intern</h4>
-                <div class="output-item">cv.tex</div>
-                <div class="output-item">cv.pdf</div>
-                <div class="output-item">audit.json</div>
-              </div>
-            </div>
-            <div class="completion-message">
-              <p>Demo complete. All documents are truth-audited and ready for submission.</p>
-            </div>
-          </div>
-        </div>
-      `;
-    } else {
-      stageContent.innerHTML = `
-        <h2>Stage: ${currentStageName || 'Ready'}</h2>
-        <p>Current stage: ${stage}</p>
-      `;
-    }
-  }
+        <div class="progress-track" role="progressbar" aria-label="Demo progress" aria-valuemin="0" aria-valuemax={stages.length} aria-valuenow="0"><span data-progress-fill></span></div>
+        <div class="progress-meta"><span data-progress-count>0 / {stages.length} STAGES</span><span data-progress-status>READY</span></div>
+        <ol class="stage-list">
+          {stages.map((stage, index) => (
+            <li data-stage={index} class={index === 0 ? 'stage-step is-current' : 'stage-step'}><span class="stage-number">{String(index + 1).padStart(2, '0')}</span><span class="stage-name">{stage}</span><span class="stage-state" aria-hidden="true">{index === 0 ? '●' : '○'}</span></li>
+          ))}
+        </ol>
+      </section>
 
-  runBtn.addEventListener('click', runDemo);
-  pauseBtn.addEventListener('click', pauseDemo);
-  resetBtn.addEventListener('click', resetDemo);
-</script>
+      <p class="demo-disclaimer">This demo uses fictional candidate, project, and job data. Its sample audit is illustrative; review your own evidence and generated documents before using them.</p>
+    </section>
+  </main>
+
+  <SiteFooter />
+</Layout>
 
 <style>
-  .demo-container {
-    max-width: 1400px;
-    margin: 0 auto;
+  .demo-page {
+    padding-bottom: var(--section-space);
   }
 
-  .demo-controls {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    justify-content: center;
+  .demo-heading {
+    padding-top: clamp(3.6rem, 7vw, 6.5rem);
+    padding-bottom: 2rem;
   }
 
-  .btn-primary, .btn-secondary {
-    padding: 0.75rem 1.5rem;
-    border: 1px solid #333;
-    background: #111;
-    color: #fff;
-    cursor: pointer;
-    font-size: 0.875rem;
-    transition: all 0.2s;
+  .demo-heading h1 {
+    max-width: 900px;
+    margin: 0;
+    font: 500 clamp(2.8rem, 6vw, 5.35rem)/1 var(--font-display);
+    letter-spacing: -0.075em;
+    text-wrap: balance;
   }
 
-  .btn-primary:hover:not(:disabled) {
-    background: #22d3ee;
-    color: #000;
-    border-color: #22d3ee;
+  .demo-heading h1 em {
+    color: var(--accent);
+    font: italic 400 0.95em/1 var(--font-serif);
+    letter-spacing: -0.045em;
   }
 
-  .btn-secondary:hover:not(:disabled) {
-    background: #333;
+  .demo-heading > p:last-child {
+    max-width: 630px;
+    margin: 1.3rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
   }
 
-  .btn-primary:disabled, .btn-secondary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .progress-indicator {
-    margin-bottom: 2rem;
-  }
-
-  .progress-bar {
-    height: 4px;
-    background: #222;
-    border-radius: 2px;
+  .demo-workspace {
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    border: 1px solid var(--line-hi);
+    border-radius: 15px;
+    background: var(--paper-raised);
+    box-shadow: 0 24px 60px rgba(24, 27, 31, 0.1);
   }
 
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #22d3ee, #818cf8);
-    transition: width 0.5s ease;
-  }
-
-  .progress-text {
-    font-size: 0.875rem;
-    color: #888;
-  }
-
-  .stage-content {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .stage-content h2 {
-    font-size: 1.5rem;
-    color: #fff;
-    margin-bottom: 1.5rem;
-  }
-
-  .stage-content p {
-    font-size: 0.875rem;
-    color: #888;
-  }
-
-  .portfolio-view {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 2rem;
-  }
-
-  .portfolio-header h2 {
-    font-size: 1.25rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
-
-  .note {
-    font-size: 0.75rem;
-    color: #666;
-    font-style: italic;
-  }
-
-  .file-tree {
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    color: #888;
-    margin: 1.5rem 0;
-  }
-
-  .file-item {
-    padding: 0.25rem 0;
-  }
-
-  .indent-1 {
-    padding-left: 2rem;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  .workspace-bar {
+    display: flex;
+    min-height: 49px;
+    align-items: center;
+    justify-content: space-between;
     gap: 1rem;
-    margin-top: 1.5rem;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--line);
+    background: rgba(233, 235, 229, 0.48);
   }
 
-  .project-card {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
+  .workspace-path,
+  .workspace-path > span:first-child {
+    display: flex;
+    align-items: center;
+  }
+
+  .workspace-path {
+    gap: 0.55rem;
+    color: var(--muted);
+    font: 400 0.59rem var(--font-mono);
+  }
+
+  .status-light {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .synthetic-label {
+    color: var(--dim);
+    font: 500 0.51rem var(--font-mono);
+    letter-spacing: 0.09em;
+  }
+
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.5fr);
+    min-height: 600px;
+  }
+
+  .portfolio-panel,
+  .application-panel {
+    min-width: 0;
+    padding: clamp(1.1rem, 2.7vw, 2rem);
+  }
+
+  .portfolio-panel {
+    border-right: 1px solid var(--line);
+    background: rgba(233, 235, 229, 0.35);
+  }
+
+  .panel-label,
+  .micro-label {
+    margin: 0;
+    color: var(--dim);
+    font: 500 0.55rem/1.5 var(--font-mono);
+    letter-spacing: 0.12em;
+  }
+
+  .panel-label span {
+    margin-right: 0.35rem;
+    color: var(--accent);
+  }
+
+  .candidate-card {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1.45rem;
+  }
+
+  .avatar-mark {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper-raised);
+    font: 500 0.64rem var(--font-display);
+  }
+
+  .candidate-card h2 {
+    margin: 0;
+    font: 500 0.79rem var(--font-display);
+  }
+
+  .candidate-card p {
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+    font: 400 0.55rem var(--font-mono);
+  }
+
+  .portfolio-tree {
+    display: grid;
+    gap: 0.38rem;
+    margin: 1.45rem 0 1.5rem;
+    padding: 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font: 400 0.59rem var(--font-mono);
+  }
+
+  .portfolio-tree span {
+    color: var(--accent);
+  }
+
+  .tree-child {
+    padding-left: 1rem;
+    color: var(--muted);
+  }
+
+  .portfolio-projects > .micro-label {
+    margin-bottom: 0.55rem;
+  }
+
+  .portfolio-project {
+    display: grid;
+    grid-template-columns: 7px 1fr;
+    gap: 0.55rem;
+    align-items: start;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project-dot {
+    width: 6px;
+    height: 6px;
+    margin-top: 0.35rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .dot-2 { background: #137960; }
+  .dot-3 { background: #6c56a4; }
+
+  .portfolio-project strong,
+  .portfolio-project small {
+    display: block;
+  }
+
+  .portfolio-project strong {
+    font: 500 0.65rem var(--font-display);
+  }
+
+  .portfolio-project small {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: 0.2rem;
+    color: var(--muted);
+    font-size: 0.55rem;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .more-projects {
+    margin: 0.6rem 0 0;
+    color: var(--dim);
+    font: 400 0.51rem var(--font-mono);
+  }
+
+  .application-panel {
+    padding-bottom: 0;
+  }
+
+  .job-tabs {
+    display: flex;
+    gap: 0.3rem;
+    overflow-x: auto;
+    margin: 1rem -0.25rem 1.25rem;
+    padding: 0.25rem;
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+
+  .job-tabs button {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.55rem 0.75rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: 500 0.62rem var(--font-display);
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .job-tabs button:hover,
+  .job-tabs button[aria-selected='true'] {
+    border-bottom-color: var(--accent);
+    color: var(--ink);
+  }
+
+  .tab-index {
+    color: var(--accent);
+    font: 500 0.51rem var(--font-mono);
+  }
+
+  .job-overview {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .job-overview h2 {
+    margin: 0.35rem 0 0;
+    font: 500 clamp(1rem, 2vw, 1.4rem)/1.25 var(--font-display);
+    letter-spacing: -0.04em;
+  }
+
+  .job-company {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.64rem;
+  }
+
+  .job-company span {
+    padding-inline: 0.2rem;
+    color: var(--accent);
+  }
+
+  .job-type {
+    flex-shrink: 0;
+    padding: 0.3rem 0.45rem;
+    border: 1px solid var(--line);
     border-radius: 4px;
+    color: var(--muted);
+    font: 400 0.51rem var(--font-mono);
   }
 
-  .project-card h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
+  .requirement-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.4rem 0 0.35rem;
+    color: var(--dim);
+    font: 500 0.5rem var(--font-mono);
+    letter-spacing: 0.08em;
   }
 
-  .project-card p {
-    font-size: 0.875rem;
-    color: #888;
-    margin-bottom: 0.75rem;
+  .requirement-row {
+    display: grid;
+    grid-template-columns: 27px 1fr auto;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 37px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.62rem;
   }
 
-  .technologies {
+  .req-index {
+    color: var(--dim);
+    font: 400 0.52rem var(--font-mono);
+  }
+
+  .req-match,
+  .req-review {
+    color: var(--green);
+    font: 500 0.46rem var(--font-mono);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  .req-review {
+    color: var(--amber);
+  }
+
+  .application-output {
+    margin: 1.35rem -1rem 0;
+    padding: 1.1rem 1rem 0.9rem;
+    border-top: 1px solid var(--line);
+    background: rgba(233, 235, 229, 0.38);
+  }
+
+  .output-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--dim);
+    font: 500 0.5rem var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+
+  .output-doc-type {
+    color: var(--accent);
+  }
+
+  .output-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+
+  .output-columns .micro-label {
+    margin-bottom: 0.4rem;
+    font-size: 0.48rem;
+  }
+
+  .output-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.3rem;
   }
 
-  .tech-tag {
-    font-size: 0.75rem;
-    color: #22d3ee;
-    background: rgba(34, 211, 238, 0.1);
-    padding: 0.25rem 0.5rem;
-    border-radius: 2px;
-  }
-
-  .evidence-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-
-  .evidence-card {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
+  .output-chips span {
+    padding: 0.28rem 0.4rem;
+    border: 1px solid var(--line);
     border-radius: 4px;
-  }
-
-  .evidence-id {
-    font-size: 0.75rem;
-    color: #666;
-    margin-bottom: 0.25rem;
-  }
-
-  .evidence-claim {
-    color: #fff;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .evidence-confidence {
-    font-size: 0.75rem;
-    color: #22d3ee;
-    margin-bottom: 0.25rem;
-  }
-
-  .evidence-source {
-    font-size: 0.75rem;
-    color: #888;
-  }
-
-  .kb-structure {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-
-  .kb-section h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.75rem;
-  }
-
-  .kb-section ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .kb-section li {
-    color: #888;
-    padding: 0.25rem 0;
-    font-size: 0.875rem;
-  }
-
-  .jobs-loading {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .job-card-loading {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-    text-align: center;
-  }
-
-  .job-card-loading h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.25rem;
-  }
-
-  .job-card-loading p {
-    font-size: 0.875rem;
-    color: #888;
-  }
-
-  .matching-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .job-matching {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-  }
-
-  .job-matching h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 1rem;
-  }
-
-  .match-item {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr auto;
-    gap: 0.5rem;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #222;
-  }
-
-  .match-req {
-    font-size: 0.875rem;
-    color: #fff;
-  }
-
-  .match-arrow {
-    color: #666;
-  }
-
-  .match-evidence {
-    font-size: 0.75rem;
-    color: #888;
-  }
-
-  .match-status {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 2px;
-    text-align: center;
-  }
-
-  .match-status.DIRECT {
-    background: rgba(34, 211, 238, 0.2);
-    color: #22d3ee;
-  }
-
-  .fit-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .fit-card {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-  }
-
-  .fit-card h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 1rem;
-  }
-
-  .fit-section h4 {
-    font-size: 0.875rem;
-    color: #888;
-    margin: 0.75rem 0 0.5rem;
-  }
-
-  .fit-section ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .fit-section li {
-    color: #888;
-    padding: 0.25rem 0;
-    font-size: 0.875rem;
-  }
-
-  .strategy-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .strategy-card {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-  }
-
-  .strategy-card h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 1rem;
-  }
-
-  .strategy-section h4 {
-    font-size: 0.875rem;
-    color: #888;
-    margin: 0.75rem 0 0.5rem;
-  }
-
-  .strategy-section p {
-    color: #fff;
-    font-size: 0.875rem;
-  }
-
-  .strategy-section ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .strategy-section li {
-    color: #888;
-    padding: 0.25rem 0;
-    font-size: 0.875rem;
-  }
-
-  .documents-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .document-card {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-    text-align: center;
-  }
-
-  .document-card h3 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
-
-  .document-card p {
-    font-size: 0.875rem;
-    color: #888;
-    margin-bottom: 1rem;
-  }
-
-  .document-files {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .audit-results {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font: 400 0.49rem var(--font-mono);
   }
 
   .audit-summary {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    padding: 0.65rem 0.7rem;
+    border: 1px solid rgba(20, 121, 93, 0.18);
+    border-radius: 6px;
+    background: rgba(20, 121, 93, 0.045);
+    color: var(--muted);
+    font-size: 0.58rem;
   }
 
-  .audit-stat {
-    color: #22d3ee;
-    font-size: 1rem;
-  }
-
-  .audit-example {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-  }
-
-  .audit-example h4 {
-    font-size: 0.875rem;
-    color: #888;
-    margin-bottom: 0.75rem;
-  }
-
-  .audit-claim {
-    color: #fff;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-    font-style: italic;
-  }
-
-  .audit-evidence {
-    color: #888;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .audit-status {
-    color: #22d3ee;
-    font-size: 0.875rem;
-  }
-
-  .final-output {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .output-summary {
-    text-align: center;
-  }
-
-  .output-summary h3 {
-    font-size: 1.25rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
-
-  .output-summary p {
-    color: #888;
-    font-size: 0.875rem;
-  }
-
-  .output-files {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .output-job {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    padding: 1rem;
-    border-radius: 4px;
-    text-align: center;
-  }
-
-  .output-job h4 {
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.75rem;
-  }
-
-  .output-item {
-    color: #888;
-    font-size: 0.875rem;
-    padding: 0.25rem 0;
-  }
-
-  .completion-message {
-    text-align: center;
-    padding: 1rem;
-    background: rgba(34, 211, 238, 0.1);
-    border: 1px solid #22d3ee;
-    border-radius: 4px;
-  }
-
-  .completion-message p {
-    color: #22d3ee;
-    font-size: 0.875rem;
-  }
-</style>
-
-
-<style>
-  .demo-page {
-    min-height: 100vh;
-    padding: 4rem 2rem;
-    background: #000;
-  }
-
-  .demo-hero {
-    max-width: 800px;
-    margin: 0 auto 4rem;
-    text-align: center;
-  }
-
-  .demo-hero h1 {
-    font-size: 3.5rem;
+  .audit-check {
+    color: var(--green);
     font-weight: 700;
-    color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
   }
 
-  .subtitle {
-    font-size: 1.5rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-    font-weight: 400;
+  .audit-summary strong {
+    color: var(--ink-soft);
+    font-weight: 600;
   }
 
-  .supporting {
-    font-size: 1rem;
-    color: #888;
-    font-style: italic;
+  .audit-rate {
+    margin-left: auto;
+    color: var(--green);
+    font: 500 0.6rem var(--font-mono);
   }
 
-  @media (max-width: 768px) {
-    .demo-hero h1 {
-      font-size: 2.5rem;
+  .latex-details {
+    margin-top: 0.7rem;
+  }
+
+  .latex-details summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.55rem 0;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.61rem;
+    list-style: none;
+  }
+
+  .latex-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .latex-details summary span {
+    color: var(--accent);
+  }
+
+  .latex-details pre {
+    max-height: 190px;
+    overflow: auto;
+    margin: 0 0 0.3rem;
+    padding: 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .latex-details code {
+    font: 400 0.53rem/1.7 var(--font-mono);
+  }
+
+  .pipeline-player {
+    padding: clamp(1.1rem, 3vw, 1.8rem);
+    border-top: 1px solid var(--line);
+    background: var(--paper-raised);
+  }
+
+  .player-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .player-header h2 {
+    margin: 0.3rem 0 0;
+    font: 500 1.05rem var(--font-display);
+  }
+
+  .player-header > div:first-child > p:last-child {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.66rem;
+  }
+
+  .player-controls {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .player-controls .btn {
+    min-height: 37px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.63rem;
+  }
+
+  .player-controls .btn span {
+    font-size: 0.5rem;
+  }
+
+  .player-controls button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .reset-button {
+    padding: 0.5rem 0.55rem;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.61rem;
+  }
+
+  .reset-button:hover {
+    color: var(--accent);
+  }
+
+  .progress-track {
+    height: 3px;
+    overflow: hidden;
+    margin-top: 1.4rem;
+    border-radius: 3px;
+    background: var(--paper-deep);
+  }
+
+  .progress-track span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.35s var(--ease-out);
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.45rem;
+    color: var(--dim);
+    font: 500 0.49rem var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+
+  .stage-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.35rem;
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stage-step {
+    display: grid;
+    grid-template-columns: 24px 1fr 10px;
+    align-items: start;
+    gap: 0.3rem;
+    min-width: 0;
+    padding: 0.55rem 0.45rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: var(--dim);
+    font-size: 0.55rem;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .stage-step.is-current {
+    border-color: rgba(217, 78, 27, 0.22);
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  .stage-step.is-done {
+    color: var(--green);
+  }
+
+  .stage-number {
+    color: var(--dim);
+    font: 400 0.5rem var(--font-mono);
+  }
+
+  .stage-step.is-current .stage-number {
+    color: var(--accent);
+  }
+
+  .stage-name {
+    line-height: 1.4;
+  }
+
+  .stage-state {
+    color: var(--line-hi);
+    font-size: 0.48rem;
+  }
+
+  .stage-step.is-current .stage-state {
+    color: var(--accent);
+  }
+
+  .stage-step.is-done .stage-state {
+    color: var(--green);
+  }
+
+  .demo-disclaimer {
+    margin: 0;
+    padding: 0.85rem 1.1rem;
+    border-top: 1px solid var(--line);
+    color: var(--dim);
+    font-size: 0.59rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .workspace-grid {
+      grid-template-columns: 1fr;
     }
 
-    .subtitle {
-      font-size: 1.25rem;
+    .portfolio-panel {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .demo-page {
-      padding: 2rem 1rem;
+    .portfolio-tree {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stage-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .demo-heading h1 {
+      font-size: clamp(2.5rem, 11vw, 4rem);
+    }
+
+    .workspace-bar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .portfolio-tree {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .application-panel {
+      padding-bottom: 0;
+    }
+
+    .job-overview {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .output-columns {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .player-header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stage-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .player-controls {
+      width: 100%;
     }
   }
 </style>
+
+<script>
+  const demoPanel = document.querySelector('[data-demo-data]');
+  const demoData = JSON.parse(demoPanel?.getAttribute('data-demo-data') || '{"jobs":[],"outputs":[]}');
+  const jobTabs = [...document.querySelectorAll('[data-job-tab]')];
+  const jobTitle = document.querySelector('[data-job-title]');
+  const jobCompany = document.querySelector('[data-job-company]');
+  const jobType = document.querySelector('[data-job-type]');
+  const jobDetail = document.querySelector('#job-detail');
+  const requirementCount = document.querySelector('[data-requirement-count]');
+  const requirementList = document.querySelector('[data-requirement-list]');
+  const outputType = document.querySelector('[data-output-type]');
+  const selectedProjects = document.querySelector('[data-selected-projects]');
+  const selectedSkills = document.querySelector('[data-selected-skills]');
+  const auditCopy = document.querySelector('[data-audit-copy]');
+  const auditRate = document.querySelector('[data-audit-rate]');
+  const latexPreview = document.querySelector('[data-latex-preview]');
+
+  const makeChip = (label) => {
+    const chip = document.createElement('span');
+    chip.textContent = label;
+    return chip;
+  };
+
+  const renderJob = (jobId, selectedTab) => {
+    const job = demoData.jobs.find((item) => item.id === jobId);
+    const output = demoData.outputs.find((item) => item.jobId === jobId);
+    if (!job || !output) return;
+
+    jobTabs.forEach((tab) => {
+      const isSelected = tab === selectedTab;
+      tab.setAttribute('aria-selected', String(isSelected));
+      tab.setAttribute('tabindex', isSelected ? '0' : '-1');
+    });
+    jobDetail.setAttribute('aria-labelledby', selectedTab.id);
+    jobTitle.textContent = job.title;
+    jobCompany.textContent = `${job.company} · ${job.location}`;
+    jobType.textContent = job.type;
+    requirementCount.textContent = `${job.requirements.required.length} required`;
+
+    const requirements = job.requirements.required.slice(0, 4);
+    requirementList.replaceChildren(...requirements.map((requirement, index) => {
+      const row = document.createElement('div');
+      row.className = 'requirement-row';
+      const number = document.createElement('span');
+      number.className = 'req-index';
+      number.textContent = String(index + 1).padStart(2, '0');
+      const text = document.createElement('span');
+      text.textContent = requirement.text;
+      const status = document.createElement('i');
+      const hasEvidence = output.selectedSkills.some((skill) => requirement.text.toLowerCase().includes(skill.toLowerCase()));
+      status.className = hasEvidence ? 'req-match' : 'req-review';
+      status.textContent = hasEvidence ? 'EVIDENCE' : 'REVIEW';
+      row.append(number, text, status);
+      return row;
+    }));
+
+    outputType.textContent = `${output.documentType.toUpperCase()} / ${output.template.toUpperCase()}`;
+    selectedProjects.replaceChildren(...output.selectedProjects.map(makeChip));
+    selectedSkills.replaceChildren(...output.selectedSkills.slice(0, 5).map(makeChip));
+    auditCopy.textContent = `${output.audit.approvedClaims} of ${output.audit.totalClaims} claims supported`;
+    auditRate.textContent = `${Math.round(output.audit.approvalRate * 100)}%`;
+    latexPreview.textContent = output.latex;
+  };
+
+  jobTabs.forEach((tab) => {
+    tab.addEventListener('click', () => renderJob(tab.getAttribute('data-job-tab'), tab));
+    tab.addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      const direction = event.key === 'ArrowRight' ? 1 : -1;
+      const currentIndex = jobTabs.indexOf(tab);
+      const nextTab = jobTabs[(currentIndex + direction + jobTabs.length) % jobTabs.length];
+      nextTab.focus();
+      renderJob(nextTab.getAttribute('data-job-tab'), nextTab);
+    });
+  });
+
+  const stages = [...document.querySelectorAll('[data-stage]')];
+  const runButton = document.querySelector('[data-run]');
+  const pauseButton = document.querySelector('[data-pause]');
+  const resetButton = document.querySelector('[data-reset]');
+  const stageTitle = document.querySelector('[data-stage-title]');
+  const stageDescription = document.querySelector('[data-stage-description]');
+  const progressFill = document.querySelector('[data-progress-fill]');
+  const progressTrack = document.querySelector('[role="progressbar"]');
+  const progressCount = document.querySelector('[data-progress-count]');
+  const progressStatus = document.querySelector('[data-progress-status]');
+  const stageDescriptions = [
+    'Read the project tree and identify useful repositories and files.',
+    'Collect skills, project details, outcomes, and their source paths.',
+    'Build a candidate profile without filling gaps with guesses.',
+    'Load the selected job and record where its description came from.',
+    'Separate required and preferred qualifications from the posting.',
+    'Connect each requirement to evidence or mark it as unsupported.',
+    'Summarize strong matches, transferable skills, and missing evidence.',
+    'Choose relevant projects, skills, and a document template.',
+    'Generate an editable resume or CV from the selected evidence.',
+    'Review claims against their recorded support before packaging.',
+    'Save the candidate, job, mapping, document, and audit together.',
+  ];
+  let currentStage = -1;
+  let isRunning = false;
+  let isPaused = false;
+  let timer = null;
+
+  const renderStage = () => {
+    stages.forEach((item, index) => {
+      item.classList.toggle('is-current', index === currentStage);
+      item.classList.toggle('is-done', index < currentStage);
+      item.querySelector('.stage-state').textContent = index < currentStage ? '✓' : index === currentStage ? '●' : '○';
+    });
+
+    if (currentStage < 0) {
+      stageTitle.textContent = 'Ready when you are.';
+      stageDescription.textContent = 'Play the walkthrough to follow this sample application through each stage.';
+      progressFill.style.width = '0%';
+      progressTrack.setAttribute('aria-valuenow', '0');
+      progressCount.textContent = `0 / ${stages.length} STAGES`;
+      progressStatus.textContent = 'READY';
+      return;
+    }
+
+    stageTitle.textContent = isRunning ? stages[currentStage].querySelector('.stage-name').textContent : currentStage === stages.length - 1 ? 'Application snapshot ready.' : 'Walkthrough paused.';
+    stageDescription.textContent = stageDescriptions[currentStage];
+    const completed = currentStage + 1;
+    const percentage = Math.round((completed / stages.length) * 100);
+    progressFill.style.width = `${percentage}%`;
+    progressTrack.setAttribute('aria-valuenow', String(completed));
+    progressCount.textContent = `${String(completed).padStart(2, '0')} / ${stages.length} STAGES`;
+    progressStatus.textContent = isPaused ? 'PAUSED' : isRunning ? 'IN PROGRESS' : 'COMPLETE';
+  };
+
+  const updateControls = () => {
+    runButton.disabled = isRunning && !isPaused;
+    runButton.innerHTML = isPaused ? 'Resume <span aria-hidden="true">▶</span>' : isRunning ? 'Running…' : currentStage === stages.length - 1 ? 'Run again <span aria-hidden="true">↻</span>' : 'Run demo <span aria-hidden="true">▶</span>';
+    pauseButton.disabled = !isRunning || isPaused;
+  };
+
+  const scheduleNextStage = () => {
+    timer = window.setTimeout(advanceStage, 900);
+  };
+
+  const advanceStage = () => {
+    if (!isRunning || isPaused) return;
+    currentStage += 1;
+    renderStage();
+    if (currentStage >= stages.length - 1) {
+      isRunning = false;
+      isPaused = false;
+      updateControls();
+      renderStage();
+      return;
+    }
+    scheduleNextStage();
+  };
+
+  runButton.addEventListener('click', () => {
+    if (isRunning && !isPaused) return;
+    if (isPaused) {
+      isPaused = false;
+      isRunning = true;
+      updateControls();
+      scheduleNextStage();
+      renderStage();
+      return;
+    }
+    currentStage = -1;
+    isPaused = false;
+    isRunning = true;
+    updateControls();
+    advanceStage();
+  });
+
+  pauseButton.addEventListener('click', () => {
+    if (!isRunning) return;
+    isPaused = true;
+    window.clearTimeout(timer);
+    updateControls();
+    renderStage();
+  });
+
+  resetButton.addEventListener('click', () => {
+    window.clearTimeout(timer);
+    currentStage = -1;
+    isRunning = false;
+    isPaused = false;
+    updateControls();
+    renderStage();
+  });
+</script>
