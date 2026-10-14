@@ -1,0 +1,31 @@
+{
+  "name": "roleforge",
+  "version": "1.0.0",
+  "description": "Agentic career compiler that analyzes portfolio codebases, matches evidence to job descriptions, and generates tailored resumes, CVs, and job opportunities without inventing experience.",
+  "main": "dist/skill/workflow/pipeline.js",
+  "bin": {
+    "roleforge": "./bin/roleforge.mjs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node tests/validation.test.mjs",
+    "validate": "node bin/roleforge.mjs validate"
+  },
+  "keywords": [
+    "resume",
+    "cv",
+    "career",
+    "portfolio",
+    "job-matching",
+    "evidence-based"
+  ],
+  "author": "shaxntanu",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
