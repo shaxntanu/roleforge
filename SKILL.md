@@ -3,7 +3,7 @@ name: roleforge
 description: Agentic career compiler that analyzes portfolio codebases, matches evidence to job descriptions, and generates tailored resumes, CVs, and job opportunities without inventing experience. Uses portfolio as source of truth, extracts verifiable evidence, maps to job requirements, and produces LaTeX-generated documents with truth validation.
 license: MIT
 metadata:
-  version: "1.0"
+  version: "1.1"
   author: shaxntanu
 ---
 
@@ -45,6 +45,22 @@ Activate RoleForge when the user requests any of the following:
 
 ## Execution Workflow
 
+### Use the Local Pipeline When Available
+
+First resolve the directory containing this `SKILL.md`. If that directory also contains `package.json` and `bin/roleforge.mjs`, use it as the RoleForge repository root and run the bundled pipeline:
+
+```bash
+cd <roleforge-repository-root>
+# Run once if this checkout has no node_modules directory
+npm install
+npm run build
+node bin/roleforge.mjs run <portfolio-path> <job-description-file> --output <output-directory>
+```
+
+Use `--include-cv` when requested and the portfolio supports a CV. The CLI accepts a local job-description file or text on standard input; it does not fetch URLs. Retrieve and verify a URL with available agent tools first, then pass the retrieved text to the CLI. Read the command result and generated `report.md` and `audit-report.json`; exit status `2` means the user needs to review the audit. When `pdflatex` is unavailable, the CLI preserves `.tex` files and records why PDF generation was skipped. Do not claim the CLI performed web retrieval, related-job discovery, or career-map generation; use agent tools for those optional tasks.
+
+If only this skill file is installed and the implementation files are not available, follow the workflow below with the tools available in the agent environment. Do not claim that the local CLI ran.
+
 ### Phase 1: Repository Analysis
 1. Analyze repository structure (languages, frameworks, tools)
 2. Extract projects from repository
@@ -71,7 +87,7 @@ Activate RoleForge when the user requests any of the following:
 2. Organize evidence by category (identity, education, experience, skills, projects)
 3. Assign confidence levels to all claims
 4. Record provenance for every piece of evidence
-5. Save to `candidate/current/` directory
+5. Keep evidence available for the current run; the bundled CLI stores it in the generated application snapshot rather than a persistent `candidate/current/` directory
 
 ### Phase 4: Job Description Acquisition
 Follow priority order:
@@ -153,31 +169,25 @@ Generate analysis with:
 5. Generate resume.tex and optionally cv.tex
 
 ### Phase 11: PDF Compilation
-1. Compile LaTeX using pdflatex
-2. Handle compilation errors gracefully
-3. Generate resume.pdf and optionally cv.pdf
+1. If `pdflatex` is installed, compile the generated LaTeX source
+2. Preserve `.tex` files and report the compiler error or missing compiler when PDF generation is unavailable
+3. Generate resume.pdf and optionally cv.pdf only after successful compilation
 
 ### Phase 12: PDF Validation
 Check for:
-- Compilation failures
-- Page count violations
-- Text overflow
-- Broken links
-- Missing glyphs
-- Empty sections
-- Duplicated content
-- Malformed dates
-- Visual consistency
+- Valid PDF header and page count when `pdfinfo` is installed
+- Text overflow and missing glyph warnings in the LaTeX log
+- Link target syntax (network reachability is not checked)
+- Empty sections, duplicated list items, and malformed year-month dates
 
-Report errors and warnings. Fail validation on critical errors.
+Report checks that could not run separately from failures. The bundled validator does not perform a visual-layout review.
 
 ### Phase 13: Truth Audit
 1. Extract all bullet points from generated document
-2. Audit each bullet against evidence map
+2. Audit each bullet against extracted candidate evidence
 3. Assign confidence level to each claim
-4. Flag unsupported claims
-5. Remove or revise claims without sufficient evidence
-6. Generate audit report with:
+4. Flag inferred claims for review and remove weak or unsupported claims from the generated documents
+5. Generate audit report with:
    - Total bullets
    - Approved bullets
    - Flagged bullets
@@ -186,6 +196,7 @@ Report errors and warnings. Fail validation on critical errors.
    - Unsupported claims with suggested actions
 
 ### Phase 14: Related Job Discovery (if enabled)
+Use permitted agent web-search tools for this optional workflow; it is not implemented by the bundled CLI.
 1. Analyze candidate evidence for skill domains
 2. Search for related roles by:
    - Skills
@@ -205,6 +216,7 @@ Report errors and warnings. Fail validation on critical errors.
    - Application effort estimate
 
 ### Phase 15: Career Map Generation (if enabled)
+Prepare this optional analysis from candidate evidence and available job research; it is not emitted by the bundled CLI.
 Generate career-map.md with:
 - Strong evidence domains
 - Adjacent domains
@@ -217,14 +229,19 @@ Create application directory structure:
 applications/
 └── company/
     └── role/
-        ├── job-description.md
-        ├── job-analysis.yaml
-        ├── evidence-map.yaml
+        ├── candidate.json
+        ├── job.json
+        ├── fit-analysis.json
+        ├── evidence-map.json
+        ├── strategy.json
         ├── resume.tex
-        ├── resume.pdf
+        ├── resume.pdf (when pdflatex is available)
         ├── cv.tex (if applicable)
-        ├── cv.pdf (if applicable)
-        └── generation-report.md
+        ├── cv.pdf (if applicable and compilation succeeds)
+        ├── audit-report.json
+        ├── pdf-validation-report.json
+        ├── snapshot.json
+        └── report.md
 ```
 
 Include candidate snapshot and job snapshot for reproducibility.
@@ -412,17 +429,18 @@ On validation failure:
 
 ### Primary Outputs
 - `resume.tex`: LaTeX source for resume
-- `resume.pdf`: Compiled resume PDF
-- `candidate.yaml`: Normalized candidate profile
-- `evidence-map.yaml`: Evidence-to-requirement mapping
-- `job-analysis.yaml`: Fit and gap analysis
+- `resume.pdf`: Compiled resume PDF when `pdflatex` is available
+- `candidate.json`: Normalized candidate profile
+- `evidence-map.json`: Evidence-to-requirement mapping
+- `fit-analysis.json`: Fit and gap analysis
 
 ### Optional Outputs
 - `cv.tex`: LaTeX source for CV (if sufficient evidence)
 - `cv.pdf`: Compiled CV PDF (if sufficient evidence)
 - `related-jobs.yaml`: Discovered related opportunities
 - `career-map.md`: Career direction analysis
-- `audit-report.yaml`: Truth audit results
+- `audit-report.json`: Truth audit results
+- `pdf-validation-report.json`: Compilation and PDF checks
 
 ### Application Package
 Complete application directory with:
