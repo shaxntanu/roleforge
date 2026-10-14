@@ -319,21 +319,24 @@ View the complete architecture documentation:
 
 ## CLI Tooling
 
-RoleForge includes a validation CLI for schema validation:
+The repository includes a CLI that runs the local analysis and document-generation pipeline. It accepts job text or a local job-description file; it does not retrieve job URLs itself.
 
 ```bash
-# Validate a candidate profile
+# Build the pipeline (Node.js 18 or newer)
+npm install
+npm run build
+
+# Generate an application package from a portfolio and local job description
+node bin/roleforge.mjs run ./portfolio ./job-description.txt --output ./applications
+
+# Or provide job text on standard input
+node bin/roleforge.mjs run --text ./portfolio --output ./applications < ./job-description.txt
+
+# Run basic top-level checks on a JSON artifact
 node bin/roleforge.mjs validate candidate candidate.json
-
-# Validate a job description
-node bin/roleforge.mjs validate job job.json
-
-# Validate a truth audit
-node bin/roleforge.mjs validate truth-audit audit.json
-
-# Run all validation tests
-node tests/validation.test.mjs
 ```
+
+The CLI saves LaTeX source and a generation report even when `pdflatex` is unavailable. If installed, it also compiles and validates PDFs. The RoleForge agent skill can retrieve a user-provided job URL with its available tools, then pass the retrieved text to this local pipeline.
 
 ## Development
 
@@ -375,8 +378,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-RoleForge's documentation website design is inspired by [Archify](https://tt-a1i.github.io/archify/):
-- Website: https://tt-a1i.github.io/archify/
-- GitHub: https://github.com/tt-a1i/archify
-
-RoleForge learns from Archify's information architecture and visualization approach while creating an original visual language and implementation for career compilation.
+RoleForge's website takes visual and information-architecture inspiration from [Archify](https://archify.si/) and its [open-source repository](https://github.com/tt-a1i/archify), adapted for RoleForge's own content and workflow.
