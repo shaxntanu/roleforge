@@ -91,15 +91,19 @@ export class JobNormalizer {
   }
 
   private extractCompany(description: string): string {
-    // Simple extraction - in production, use more sophisticated parsing
-    const companyMatch = description.match(/(?:at|@)\s+([A-Z][A-Za-z\s]+)/i);
+    const labeledMatch = description.match(/^\s*company\s*:\s*([^\n]+)$/im);
+    if (labeledMatch) return labeledMatch[1].trim();
+    const companyMatch = description.match(/\bat\s+([A-Z][A-Za-z0-9&.' -]*)(?=\s*(?:[,.;\n]|$))/);
     return companyMatch ? companyMatch[1].trim() : 'Unknown Company';
   }
 
   private extractTitle(description: string): string {
-    // Simple extraction - in production, use more sophisticated parsing
-    const titleMatch = description.match(/(?:position|role|job):\s*([^\n]+)/i);
-    return titleMatch ? titleMatch[1].trim() : 'Unknown Position';
+    const labeledMatch = description.match(/^\s*(?:job title|position|role)\s*:\s*([^\n]+)$/im);
+    if (labeledMatch) return labeledMatch[1].trim();
+    const firstLine = description.split('\n')
+      .map((line) => line.trim().replace(/^#+\s*/, ''))
+      .find((line) => line && !/^(job description|requirements|qualifications|responsibilities)$/i.test(line));
+    return firstLine || 'Unknown Position';
   }
 
   private extractLocation(description: string): string | undefined {
@@ -124,16 +128,26 @@ export class JobNormalizer {
 
   private extractRequirements(description: string): JobRequirement[] {
     const requirements: JobRequirement[] = [];
-    const lines = description.split('\n');
+    let section: 'requirements' | 'preferred' | 'responsibilities' | 'other' = 'other';
     let index = 0;
 
-    for (const line of lines) {
-      if (this.isRequirementLine(line)) {
+    for (const line of description.split('\n')) {
+      const nextSection = this.readSection(line);
+      if (nextSection) {
+        section = nextSection;
+        continue;
+      }
+
+      const cleanLine = line.trim();
+      const isBullet = /^[-*•]\s+/.test(cleanLine);
+      const explicit = /\b(required|must have|must be|minimum|qualification|proficiency|proficient|experience with|knowledge of|familiarity with)\b/i.test(cleanLine);
+      if (section !== 'responsibilities' && (isBullet && section !== 'other' || explicit)) {
+        const priorityContext = section === 'preferred' ? 'preferred' : cleanLine;
         requirements.push({
           id: `req-${index++}`,
-          text: this.cleanRequirementText(line),
-          category: this.categorizeRequirement(line),
-          priority: this.determinePriority(line),
+          text: this.cleanRequirementText(cleanLine),
+          category: this.categorizeRequirement(cleanLine),
+          priority: this.determinePriority(priorityContext),
         });
       }
     }
@@ -147,6 +161,16 @@ export class JobNormalizer {
     return requirementKeywords.some(keyword => lower.includes(keyword)) || 
            line.trim().startsWith('-') || 
            line.trim().startsWith('•');
+  }
+
+  private readSection(line: string): 'requirements' | 'preferred' | 'responsibilities' | 'other' | undefined {
+    const heading = line.trim().replace(/^#+\s*/, '').replace(/[:.]$/, '').toLowerCase();
+    if (!heading || heading.length > 100) return undefined;
+    if (/\b(responsibilities|what you(?:'|’)ll do|duties|your role)\b/.test(heading)) return 'responsibilities';
+    if (/\b(preferred|nice to have|bonus|desirable)\b/.test(heading)) return 'preferred';
+    if (/\b(requirements|qualifications|what you(?:'|’)ll need|what we(?:'|’)re looking for|must have)\b/.test(heading)) return 'requirements';
+    if (/^(about|benefits|what we offer|who we are|company|our team)$/.test(heading)) return 'other';
+    return undefined;
   }
 
   private cleanRequirementText(line: string): string {
@@ -190,14 +214,23 @@ export class JobNormalizer {
 
   private extractResponsibilities(description: string): Array<{ id: string; text: string }> {
     const responsibilities: Array<{ id: string; text: string }> = [];
-    const lines = description.split('\n');
+    let section: 'responsibilities' | 'other' = 'other';
     let index = 0;
 
-    for (const line of lines) {
-      if (this.isResponsibilityLine(line)) {
+    for (const line of description.split('\n')) {
+      const nextSection = this.readSection(line);
+      if (nextSection) {
+        section = nextSection === 'responsibilities' ? 'responsibilities' : 'other';
+        continue;
+      }
+
+      const trimmed = line.trim();
+      const isBullet = /^[-*•]\s+/.test(trimmed);
+      const explicit = /^(?:you will|you'll|you’ll|responsibilities|duties)\s*:/i.test(trimmed);
+      if ((section === 'responsibilities' && isBullet) || explicit) {
         responsibilities.push({
           id: `resp-${index++}`,
-          text: this.cleanResponsibilityText(line),
+          text: this.cleanResponsibilityText(trimmed),
         });
       }
     }
@@ -230,7 +263,9 @@ export class JobNormalizer {
 
     const lower = description.toLowerCase();
     for (const tech of techKeywords) {
-      if (lower.includes(tech) && !technologies.includes(tech)) {
+      const escaped = tech.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const pattern = new RegExp(`(?:^|[^a-z0-9+#])${escaped}(?:$|[^a-z0-9+#])`, 'i');
+      if (pattern.test(lower) && !technologies.includes(tech)) {
         technologies.push(tech);
       }
     }
@@ -251,10 +286,10 @@ export class JobNormalizer {
 
     const lower = description.toLowerCase();
     
-    if (lower.includes('bachelor') || lower.includes('bs')) {
+    if (lower.includes('bachelor') || /\bbs\b/i.test(description)) {
       education.push({ level: 'bachelor', priority: this.determinePriority(description) });
     }
-    if (lower.includes('master') || lower.includes('ms')) {
+    if (lower.includes('master') || /\bms\b/i.test(description)) {
       education.push({ level: 'master', priority: this.determinePriority(description) });
     }
     if (lower.includes('phd') || lower.includes('doctorate')) {
@@ -312,7 +347,7 @@ export class JobNormalizer {
     if (text.includes('full stack') || text.includes('fullstack')) {
       return 'full stack';
     }
-    if (text.includes('machine learning') || text.includes('ml') || text.includes('ai')) {
+    if (text.includes('machine learning') || /\bml\b/.test(text) || /\bai\b/.test(text)) {
       return 'machine learning';
     }
     if (text.includes('research') || text.includes('academic')) {
