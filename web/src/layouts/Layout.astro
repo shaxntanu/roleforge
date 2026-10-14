@@ -4,96 +4,102 @@ interface Props {
   description?: string;
 }
 
-const { 
-  title, 
-  description = "RoleForge — Agentic Career Compiler" 
+const {
+  title,
+  description = 'RoleForge turns portfolio evidence into job-specific applications you can inspect.',
 } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title} — RoleForge</title>
-  <meta name="description" content={description} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <slot />
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f4ef" />
+    <meta name="description" content={description} />
+    <title>{title} — RoleForge</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="grid-bg" aria-hidden="true"></div>
+    <slot />
+  </body>
 </html>
 
 <style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
   :root {
-    /* Dark technical palette */
-    --bg-primary: #0a0e14;
-    --bg-secondary: #111820;
-    --bg-tertiary: #1a222e;
-    --bg-elevated: #242d3a;
-    --text-primary: #e8eaed;
-    --text-secondary: #9aa0a6;
-    --text-muted: #5f6368;
-    --text-dim: #3d4759;
-    --accent: #00d4ff;
-    --accent-soft: rgba(0, 212, 255, 0.1);
-    --accent-secondary: #00ff9d;
-    --border: #2d3748;
-    --border-light: #3d4759;
-    --border-highlight: #4a5568;
-    
-    /* Semantic hues */
-    --cyan: #0891b2;
-    --emerald: #047857;
-    --violet: #6d28d9;
-    --amber: #b45309;
-    --rose: #be123c;
-    
-    /* Typography */
-    --font-display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+    color-scheme: light;
+    --paper: #f3f4ef;
+    --paper-raised: #fcfcf9;
+    --paper-deep: #e9ebe5;
+    --ink: #181b1f;
+    --ink-soft: #3f464a;
+    --muted: #657075;
+    --dim: #8e979a;
+    --line: rgba(24, 27, 31, 0.11);
+    --line-hi: rgba(24, 27, 31, 0.23);
+    --accent: #d94e1b;
+    --accent-hover: #b93d11;
+    --accent-soft: rgba(217, 78, 27, 0.1);
+    --plate: #12171b;
+    --green: #14795d;
+    --amber: #9d620d;
+    --red: #b83543;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-    
-    /* Animation */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-    --bento-gap: 16px;
+    --content-width: 1240px;
+    --section-space: clamp(4.5rem, 8vw, 7.25rem);
   }
 
-  *, *::before, *::after {
-    margin: 0;
-    padding: 0;
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(24, 27, 31, 0.28) transparent;
   }
 
   body {
-    font-family: var(--font-body);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
+    position: relative;
+    min-width: 320px;
     min-height: 100vh;
+    margin: 0;
     overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::after {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    content: '';
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.36'/%3E%3C/svg%3E");
   }
 
   ::selection {
-    background: var(--accent-soft);
-    color: var(--text-primary);
-  }
-
-  html {
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+    background: rgba(217, 78, 27, 0.18);
+    color: var(--ink);
   }
 
   ::-webkit-scrollbar {
@@ -106,20 +112,25 @@ const {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 999px;
     border: 3px solid transparent;
+    border-radius: 999px;
+    background: rgba(24, 27, 31, 0.25);
     background-clip: content-box;
-  }
-
-  ::-webkit-scrollbar-thumb hover {
-    background: var(--border-light);
   }
 
   :focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 4px;
+    outline-offset: 4px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    color: inherit;
+    font: inherit;
   }
 
   .grid-bg {
@@ -127,80 +138,142 @@ const {
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: linear-gradient(rgba(45, 55, 72, 0.3) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(45, 55, 72, 0.3) 1px, transparent 1px);
+    background-image:
+      linear-gradient(rgba(24, 27, 31, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(24, 27, 31, 0.035) 1px, transparent 1px);
     background-size: 56px 56px;
-    -webkit-mask-image: radial-gradient(ellipse 95% 62% at 50% -6%, black 12%, transparent 75%);
-    mask-image: radial-gradient(ellipse 95% 62% at 50% -6%, black 12%, transparent 75%);
+    mask-image: radial-gradient(ellipse 90% 65% at 50% 0%, #000 5%, transparent 78%);
   }
 
-  .font-mono {
-    font-family: var(--font-mono);
-  }
-
-  .font-display {
-    font-family: var(--font-display);
+  .site-main,
+  .site-nav,
+  .site-footer {
+    position: relative;
+    z-index: 1;
   }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    width: min(100% - 3rem, var(--content-width));
+    margin-inline: auto;
   }
 
-  section {
-    position: relative;
-    padding: 5.25rem 0;
+  .site-section {
+    padding-block: var(--section-space);
+  }
+
+  .divider {
+    width: min(100% - 3rem, var(--content-width));
+    height: 1px;
+    margin-inline: auto;
+    background: linear-gradient(90deg, transparent, var(--line-hi), transparent);
+  }
+
+  .eyebrow,
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0 0 1.4rem;
+    color: var(--muted);
+    font: 500 0.66rem/1.4 var(--font-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before,
+  .section-label::after {
+    width: 2rem;
+    height: 1px;
+    background: var(--line-hi);
+    content: '';
+  }
+
+  .eyebrow .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .section-label {
+    color: var(--accent);
+  }
+
+  .section-label::after {
+    flex: 1;
+    max-width: 4rem;
+  }
+
+  .display-heading {
+    margin: 0;
+    font: 400 clamp(2.35rem, 4vw, 3.8rem) / 1.04 var(--font-serif);
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .section-intro {
+    max-width: 570px;
+    margin: 1.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.96rem;
+    line-height: 1.8;
+    text-wrap: pretty;
   }
 
   .btn {
     display: inline-flex;
+    min-height: 46px;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 1.15rem;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: -0.005em;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s var(--ease-out);
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.68rem 1.15rem;
     border: 1px solid transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: transform 0.2s var(--ease-out), background 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
   }
 
   .btn-primary {
-    background: var(--accent);
-    color: var(--bg-primary);
+    background: var(--ink);
+    color: var(--paper-raised);
   }
 
   .btn-primary:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    background: #30363a;
+  }
+
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-accent:hover {
+    background: var(--accent-hover);
   }
 
   .btn-ghost {
+    border-color: var(--line-hi);
     background: transparent;
-    color: var(--text-secondary);
-    border-color: var(--border);
+    color: var(--ink-soft);
   }
 
   .btn-ghost:hover {
-    color: var(--text-primary);
-    border-color: var(--accent);
-    transform: translateY(-1px);
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
-  /* Fade-up animations */
   .fade-up {
     opacity: 0;
-    transform: translateY(18px);
-    filter: blur(6px);
-    transition: opacity 0.9s var(--ease-out),
-                transform 0.9s var(--ease-out),
-                filter 0.9s var(--ease-out);
+    transform: translateY(16px);
+    filter: blur(5px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out), filter 0.8s var(--ease-out);
   }
 
   .fade-up.visible {
@@ -213,54 +286,49 @@ const {
   .fade-up.d2 { transition-delay: 0.16s; }
   .fade-up.d3 { transition-delay: 0.24s; }
   .fade-up.d4 { transition-delay: 0.32s; }
-  .fade-up.d5 { transition-delay: 0.4s; }
 
-  a {
-    color: var(--accent);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  a:hover {
-    color: var(--accent-secondary);
-  }
-
-  code {
+  .mono {
     font-family: var(--font-mono);
-    background: var(--bg-tertiary);
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    font-size: 0.9em;
   }
 
-  pre {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    overflow-x: auto;
+  @media (max-width: 700px) {
+    .container,
+    .divider {
+      width: min(100% - 2rem, var(--content-width));
+    }
+
+    .site-section {
+      padding-block: 4.4rem;
+    }
   }
 
-  pre code {
-    background: none;
-    padding: 0;
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .fade-up {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
   }
 </style>
 
 <script>
-  // Intersection Observer for fade-up animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  const revealObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       }
-    });
-  }, { threshold: 0.1 });
+    }
+  }, { threshold: 0.08 });
 
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-  });
-
-  // Run on initial load
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-up').forEach((element) => revealObserver.observe(element));
 </script>
