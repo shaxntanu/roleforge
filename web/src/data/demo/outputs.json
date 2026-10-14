@@ -1,0 +1,55 @@
+{
+  "outputs": [
+    {
+      "jobId": "job-embedded",
+      "documentType": "resume",
+      "template": "engineering",
+      "selectedProjects": ["AeroSense", "ForgeBoard"],
+      "selectedSkills": ["C++", "C", "ESP32", "STM32", "Embedded Systems", "I2C", "UART", "SPI", "Git", "Linux"],
+      "summary": "Embedded systems developer with experience in C/C++ programming, ESP32 and STM32 microcontrollers, and sensor integration protocols.",
+      "latex": "\\documentclass[11pt]{article}\n\\usepackage[margin=1in]{geometry}\n\\usepackage{enumitem}\n\\usepackage{hyperref}\n\n\\begin{document}\n\n\\begin{center}\n\\textbf{\\Large Alex Morgan}\n\\end{center}\n\n\\section*{Skills}\n\\begin{itemize}[noitemsep,topsep=0pt]\n\\item C++\n\\item C\n\\item ESP32\n\\item STM32\n\\item Embedded Systems\n\\item I2C/UART/SPI\n\\item Git\n\\item Linux\n\\end{itemize}\n\n\\section*{Projects}\n\\textbf{AeroSense}\nESP32-based environmental monitoring system with I2C sensor integration.\n\\textit{Technologies: C++, ESP32, Git, Linux, I2C, Sensors, IoT}\n\n\\textbf{ForgeBoard}\nSTM32 microcontroller board with UART/SPI/I2C peripheral interfaces.\n\\textit{Technologies: C, STM32, UART, SPI, I2C, Git, Debugging}\n\n\\end{document}",
+      "html": "<div class=\"resume-preview\">\n  <h1>Alex Morgan</h1>\n  <h2>Embedded Systems Engineer</h2>\n  <h3>Skills</h3>\n  <ul>\n    <li>C++</li>\n    <li>C</li>\n    <li>ESP32</li>\n    <li>STM32</li>\n    <li>Embedded Systems</li>\n    <li>I2C/UART/SPI</li>\n    <li>Git</li>\n    <li>Linux</li>\n  </ul>\n  <h3>Projects</h3>\n  <div class=\"project\">\n    <h4>AeroSense</h4>\n    <p>ESP32-based environmental monitoring system with I2C sensor integration.</p>\n    <p><em>Technologies: C++, ESP32, Git, Linux, I2C, Sensors, IoT</em></p>\n  </div>\n  <div class=\"project\">\n    <h4>ForgeBoard</h4>\n    <p>STM32 microcontroller board with UART/SPI/I2C peripheral interfaces.</p>\n    <p><em>Technologies: C, STM32, UART, SPI, I2C, Git, Debugging</em></p>\n  </div>\n</div>",
+      "audit": {
+        "totalClaims": 8,
+        "approvedClaims": 8,
+        "flaggedClaims": 0,
+        "removedClaims": 0,
+        "approvalRate": 1.0
+      }
+    },
+    {
+      "jobId": "job-frontend",
+      "documentType": "resume",
+      "template": "modern",
+      "selectedProjects": ["InterfaceLab", "PortfolioOS"],
+      "selectedSkills": ["React", "TypeScript", "JavaScript", "Next.js", "Tailwind", "Git", "UI Architecture", "Responsive Design"],
+      "summary": "Frontend engineer with expertise in React, TypeScript, and Next.js. Experienced in building modern, responsive web applications and reusable UI components.",
+      "latex": "\\documentclass[11pt]{article}\n\\usepackage[margin=1in]{geometry}\n\\usepackage{enumitem}\n\\usepackage{hyperref}\n\\usepackage{xcolor}\n\n\\begin{document}\n\n\\begin{center}\n\\textbf{\\Large Alex Morgan}\n\\end{center}\n\n\\section*{Skills}\n\\begin{itemize}[noitemsep,topsep=0pt]\n\\item React\n\\item TypeScript\n\\item JavaScript\n\\item Next.js\n\\item Tailwind CSS\n\\item Git\n\\item UI Architecture\n\\item Responsive Design\n\\end{itemize}\n\n\\section*{Projects}\n\\textbf{InterfaceLab}\nReact TypeScript dashboard with responsive UI components.\n\\textit{Technologies: React, TypeScript, JavaScript, Next.js, Tailwind, Git}\n\n\\textbf{PortfolioOS}\nNext.js TypeScript portfolio site with modern frontend architecture.\n\\textit{Technologies: Next.js, TypeScript, Tailwind, React, Git, Frontend Architecture}\n\n\\end{document}",
+      "html": "<div class=\"resume-preview\">\n  <h1>Alex Morgan</h1>\n  <h2>Frontend Engineer</h2>\n  <h3>Skills</h3>\n  <ul>\n    <li>React</li>\n    <li>TypeScript</li>\n    <li>JavaScript</li>\n    <li>Next.js</li>\n    <li>Tailwind CSS</li>\n    <li>Git</li>\n    <li>UI Architecture</li>\n    <li>Responsive Design</li>\n  </ul>\n  <h3>Projects</h3>\n  <div class=\"project\">\n    <h4>InterfaceLab</h4>\n    <p>React TypeScript dashboard with responsive UI components.</p>\n    <p><em>Technologies: React, TypeScript, JavaScript, Next.js, Tailwind, Git</em></p>\n  </div>\n  <div class=\"project\">\n    <h4>PortfolioOS</h4>\n    <p>Next.js TypeScript portfolio site with modern frontend architecture.</p>\n    <p><em>Technologies: Next.js, TypeScript, Tailwind, React, Git, Frontend Architecture</em></p>\n  </div>\n</div>",
+      "audit": {
+        "totalClaims": 8,
+        "approvedClaims": 8,
+        "flaggedClaims": 0,
+        "removedClaims": 0,
+        "approvalRate": 1.0
+      }
+    },
+    {
+      "jobId": "job-research",
+      "documentType": "cv",
+      "template": "research",
+      "selectedProjects": ["MoleculeLab", "PulseCloud"],
+      "selectedSkills": ["Python", "Scientific Computing", "NumPy", "SciPy", "Pandas", "Data Analysis", "Research Workflow", "Molecular Modeling"],
+      "summary": "Computational researcher with expertise in Python, scientific computing, and molecular analysis. Experienced in implementing research workflows and analyzing scientific data.",
+      "latex": "\\documentclass[11pt]{article}\n\\usepackage[margin=1in]{geometry}\n\\usepackage{enumitem}\n\\usepackage{hyperref}\n\\usepackage{titlesec}\n\n\\begin{document}\n\n\\begin{center}\n\\textbf{\\Large Alex Morgan}\n\\end{center}\n\n\\section*{Research Experience}\n\\textbf{MoleculeLab}\nPython scientific computing tool for molecular analysis and research workflows.\n\\textit{Technologies: Python, NumPy, SciPy, Pandas, Scientific Computing, Research}\n\n\\section*{Skills}\n\\begin{itemize}[noitemsep,topsep=0pt]\n\\item Python\n\\item Scientific Computing\n\\item NumPy\n\\item SciPy\n\\item Pandas\n\\item Data Analysis\n\\item Molecular Modeling\n\\item Research Workflow\n\\end{itemize}\n\n\\section*{Projects}\n\\textbf{PulseCloud}\nPython FastAPI backend for real-time data processing and PostgreSQL integration.\n\\textit{Technologies: Python, FastAPI, PostgreSQL, REST APIs, Docker, Git}\n\n\\end{document}",
+      "html": "<div class=\"cv-preview\">\n  <h1>Alex Morgan</h1>\n  <h2>Computational Researcher</h2>\n  <h3>Research Experience</h3>\n  <div class=\"project\">\n    <h4>MoleculeLab</h4>\n    <p>Python scientific computing tool for molecular analysis and research workflows.</p>\n    <p><em>Technologies: Python, NumPy, SciPy, Pandas, Scientific Computing, Research</em></p>\n  </div>\n  <h3>Skills</h3>\n  <ul>\n    <li>Python</li>\n    <li>Scientific Computing</li>\n    <li>NumPy</li>\n    <li>SciPy</li>\n    <li>Pandas</li>\n    <li>Data Analysis</li>\n    <li>Molecular Modeling</li>\n    <li>Research Workflow</li>\n  </ul>\n  <h3>Projects</h3>\n  <div class=\"project\">\n    <h4>PulseCloud</h4>\n    <p>Python FastAPI backend for real-time data processing and PostgreSQL integration.</p>\n    <p><em>Technologies: Python, FastAPI, PostgreSQL, REST APIs, Docker, Git</em></p>\n  </div>\n</div>",
+      "audit": {
+        "totalClaims": 8,
+        "approvedClaims": 8,
+        "flaggedClaims": 0,
+        "removedClaims": 0,
+        "approvalRate": 1.0
+      }
+    }
+  ]
+}
