@@ -1,147 +1,490 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 ---
 
-<Layout title="Pipeline">
-  <div class="min-h-screen">
-    <div class="grid-bg" aria-hidden="true"></div>
+<Layout title="How the RoleForge pipeline works" description="Explore how RoleForge analyzes a portfolio, maps evidence to a job, and prepares an auditable application.">
+  <SiteNav active="pipeline" />
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-primary)]/80 backdrop-blur-sm">
+  <main class="site-main">
+    <section class="pipeline-hero">
       <div class="container">
-        <div class="flex items-center justify-between py-4">
-          <div class="font-display text-2xl font-bold">
-            <span class="text-[var(--accent)]">Role</span>Forge
-          </div>
-          <div class="flex gap-6 text-sm font-mono">
-            <a href="/" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Intro</a>
-            <a href="/pipeline" class="text-[var(--accent)]">Pipeline</a>
-            <a href="https://github.com/shaxntanu/roleforge" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Pipeline Hero -->
-    <section class="py-20">
-      <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4 fade-up">ARCHITECTURE</div>
-        <h1 class="font-display text-5xl md:text-6xl font-bold mb-6 fade-up d1">The RoleForge Pipeline</h1>
-        <p class="text-xl text-[var(--text-secondary)] max-w-2xl fade-up d2">
-          From portfolio evidence to validated, job-specific applications.
-        </p>
+        <p class="eyebrow"><span class="pulse-dot"></span> THE COMPILER, UNDER THE HOOD</p>
+        <h1>From source code to<br /><em>source-backed</em> story.</h1>
+        <p>Follow how RoleForge turns portfolio artifacts into an application snapshot. Each stage keeps candidate evidence, job requirements, and generated claims distinct.</p>
+        <div class="pipeline-meta"><span>01 / REPOSITORY</span><i></i><span>02 / REQUIREMENTS</span><i></i><span>03 / REVIEWABLE OUTPUT</span></div>
       </div>
     </section>
 
-    <div class="border-t border-[var(--border)]"></div>
-
-    <!-- Main Pipeline Visualization -->
-    <section>
+    <section class="diagram-section">
       <div class="container">
-        <div class="max-w-6xl mx-auto">
-          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg fade-up">
-            <iframe 
-              src="/pipeline-diagram.html" 
-              class="w-full h-[800px] border-0 rounded-lg"
-              title="RoleForge Pipeline Architecture"
-              loading="eager"
-            ></iframe>
-          </div>
+        <div class="diagram-heading">
+          <div><p class="section-label">Interactive architecture</p><h2 class="display-heading">The RoleForge pipeline</h2></div>
+          <span class="diagram-note">PAN · ZOOM · INSPECT</span>
+        </div>
+        <div class="diagram-card fade-up">
+          <div class="diagram-toolbar"><span><i></i> ROLEFORGE / WORKFLOW MAP</span><span>11 STAGES · EVIDENCE FIRST</span></div>
+          <iframe src="/pipeline-diagram.html" title="Interactive RoleForge application pipeline diagram" loading="eager"></iframe>
+          <div class="diagram-caption"><span>Move through the diagram to inspect the data passed between each stage.</span><a href="/pipeline-diagram.html" target="_blank" rel="noreferrer">Open diagram in a new tab ↗</a></div>
         </div>
       </div>
     </section>
 
-    <div class="border-t border-[var(--border)]"></div>
+    <div class="divider"></div>
 
-    <!-- Evidence Provenance Section -->
-    <section>
-      <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4 fade-up">EVIDENCE PROVENANCE</div>
-        <h2 class="font-display text-4xl font-bold mb-8 fade-up d1">Every claim is traceable</h2>
-        <p class="text-xl text-[var(--text-secondary)] mb-12 max-w-2xl fade-up d2">
-          Generated resume bullets can be traced back to actual source files in the portfolio.
-        </p>
-        
-        <div class="max-w-3xl mx-auto">
-          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg fade-up d3">
-            <div class="space-y-4 font-mono text-sm">
-              <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                <div class="text-[var(--text-secondary)]">"Built an ESP32-based IoT weather station"</div>
-              </div>
-              <div class="flex justify-center text-[var(--accent)] text-2xl">↓</div>
-              <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                <div class="text-[var(--accent)]">Zephyr Station project</div>
-              </div>
-              <div class="flex justify-center text-[var(--accent)] text-2xl">↓</div>
-              <div class="grid grid-cols-3 gap-4 text-center">
-                <div class="p-3 bg-[var(--bg-tertiary)] rounded text-xs text-[var(--text-secondary)]">README.md</div>
-                <div class="p-3 bg-[var(--bg-tertiary)] rounded text-xs text-[var(--text-secondary)]">src/</div>
-                <div class="p-3 bg-[var(--bg-tertiary)] rounded text-xs text-[var(--text-secondary)]">metadata</div>
-              </div>
-            </div>
-          </div>
+    <section class="site-section">
+      <div class="container two-column">
+        <div class="section-header fade-up">
+          <p class="section-label">Evidence provenance</p>
+          <h2 class="display-heading">Every useful claim has a trail.</h2>
+          <p class="section-intro">A project description, a language in source files, or a dependency in a manifest can support a claim. The output keeps the path visible so you can check what it actually says.</p>
+        </div>
+        <div class="provenance-card fade-up d2">
+          <div class="provenance-top"><span>CLAIM TRACE</span><span>EXAMPLE / SYNTHETIC</span></div>
+          <div class="claim-node"><small>RESUME CLAIM</small><strong>Built an ESP32 weather station</strong></div>
+          <div class="trace-line"><span></span><span></span><span></span></div>
+          <div class="claim-node project-node"><small>PROJECT</small><strong>AeroSense</strong><p>Environmental monitoring with sensor integration</p></div>
+          <div class="source-nodes"><span>README.md</span><span>firmware/main.cpp</span><span>platformio.ini</span></div>
+          <div class="trace-status"><span>✓</span> Candidate claims stay tied to their evidence</div>
         </div>
       </div>
     </section>
 
-    <div class="border-t border-[var(--border)]"></div>
+    <div class="divider"></div>
 
-    <!-- Job Matching Visualization -->
-    <section>
+    <section class="site-section matching-section">
       <div class="container">
-        <div class="font-mono text-xs text-[var(--text-muted)] mb-4 fade-up">REQUIREMENT MATCHING</div>
-        <h2 class="font-display text-4xl font-bold mb-8 fade-up d1">Evidence to requirement mapping</h2>
-        
-        <div class="max-w-3xl mx-auto">
-          <div class="p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg fade-up d2">
-            <div class="space-y-6">
-              <div class="p-4 bg-[var(--bg-tertiary)] rounded">
-                <div class="font-mono text-xs text-[var(--text-muted)] mb-2">JOB REQUIREMENT</div>
-                <div class="text-[var(--text-secondary)]">"C++ firmware development"</div>
-              </div>
-              
-              <div class="flex justify-center text-[var(--accent)] text-2xl">↓</div>
-              
-              <div class="grid grid-cols-3 gap-4">
-                <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                  <div class="font-mono text-xs text-[var(--emerald)] mb-1">✓</div>
-                  <div class="text-sm text-[var(--text-secondary)]">C++ evidence</div>
-                </div>
-                <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                  <div class="font-mono text-xs text-[var(--emerald)] mb-1">✓</div>
-                  <div class="text-sm text-[var(--text-secondary)]">Embedded evidence</div>
-                </div>
-                <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                  <div class="font-mono text-xs text-[var(--amber)] mb-1">△</div>
-                  <div class="text-sm text-[var(--text-secondary)]">Firmware evidence</div>
-                </div>
-              </div>
-              
-              <div class="flex justify-center text-[var(--accent)] text-2xl">↓</div>
-              
-              <div class="p-4 bg-[var(--bg-tertiary)] rounded text-center">
-                <div class="font-mono text-xs text-[var(--accent)] mb-2">MATCH RESULT</div>
-                <div class="text-[var(--accent)] font-semibold">Strong / Partial / Unsupported</div>
-              </div>
-            </div>
-          </div>
+        <div class="section-header fade-up">
+          <p class="section-label">Requirement matching</p>
+          <h2 class="display-heading">A match is a link, not a rewrite.</h2>
+          <p class="section-intro">The job defines what it asks for. The portfolio shows what can be supported. RoleForge surfaces direct matches, transferable evidence, and gaps separately.</p>
         </div>
+        <div class="matching-grid fade-up d2">
+          <article class="matching-card">
+            <span class="matching-index">01 / JOB</span>
+            <h3>“C++ firmware development”</h3>
+            <p>Required skill</p>
+          </article>
+          <div class="matching-arrow" aria-hidden="true">→</div>
+          <article class="matching-card matching-evidence">
+            <span class="matching-index">02 / PORTFOLIO</span>
+            <h3>Weather station firmware</h3>
+            <p>README.md · firmware/main.cpp</p>
+          </article>
+          <div class="matching-arrow" aria-hidden="true">→</div>
+          <article class="matching-card matching-result">
+            <span class="matching-index">03 / ASSESSMENT</span>
+            <h3>Direct evidence</h3>
+            <p>Source-backed, ready for your review</p>
+          </article>
+        </div>
+        <div class="gap-callout fade-up d3"><span>VISIBLE GAP</span><p>If the posting asks for a technology the portfolio does not show, RoleForge reports the gap instead of adding it to the resume.</p></div>
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-[var(--border)]">
-      <div class="container">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4 py-12">
-          <div class="font-display text-xl font-bold">
-            <span class="text-[var(--accent)]">Role</span>Forge
-          </div>
-          <div class="flex gap-6 text-sm font-mono text-[var(--text-secondary)]">
-            <a href="https://github.com/shaxntanu/roleforge">GitHub</a>
-            <a href="https://github.com/shaxntanu/roleforge/blob/main/LICENSE">MIT License</a>
-          </div>
-        </div>
+    <section class="pipeline-cta">
+      <div class="container cta-inner">
+        <div><p class="section-label">Ready to see it run?</p><h2 class="display-heading">Walk through a sample application.</h2></div>
+        <a class="btn btn-primary" href="/demo">Open the demo <span aria-hidden="true">↗</span></a>
       </div>
-    </footer>
-  </div>
+    </section>
+  </main>
+
+  <SiteFooter />
 </Layout>
+
+<style>
+  .pipeline-hero {
+    padding: clamp(4rem, 8vw, 7rem) 0 3.8rem;
+  }
+
+  .pipeline-hero h1 {
+    max-width: 850px;
+    margin: 0;
+    font: 500 clamp(3rem, 6vw, 5.8rem)/0.99 var(--font-display);
+    letter-spacing: -0.075em;
+    text-wrap: balance;
+  }
+
+  .pipeline-hero h1 em {
+    color: var(--accent);
+    font: italic 400 1em/1 var(--font-serif);
+    letter-spacing: -0.045em;
+  }
+
+  .pipeline-hero > .container > p:not(.eyebrow) {
+    max-width: 640px;
+    margin: 1.35rem 0 1.5rem;
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.8;
+  }
+
+  .pipeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--dim);
+    font: 500 0.54rem var(--font-mono);
+    letter-spacing: 0.09em;
+  }
+
+  .pipeline-meta i {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .diagram-section {
+    padding: 1.75rem 0 var(--section-space);
+  }
+
+  .diagram-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .diagram-heading .section-label {
+    margin-bottom: 0.8rem;
+  }
+
+  .diagram-heading .display-heading {
+    font-size: clamp(2rem, 3.4vw, 3rem);
+  }
+
+  .diagram-note {
+    padding-bottom: 0.35rem;
+    color: var(--dim);
+    font: 500 0.54rem var(--font-mono);
+    letter-spacing: 0.1em;
+  }
+
+  .diagram-card {
+    overflow: hidden;
+    border: 1px solid var(--line-hi);
+    border-radius: 14px;
+    background: var(--paper-raised);
+    box-shadow: 0 22px 54px rgba(24, 27, 31, 0.11);
+  }
+
+  .diagram-toolbar,
+  .diagram-caption {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 1.1rem;
+    color: var(--dim);
+    font: 500 0.52rem var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+
+  .diagram-toolbar {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .diagram-toolbar > span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--ink-soft);
+  }
+
+  .diagram-toolbar i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .diagram-card iframe {
+    display: block;
+    width: 100%;
+    height: min(76vw, 800px);
+    min-height: 500px;
+    border: 0;
+    background: var(--plate);
+  }
+
+  .diagram-caption {
+    min-height: 48px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    letter-spacing: 0;
+  }
+
+  .diagram-caption a {
+    flex-shrink: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .two-column {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: clamp(2rem, 8vw, 8rem);
+  }
+
+  .provenance-card {
+    overflow: hidden;
+    border: 1px solid var(--line-hi);
+    border-radius: 12px;
+    background: var(--paper-raised);
+    box-shadow: 0 18px 42px rgba(24, 27, 31, 0.08);
+  }
+
+  .provenance-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--dim);
+    font: 500 0.52rem var(--font-mono);
+    letter-spacing: 0.1em;
+  }
+
+  .claim-node {
+    display: grid;
+    gap: 0.35rem;
+    margin: 1.1rem 1.1rem 0;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+  }
+
+  .claim-node small {
+    color: var(--dim);
+    font: 500 0.52rem var(--font-mono);
+    letter-spacing: 0.1em;
+  }
+
+  .claim-node strong {
+    font: 500 0.85rem var(--font-display);
+  }
+
+  .trace-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    height: 27px;
+    padding-top: 4px;
+  }
+
+  .trace-line span {
+    width: 1px;
+    height: 4px;
+    background: var(--accent);
+  }
+
+  .project-node {
+    border-color: rgba(20, 121, 93, 0.25);
+    background: rgba(20, 121, 93, 0.045);
+  }
+
+  .project-node p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.68rem;
+  }
+
+  .source-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.85rem 1.1rem 1.1rem;
+  }
+
+  .source-nodes span {
+    padding: 0.35rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--muted);
+    font: 400 0.54rem var(--font-mono);
+  }
+
+  .trace-status {
+    padding: 0.85rem 1.1rem;
+    border-top: 1px solid var(--line);
+    color: var(--green);
+    font-size: 0.68rem;
+  }
+
+  .trace-status span {
+    margin-right: 0.35rem;
+    font-weight: 700;
+  }
+
+  .matching-section {
+    background: rgba(233, 235, 229, 0.55);
+  }
+
+  .matching-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2.5rem;
+  }
+
+  .matching-card {
+    min-height: 166px;
+    padding: 1.15rem;
+    border: 1px solid var(--line-hi);
+    border-radius: 10px;
+    background: var(--paper-raised);
+  }
+
+  .matching-index {
+    color: var(--dim);
+    font: 500 0.52rem var(--font-mono);
+    letter-spacing: 0.1em;
+  }
+
+  .matching-card h3 {
+    margin: 1.5rem 0 0.45rem;
+    font: 500 0.92rem/1.4 var(--font-display);
+  }
+
+  .matching-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.66rem;
+  }
+
+  .matching-evidence {
+    border-color: rgba(20, 121, 93, 0.3);
+  }
+
+  .matching-evidence .matching-index,
+  .matching-result .matching-index {
+    color: var(--green);
+  }
+
+  .matching-result {
+    border-color: rgba(217, 78, 27, 0.28);
+  }
+
+  .matching-result h3 {
+    color: var(--accent);
+  }
+
+  .matching-arrow {
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+
+  .gap-callout {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid rgba(157, 98, 13, 0.2);
+    border-radius: 8px;
+    background: rgba(157, 98, 13, 0.055);
+  }
+
+  .gap-callout span {
+    flex-shrink: 0;
+    color: var(--amber);
+    font: 500 0.52rem var(--font-mono);
+  }
+
+  .gap-callout p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.69rem;
+  }
+
+  .pipeline-cta {
+    padding-block: 1rem var(--section-space);
+  }
+
+  .cta-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid var(--line-hi);
+    border-radius: 13px;
+    background: var(--paper-raised);
+  }
+
+  .cta-inner .section-label {
+    margin-bottom: 0.8rem;
+  }
+
+  .cta-inner .display-heading {
+    font-size: clamp(2rem, 3.2vw, 3.1rem);
+  }
+
+  @media (max-width: 760px) {
+    .two-column {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .matching-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .matching-card {
+      min-height: 0;
+    }
+
+    .matching-card h3 {
+      margin-top: 0.9rem;
+    }
+
+    .matching-arrow {
+      justify-self: center;
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .pipeline-hero h1 {
+      font-size: clamp(2.7rem, 12vw, 4rem);
+    }
+
+    .diagram-heading,
+    .cta-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .diagram-note {
+      padding: 0;
+    }
+
+    .diagram-card iframe {
+      height: 70vh;
+      min-height: 400px;
+    }
+
+    .diagram-caption {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .gap-callout {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+  }
+</style>
